@@ -1,7 +1,7 @@
-
 ### ignore compiled typescript files and maps
 app/*.js
 app/*.js.map
+
 
 
 # Created by https://www.gitignore.io/api/visualstudio,visualstudiocode,node,windows
@@ -301,4 +301,3 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-
