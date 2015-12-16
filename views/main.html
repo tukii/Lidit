@@ -1,0 +1,32 @@
+<div class="word-type">
+	<input type="text" id="searchBox" class="form-control" placeholder="Enter word..." [(ngModel)]="typedWord" (keyup)="WordEntered($event)">
+</div>
+<div class="rectangle-list col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+	<div class="all-content"  *ngFor="#word of words" >
+		<span class="hundrd"  (click)="ToggleDescs(word)"></span>
+		<div class="arrows" >
+            <div class="up-arrow green-arrow"></div>
+            <div class="down-arrow"></div>
+        </div>
+		<div class="text-content">
+			<div class="naslov"><b>{{word.text}}</b></div>
+			<div class="description" *ngIf="!word.areDescsVisible"><i>{{word.descriptions[0].text}}</i></div>
+		</div>
+		<div ngClass="top-desc" *ngIf="word.areDescsVisible">
+			<div class="all-content" *ngFor="#desc of word.descriptions">
+				<div class="arrows">
+					<div class="up-arrow" (click)="desc.ToggleUpvote()" [ngClass]="{'green-arrow': desc.upvoted}"></div>
+					<div class="down-arrow" (click)="desc.ToggleDownvote()" [ngClass]="{'red-arrow': desc.downvoted}"></div>
+				</div>
+				<div class="text-content">
+					<div class="description"><i>{{desc.text}}</i></div>
+				</div>
+			</div>
+		</div>
+		<div class="new-desc" *ngIf="word.areDescsVisible">
+			<span>Add your description</span>
+			<textarea [(ngModel)]="word.typedDescription" (keyup)="word.ButtonPressed($event)" placeholder="Your description here..." ></textarea>
+			<button (click)="word.AddTypedDescription()">Add</button>
+		</div>
+	</div>
+</div>

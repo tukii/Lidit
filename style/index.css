@@ -1,0 +1,245 @@
+﻿* {
+    box-sizing: inherit !important;
+}
+
+body{
+    font-family: "Segoe UI";
+}
+
+input[type=text]:focus, textarea:focus {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.rectangle-list{
+    margin-top: 30px;
+}
+.rectangle-list a{
+    position: relative;
+    display: block;
+    padding: .4em .4em .4em .8em;
+    *padding: .4em;
+    margin: .5em 0 .5em 2.5em;
+    background: #ddd;
+    color: #444;
+    text-decoration: none;
+    transition: all .3s ease-out;
+}
+
+.rectangle-list a:hover{
+    background: #eee;
+}
+
+.rectangle-list a:after{
+    position: absolute; 
+    content: '';
+    border: .5em solid transparent;
+    left: -1em;
+    top: 50%;
+    margin-top: -.5em;
+    transition: all .3s ease-out;
+}
+
+.rectangle-list a:hover:after{
+    left: -.5em;
+    border-left-color: #fa8072;
+}
+
+.word-type {
+    text-align: center;
+    width: 16.66667%;
+    margin: 0 auto;
+    margin-top: 15px;
+    border-top: 0px;
+    box-sizing: border-box !important;
+}
+.word-type input {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    height: 40px;
+    padding-top: 10px;
+}
+.all-content{
+    background: #FAFAFA;
+    margin-bottom: 15px;
+    height: auto;
+    padding-bottom: 15px;
+    box-shadow: 1px 1px 1px #555;
+    border-radius: 5px;
+    min-height: 100px;
+    transition: all .3s ease-out;
+    position: relative;
+}
+.all-content:hover{
+    cursor: pointer;
+    background: #F1F1F1;
+}
+.vote{
+    width: 32px;
+    height:32px;
+    margin-top:16px;
+    margin-left:8px;
+}
+.up{
+    margin-bottom: 2px;
+}
+.down{
+    margin-top:2px;
+}
+.slike{
+    float:left;
+    width:32px;
+}
+.text-content{
+    padding-top: 5px;
+    margin-left: 50px;
+}
+.naslov{
+    font-size: 24px;
+}
+
+.ui-autocomplete {
+    position: absolute;
+    margin: 0 auto;
+    left: 0 !important;
+    right: 0 !important;
+    width: 16.66667% !important;
+    background: #fff;
+    border: 1px solid #66afe9;
+    border-top: 0px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 5px 10px 5px 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #888;
+    box-sizing: border-box !important;
+    box-shadow: 0px 1px 3px rgba(102, 175, 233, 1);
+}
+
+.ui-autocomplete li {
+    list-style: none;
+}
+.ui-autocomplete li:hover{
+    background: #EFEFEF;
+}
+.ui-helper-hidden-accessible {
+    display: none;
+}
+.arrows {
+	margin-top: 25px;
+    margin-left: 12px;
+    float: left;
+}
+.up-arrow {
+	margin-bottom: 15px;
+}
+.up-arrow, .down-arrow {
+	width: 0;
+	height: 0;
+	border-top: 0px solid transparent;
+	border-right: 12px solid transparent;
+	border-bottom: 16px solid #ccc;
+	border-left: 12px solid transparent;
+}
+.down-arrow {
+	border-top: 16px solid #ccc;
+	border-right: 12px solid transparent;
+	border-bottom: 0 solid transparent;
+	border-left: 12px solid transparent;
+}
+.red-arrow {
+    border-top-color: #bb3e33;
+}
+.green-arrow {
+    border-bottom-color: #4CBB17;
+}
+.top-desc{
+    clear: both;
+    margin-left: 50px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;   
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.top-desc .all-content{
+    min-height: 50px;
+    height: 50px;
+    background: white;
+    margin: 0;
+    width: 98.2%;
+    border-radius: 0px;
+}
+.top-desc .all-content:hover{
+    background: #FaFAFA;
+}
+.top-desc .all-content .arrows{
+    margin-top: 12.5px;
+}
+.new-desc{
+    position: absolute;
+    right: -200px;
+    top:20px;
+    border-radius: 1px;
+    box-shadow: 1px 1px 1px #555;
+    background-color: #FAFAFA;
+    padding: 5px;
+    text-align: center;
+}
+.new-desc::before{
+    position: absolute;
+    left: -16px;
+    width: 0;
+	height: 0;
+	border-top: 12px solid transparent;
+	border-right: 16px solid #FAFAFA;
+	border-bottom: 12px solid transparent;
+	border-left: 0px solid transparent;
+    content: " ";
+}
+.new-desc textarea{
+    display: block;
+    height: 300px;
+    border-radius: 5px;
+    margin-top: 5px;
+    resize: none;
+    border: 0;
+    box-shadow: 0px 0px 3px #AAA inset;
+    padding: 5px;
+}
+.new-desc span{
+    font-size: 16;
+    font-weight: bold;
+    color:#555;
+}
+.new-desc button{
+    border-radius: 3px;
+    width: 100%;
+    padding: 0px;
+    margin: 0;
+    margin-top: 5px;
+    border: 1px solid #AAA;
+    color:#777;
+    font-weight:bold;
+}
+.hundrd{
+    position: absolute;
+    height: 100%;
+    width:95%;
+    margin-right: -15px;
+}
+.new-desc button:hover{
+    background-color: #E5E5E5;
+}
+.new-desc button:active{
+    background-color: #DADFDF;
+}
+@media screen and (max-width: 768px) {
+   .word-type, .ui-autocomplete {
+       width: 100%;
+       padding-left: 15px;
+       padding-right: 15px;
+   }
+}
