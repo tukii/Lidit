@@ -1,43 +1,44 @@
 <!--<div class="post-type">
 	<input type="text" id="searchBox" class="form-control" placeholder="Enter post..." [(ngModel)]="typedpost" (keyup)="postEntered($event)">
 </div> -->
-<div class="rectangle-list col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-3 col-md-6 col-md-offset-4 col-lg-4 col-lg-offset-3">
-	<div class="channel-picker">
+<div class="channel-picker">
 		<ul>
 			<li *ngFor="#ch of channels">
 				<a href="/{{ch.Abbrevation}}">
 					<span class="channel-abr">/{{ch.Abbrevation}}</span>
-					<span class="channel-desc">{{ch.Name}}</span>
+					<span class="channel-comment">{{ch.Name}}</span>
 				</a>
 			</li>
 		</ul>		
 	</div>
+<div class="post-list col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-3 col-md-6 col-md-offset-4 col-lg-4 col-lg-offset-3">
 	<div class="posts"  *ngFor="#post of posts" >
-		<span class="hundrd"  (click)="ToggleDescs(post)"></span>
-		<!--<div class="arrows" >
-            <div class="up-arrow green-arrow"></div>
-            <div class="down-arrow"></div>
-        </div> -->
-		<div class="text-content">
-			<!-- TODO add image if exists -->
-			<div class="naslov"><b>{{post.text}}</b></div>
-			<div class="tekst" *ngIf="!post.areDescsVisible"><i>{{post.descriptions[0].text}}</i></div>
-		</div>
-		<div ngClass="top-desc" *ngIf="post.areDescsVisible">
-			<div class="posts" *ngFor="#desc of post.descriptions">
-				<div class="arrows">
-					<div class="up-arrow" (click)="desc.ToggleUpvote()" [ngClass]="{'green-arrow': desc.upvoted}"></div>
-					<div class="down-arrow" (click)="desc.ToggleDownvote()" [ngClass]="{'red-arrow': desc.downvoted}"></div>
-				</div>
-				<div class="text-content">
-					<div class="description"><i>{{desc.text}}</i></div>
+		<span class="post-open-handler"  (click)="ToggleComments(post)"></span>
+			<div class="arrows" >
+				<div class="up-arrow green-arrow"></div>
+				<div class="down-arrow"></div>
+			</div>
+			<div class="text-content">
+				<!-- TODO add image if exists -->
+				<div class="naslov"><b>{{post.text}}</b></div>
+				<div class="tekst" *ngIf="!post.areCommentsVisible"><i>{{post.comments[0].text}}</i></div>
+			</div>
+			<div ngClass="top-comment" *ngIf="post.areCommentsVisible">
+				<div class="posts" *ngFor="#comment of post.comments">
+					<div class="arrows">
+						<!-- TODO change arrows position/style -->
+						<div class="up-arrow" (click)="comment.ToggleUpvote()" [ngClass]="{'green-arrow': comment.upvoted}"></div>
+						<div class="down-arrow" (click)="comment.ToggleDownvote()" [ngClass]="{'red-arrow': comment.downvoted}"></div>
+					</div>
+					<div class="text-content">
+						<div class="comment"><i>{{comment.text}}</i></div>
+					</div>
 				</div>
 			</div>
+		<div class="new-comment" *ngIf="post.areCommentsVisible">
+			<span>Add your comment</span>
+			<textarea [(ngModel)]="post.typedComment" (keyup)="post.ButtonPressed($event)" placeholder="Your comment here..." ></textarea>
+			<button (click)="post.AddTypedComment()">Add</button>
 		</div>
-		<div class="new-desc" *ngIf="post.areDescsVisible">
-			<span>Add your description</span>
-			<textarea [(ngModel)]="post.typedDescription" (keyup)="post.ButtonPressed($event)" placeholder="Your description here..." ></textarea>
-			<button (click)="post.AddTypedDescription()">Add</button>
-		</div>
-	</div> <!---->
+	</div>
 </div>

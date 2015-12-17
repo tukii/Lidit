@@ -4,26 +4,26 @@ interface Hero {
     name: string;
 }
 @Component({
-    selector: 'my-app',
+    selector: 'lidit-app',
     templateUrl: 'views/main.html'
 })
 export class AppComponent {
     posts: Array<Post>;
     channels: Array<Channel>;
     typedPost: string;
-    showDescription: boolean;
+    showComment: boolean;
     availableTags: Array<string> = ["123"];
 
     constructor() {
         this.posts = [];
-        this.AddPost(new Post("BOOM BOOM", [new Description(5, 2, "Hey guise lel don't go to school tmrw"), new Description(10, 2, "fake fake fake fake fake fake fake"), new Description(0, 7, "YEAH RIGHT I DARE U!!!")]));
-        this.AddPost(new Post("GTFO newfags", [new Description(5, 2, "Cry moar plz")]));
-        this.AddPost(new Post("Plz say somethign smart", [new Description(5, 2, "l2spell newb")]));
-        this.AddPost(new Post("SPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM", [new Description(5, 2, "AAAAAAAAAAAAAAAAAAAAAAAMmmmmmm mmmmmmmmm aaaaaaaaa mmmmmmmmmmmmmb")]));
+        this.AddPost(new Post("BOOM BOOM", [new Comment(5, 2, "Hey guise lel don't go to school tmrw"), new Comment(10, 2, "fake fake fake fake fake fake fake"), new Comment(0, 7, "YEAH RIGHT I DARE U!!!")]));
+        this.AddPost(new Post("Test test 123", [new Comment(5, 2, "Hello worldddddddddddddd")]));
+        this.AddPost(new Post("Plz say somethign smart", [new Comment(5, 2, "l2spell newb")]));
+        this.AddPost(new Post("SPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM", [new Comment(5, 2, "AAAAAAAAAAAAAAAAAAAAAAAMmmmmmm mmmmmmmmm aaaaaaaaa mmmmmmmmmmmmmb")]));
         this.typedPost = "";
-        this.showDescription = false;
+        this.showComment = false;
         
-        this.channels = [new Channel("random","b"), new Channel("anime","a"),new Channel("music","m")];
+        this.channels = [new Channel("random","b"), new Channel("anime","a"),new Channel("music","m"),new Channel("random","b"), new Channel("anime","a"),new Channel("music","m"),new Channel("random","b"), new Channel("anime","a"),new Channel("music","m"),new Channel("random","b"), new Channel("anime","a"),new Channel("music","m")];
         
     }
     public PostEntered($event: any) {
@@ -53,11 +53,11 @@ export class AppComponent {
         }
         this.posts.push(post);
     }
-    public ToggleDescs(post: Post) {
-        post.areDescsVisible = !post.areDescsVisible;
+    public ToggleComments(post: Post) {
+        post.areCommentsVisible = !post.areCommentsVisible;
         for (var i = 0; i < this.posts.length; i++) {
             if (this.posts[i] == post) continue;
-            this.posts[i].areDescsVisible = false;
+            this.posts[i].areCommentsVisible = false;
         }
     }
 }
@@ -74,39 +74,39 @@ class Channel {
 class Post {
     image: string;
     text: string;
-    descriptions: Array<Description>;
-    firstDescription: Description;
-    areDescsVisible: boolean;
-    typedDescription: string = "";
-    constructor(txt: string, descs: Array<Description>) {
+    comments: Array<Comment>;
+    firstComment: Comment;
+    areCommentsVisible: boolean;
+    typedComment: string = "";
+    constructor(txt: string, descs: Array<Comment>) {
         this.image = "123";
         if (descs.length == 0) {
-            this.firstDescription = new Description(0, 0, "No description available... Write one yourself!");
+            this.firstComment = new Comment(0, 0, "No comments...");
         }
         else {
-            this.firstDescription = descs[0];
+            this.firstComment = descs[0];
         }
-        this.areDescsVisible = false;
+        this.areCommentsVisible = false;
         this.text = txt;
-        this.descriptions = descs;
+        this.comments = descs;
     }
-    public AddDescription(txt: string) {
+    public AddComment(txt: string) {
         console.log("clicked_" + txt);
-        this.descriptions.push(new Description(0, 0, txt));
-        this.typedDescription = "";
+        this.comments.push(new Comment(0, 0, txt));
+        this.typedComment = "";
     }
-    public AddTypedDescription() {
-        if (this.typedDescription.trim() == "") return;
-        this.descriptions.push(new Description(0, 0, this.typedDescription));
-        this.typedDescription = "";
+    public AddTypedComment() {
+        if (this.typedComment.trim() == "") return;
+        this.comments.push(new Comment(0, 0, this.typedComment));
+        this.typedComment = "";
     }
     public ButtonPressed($event: any) {
         if ($event.which == 13) {
-            this.AddTypedDescription();
+            this.AddTypedComment();
         }
     }
 }
-class Description {
+class Comment {
     thumbUps: number;
     thumbDowns: number;
     downvoted: boolean;

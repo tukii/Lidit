@@ -1,7 +1,7 @@
 V 0.1
 refactor css/html
-	-rename description to comment
-	-remove everythin unnecessary
++	-rename description to comment
+...	-remove everythin unnecessary (cleared html and css)
 	-change css class names
 refactor js to prepare for server integration
 	-rename description to comment
