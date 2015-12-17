@@ -3,20 +3,21 @@
 }
 
 body{
-    font-family: "Segoe UI";
-    background-image: url("images/look.png");
-    background-repeat: no-repeat;
-    background-size: auto 100%;
-    height: 100%;
+    font-family: "Segoe UI" !important;
+    background: url(images/bg3.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
 .channel-picker{
     position: fixed;
     left: 0px;
-    bottom: 0px;
+    bottom: 10px;
 }
 .channel-desc {
-    font-size: 6px;
+    font-size: 7px;
     transition: all 0.35s ease;
 }
 .channel-desc:hover{
@@ -36,9 +37,10 @@ body{
     padding-right: 30px;
 }
 .channel-picker>ul>li>a:hover{
+    border-left: 5px solid darkslategrey;
     background: rgba(80, 80, 80, 0.5);
     margin: 0;
-    border-left: 5px solid orange;
+    
     text-decoration: none;
 }
 .channel-picker>ul>li>a:hover span{
@@ -62,13 +64,13 @@ input[type=text]:focus, textarea:focus {
     *padding: .4em;
     margin: .5em 0 .5em 2.5em;
     background: #ddd;
-    color: #444;
+    color: #AAA;
     text-decoration: none;
     transition: all .3s ease-out;
 }
 
 .rectangle-list a:hover{
-    background: #eee;
+    background: rgba(50, 50, 50, 0.1);
 }
 
 .rectangle-list a:after{
@@ -96,24 +98,22 @@ input[type=text]:focus, textarea:focus {
 .word-type input {
     font-size: 16px;
     font-weight: 600;
-    color: #333;
+    color: #AAA;
     height: 40px;
     padding-top: 10px;
 }
-.all-content{
-    background: #FAFAFA;
-    margin-bottom: 15px;
+.posts{
+    background: transparent;
     height: auto;
     padding-bottom: 15px;
-    box-shadow: 1px 1px 1px #555;
-    border-radius: 5px;
     min-height: 100px;
     transition: all .3s ease-out;
     position: relative;
+    border-bottom: 1px solid white;
 }
-.all-content:hover{
+.posts:hover{
     cursor: pointer;
-    background: #F1F1F1;
+    background: rgba(150, 150, 150, 0.2);
 }
 .vote{
     width: 32px;
@@ -133,10 +133,15 @@ input[type=text]:focus, textarea:focus {
 }
 .text-content{
     padding-top: 5px;
-    margin-left: 50px;
+    margin-left: 120px;
+    color: #BBB;
 }
 .naslov{
-    font-size: 24px;
+    font-size: 20px;
+}
+
+.top-desc:nth-child(0){
+    border-color: red;
 }
 
 .ui-autocomplete {
@@ -201,18 +206,19 @@ input[type=text]:focus, textarea:focus {
     border-top-right-radius: 0px;
 }
 
-.top-desc .all-content{
+.top-desc .posts{
     min-height: 50px;
     height: 50px;
-    background: white;
+    background: rgba(50, 50, 50, 0.2);
     margin: 0;
     width: 98.2%;
     border-radius: 0px;
+    margin-top: 10px;
 }
-.top-desc .all-content:hover{
-    background: #FaFAFA;
+.top-desc .posts:hover{
+    background: rgba(50, 50, 50, 0.6);
 }
-.top-desc .all-content .arrows{
+.top-desc .posts .arrows{
     margin-top: 12.5px;
 }
 .new-desc{
@@ -220,8 +226,8 @@ input[type=text]:focus, textarea:focus {
     right: -200px;
     top:20px;
     border-radius: 1px;
-    box-shadow: 1px 1px 1px #555;
-    background-color: #FAFAFA;
+    border: 1px solid orangered;
+    background-color: transparent;
     padding: 5px;
     text-align: center;
 }
@@ -231,7 +237,7 @@ input[type=text]:focus, textarea:focus {
     width: 0;
 	height: 0;
 	border-top: 12px solid transparent;
-	border-right: 16px solid #FAFAFA;
+	border-right: 16px solid rgba(255, 75, 0, 0.4);
 	border-bottom: 12px solid transparent;
 	border-left: 0px solid transparent;
     content: " ";
@@ -239,27 +245,28 @@ input[type=text]:focus, textarea:focus {
 .new-desc textarea{
     display: block;
     height: 300px;
-    border-radius: 5px;
     margin-top: 5px;
     resize: none;
     border: 0;
-    box-shadow: 0px 0px 3px #AAA inset;
+    color: #AAA;
+    background-color: rgba(80, 80, 80, 0.2);
+    box-shadow: 0px 0px 3px orangered inset;
     padding: 5px;
 }
 .new-desc span{
     font-size: 16;
     font-weight: bold;
-    color:#555;
+    color:#DDD;
 }
 .new-desc button{
-    border-radius: 3px;
     width: 100%;
     padding: 0px;
     margin: 0;
     margin-top: 5px;
     border: 1px solid #AAA;
-    color:#777;
+    color:#AAA;
     font-weight:bold;
+    background-color: rgba(250, 120, 0, 0.6)
 }
 .hundrd{
     position: absolute;

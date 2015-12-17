@@ -8,59 +8,56 @@ interface Hero {
     templateUrl: 'views/main.html'
 })
 export class AppComponent {
-    words: Array<Word>;
+    posts: Array<Post>;
     channels: Array<Channel>;
-    typedWord: string;
+    typedPost: string;
     showDescription: boolean;
     availableTags: Array<string> = ["123"];
 
     constructor() {
-        this.words = [];
-        this.AddWord(new Word("Bicycle", [new Description(5, 2, "Transport vehicle with 2 tires."), new Description(10, 2, "fake fake fake"), new Description(0, 7, "nonsense!!!")]));
-        this.AddWord(new Word("Arrow", [new Description(5, 2, "A geometrical object used to denote a direction or point to a certain thing.")]));
-        this.AddWord(new Word("Cloud", [new Description(5, 2, "Clouds are white.")]));
-        this.typedWord = "";
+        this.posts = [];
+        this.AddPost(new Post("BOOM BOOM", [new Description(5, 2, "Hey guise lel don't go to school tmrw"), new Description(10, 2, "fake fake fake fake fake fake fake"), new Description(0, 7, "YEAH RIGHT I DARE U!!!")]));
+        this.AddPost(new Post("GTFO newfags", [new Description(5, 2, "Cry moar plz")]));
+        this.AddPost(new Post("Plz say somethign smart", [new Description(5, 2, "l2spell newb")]));
+        this.AddPost(new Post("SPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM", [new Description(5, 2, "AAAAAAAAAAAAAAAAAAAAAAAMmmmmmm mmmmmmmmm aaaaaaaaa mmmmmmmmmmmmmb")]));
+        this.typedPost = "";
         this.showDescription = false;
         
         this.channels = [new Channel("random","b"), new Channel("anime","a"),new Channel("music","m")];
         
-        /*
-        $("#searchBox").autocomplete({
-            source: this.availableTags
-        }); */ // have to see what to do with this
     }
-    public WordEntered($event: any) {
+    public PostEntered($event: any) {
         if ($event.which == 13) {
-            for (var i = 0; i < this.words.length; i++) {
-                if (this.words[i].text === this.typedWord) return;
+            for (var i = 0; i < this.posts.length; i++) {
+                if (this.posts[i].text === this.typedPost) return;
             }
-            this.AddNewWord(this.typedWord);
-            this.typedWord = "";
+            this.AddNewPost(this.typedPost);
+            this.typedPost = "";
         }
     }
-    public AddNewWord(word: string) {
-        this.AddWord(new Word(word, []));
+    public AddNewPost(post: string) {
+        this.AddPost(new Post(post, []));
     }
-    public AddWord(word: Word) {
-        if (this.words.length == 0) {
-            this.words.push(word);
-            this.availableTags.push(word.text);
+    public AddPost(post: Post) {
+        if (this.posts.length == 0) {
+            this.posts.push(post);
+            this.availableTags.push(post.text);
             return;
         }
-        for (var i = 0; i < this.words.length; i++) {
-            if (this.words[i].text.localeCompare(word.text) > 0) {
-                this.words.splice(i, 0, word);
-                this.availableTags.splice(i, 0, word.text);
+        for (var i = 0; i < this.posts.length; i++) {
+            if (this.posts[i].text.localeCompare(post.text) > 0) {
+                this.posts.splice(i, 0, post);
+                this.availableTags.splice(i, 0, post.text);
                 return;
             }
         }
-        this.words.push(word);
+        this.posts.push(post);
     }
-    public ToggleDescs(word: Word) {
-        word.areDescsVisible = !word.areDescsVisible;
-        for (var i = 0; i < this.words.length; i++) {
-            if (this.words[i] == word) continue;
-            this.words[i].areDescsVisible = false;
+    public ToggleDescs(post: Post) {
+        post.areDescsVisible = !post.areDescsVisible;
+        for (var i = 0; i < this.posts.length; i++) {
+            if (this.posts[i] == post) continue;
+            this.posts[i].areDescsVisible = false;
         }
     }
 }
@@ -74,13 +71,15 @@ class Channel {
     }
 }
 
-class Word {
+class Post {
+    image: string;
     text: string;
     descriptions: Array<Description>;
     firstDescription: Description;
     areDescsVisible: boolean;
     typedDescription: string = "";
     constructor(txt: string, descs: Array<Description>) {
+        this.image = "123";
         if (descs.length == 0) {
             this.firstDescription = new Description(0, 0, "No description available... Write one yourself!");
         }
@@ -142,15 +141,3 @@ class Description {
         this.Downvoted = !this.downvoted;
     }
 }
-var HEROES: Hero[] = [
-    { "id": 11, "name": "Mr. Nice" },
-    { "id": 12, "name": "Narco" },
-    { "id": 13, "name": "Bombasto" },
-    { "id": 14, "name": "Celeritas" },
-    { "id": 15, "name": "Magneta" },
-    { "id": 16, "name": "RubberMan" },
-    { "id": 17, "name": "Dynama" },
-    { "id": 18, "name": "Dr IQ" },
-    { "id": 19, "name": "Magma" },
-    { "id": 20, "name": "Tornado" }
-];
