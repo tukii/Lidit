@@ -9,6 +9,7 @@ interface Hero {
 })
 export class AppComponent {
     words: Array<Word>;
+    channels: Array<Channel>;
     typedWord: string;
     showDescription: boolean;
     availableTags: Array<string> = ["123"];
@@ -20,6 +21,9 @@ export class AppComponent {
         this.AddWord(new Word("Cloud", [new Description(5, 2, "Clouds are white.")]));
         this.typedWord = "";
         this.showDescription = false;
+        
+        this.channels = [new Channel("random","b"), new Channel("anime","a"),new Channel("music","m")];
+        
         /*
         $("#searchBox").autocomplete({
             source: this.availableTags
@@ -58,6 +62,15 @@ export class AppComponent {
             if (this.words[i] == word) continue;
             this.words[i].areDescsVisible = false;
         }
+    }
+}
+
+class Channel {
+    Name:string;
+    Abbrevation:string;
+    constructor(name:string, abbrevation:string) {
+        this.Name = name;
+        this.Abbrevation = abbrevation;
     }
 }
 

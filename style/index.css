@@ -4,6 +4,47 @@
 
 body{
     font-family: "Segoe UI";
+    background-image: url("images/look.png");
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    height: 100%;
+}
+
+.channel-picker{
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+}
+.channel-desc {
+    font-size: 6px;
+    transition: all 0.35s ease;
+}
+.channel-desc:hover{
+}
+.channel-picker>ul{
+    font-size: 15px !important;
+    font-family:"Segoe UI";
+    list-style: none;
+}
+.channel-picker>ul>li{
+    border-bottom: 1px solid #BBB;
+}
+.channel-picker>ul>li>a{
+    color: #BBB;
+    margin-left: 15px;
+    background: transparent;
+    padding-right: 30px;
+}
+.channel-picker>ul>li>a:hover{
+    background: rgba(80, 80, 80, 0.5);
+    margin: 0;
+    border-left: 5px solid orange;
+    text-decoration: none;
+}
+.channel-picker>ul>li>a:hover span{
+    background: transparent;
+    font-size: 15px;
+    transition: all 0.35s ease;
 }
 
 input[type=text]:focus, textarea:focus {
@@ -40,9 +81,8 @@ input[type=text]:focus, textarea:focus {
     transition: all .3s ease-out;
 }
 
-.rectangle-list a:hover:after{
+.rectangle-list a:hover:after {
     left: -.5em;
-    border-left-color: #fa8072;
 }
 
 .word-type {
@@ -148,9 +188,6 @@ input[type=text]:focus, textarea:focus {
 	border-right: 12px solid transparent;
 	border-bottom: 0 solid transparent;
 	border-left: 12px solid transparent;
-}
-.red-arrow {
-    border-top-color: #bb3e33;
 }
 .green-arrow {
     border-bottom-color: #4CBB17;

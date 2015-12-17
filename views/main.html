@@ -2,6 +2,16 @@
 	<input type="text" id="searchBox" class="form-control" placeholder="Enter word..." [(ngModel)]="typedWord" (keyup)="WordEntered($event)">
 </div>
 <div class="rectangle-list col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+	<div class="channel-picker">
+		<ul>
+			<li *ngFor="#ch of channels">
+				<a href="/{{ch.Abbrevation}}">
+					<span class="channel-abr">/{{ch.Abbrevation}}</span>
+					<span class="channel-desc">{{ch.Name}}</span>
+				</a>
+			</li>
+		</ul>		
+	</div>
 	<div class="all-content"  *ngFor="#word of words" >
 		<span class="hundrd"  (click)="ToggleDescs(word)"></span>
 		<div class="arrows" >
@@ -28,5 +38,5 @@
 			<textarea [(ngModel)]="word.typedDescription" (keyup)="word.ButtonPressed($event)" placeholder="Your description here..." ></textarea>
 			<button (click)="word.AddTypedDescription()">Add</button>
 		</div>
-	</div>
+	</div> <!---->
 </div>
