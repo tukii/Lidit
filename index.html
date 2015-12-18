@@ -2,14 +2,15 @@
     <head>
         <title>Lidit - live imageboard</title>
     
-        <link rel="stylesheet" type="text/css" href="style/index.css"></link>
+        <link rel="stylesheet" type="text/css" href="static/style/index.css"></link>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     
         <!-- 1. Load libraries -->
-        <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
-        <script src="node_modules/systemjs/dist/system.src.js"></script>
-        <script src="node_modules/rxjs/bundles/Rx.js"></script>
-        <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
+        <script src="static/node_modules/angular2/bundles/angular2-polyfills.js"></script>
+        <script src="static/node_modules/systemjs/dist/system.src.js"></script>
+        <script src="static/node_modules/rxjs/bundles/Rx.js"></script>
+        <script src="static/node_modules/angular2/bundles/angular2.dev.js"></script>
+        <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
     
         <!-- 2. Configure SystemJS -->
         <script>
@@ -21,12 +22,12 @@
                 }
             }
         });
-        System.import('app/boot')
+        System.import('static/app/boot.js')
                 .then(null, console.error.bind(console));
         </script>
     </head>
     <!-- 3. Display the application -->
-    <body>
-        <lidit-app>Loading...</lidit-app>
+    <body style="width:100%;height:100%">
+        <lidit-app ><div class="app-loading"><img class="app-loading-img" src="static/style/images/loading.gif"><br><span class="loading-text">... loading ...</span></div></lidit-app>
     </body>
 </html>

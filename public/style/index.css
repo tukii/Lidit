@@ -53,6 +53,7 @@ body{
 }
 .post-list{
     margin-top: 30px;
+    transform: all 1s ease;
 }
 .posts{
     background: transparent;
@@ -185,4 +186,21 @@ body{
 }
 .green-arrow {
     border-bottom-color: #4CBB17;
+}
+.app-loading{
+    position: relative;
+    color:red;
+    text-align: center;
+    display: block;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.app-loading-img{
+    width: 50px;
+    height:50px;
+}
+.loading-text{
+    color: grey;
+    font-family: "Segoe UI";
+    text-align: center;
 }
