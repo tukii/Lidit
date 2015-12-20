@@ -16,12 +16,16 @@ console.log('Listening on port '+ port);
 app.use('/static',express.static(__dirname+"/public"));
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/public/index.html');
-});
+});/*
 app.get('/{lid}', function (req, res) {
     res.sendFile(__dirname + '/public/index.html');
 });
-
+*/
 io.on('connection',function(socket){
-    console.log('received');
-    setInterval(()=>socket.emit('new-post',{title:"Post "+Math.random()*10000000,text:"Text Text Text Text Text Text Text Text Text Text Text Text Text Text .." }),5000);
-});/**/
+    console.log('user connected');
+    
+    socket.on("send-post",function(data){
+       console.log(data);
+       io.emit("new-post",{title:"Test",text:data.text}); 
+    });
+});

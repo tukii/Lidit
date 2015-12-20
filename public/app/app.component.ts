@@ -15,10 +15,13 @@ export class AppComponent {
     typedPost: string;
     availableTags: Array<string> = ["123"];
     socket: any;
+    isAddPostOpen:boolean;
+    addPostText:string = "";
     
     self:AppComponent;
 
     constructor() {
+        this.isAddPostOpen = true;
         this.socket = io.connect('http://localhost:8000');
 
         this.socket.on('connect',function(){
@@ -39,7 +42,14 @@ export class AppComponent {
         this.typedPost = "";
         
         this.channels = [new Channel("random","b"), new Channel("anime","a"),new Channel("music","m"),new Channel("random","b"), new Channel("anime","a"),new Channel("music","m"),new Channel("random","b"), new Channel("anime","a"),new Channel("music","m"),new Channel("random","b"), new Channel("anime","a"),new Channel("music","m")];
-    }    
+    }
+    public SendPost(){
+        if(this.addPostText.trim()==="")return;
+        
+        this.socket.emit("send-post",{text:this.addPostText});
+        this.addPostText="";
+    }
+    
     public PostEntered($event: any) {
         if ($event.which == 13) {
             for (var i = 0; i < this.posts.length; i++) {

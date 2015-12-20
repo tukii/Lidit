@@ -20,6 +20,8 @@ System.register(['angular2/core'], function(exports_1) {
                 function AppComponent() {
                     var _this = this;
                     this.availableTags = ["123"];
+                    this.addPostText = "";
+                    this.isAddPostOpen = true;
                     this.socket = io.connect('http://localhost:8000');
                     this.socket.on('connect', function () {
                         console.log('connected');
@@ -36,6 +38,12 @@ System.register(['angular2/core'], function(exports_1) {
                     this.typedPost = "";
                     this.channels = [new Channel("random", "b"), new Channel("anime", "a"), new Channel("music", "m"), new Channel("random", "b"), new Channel("anime", "a"), new Channel("music", "m"), new Channel("random", "b"), new Channel("anime", "a"), new Channel("music", "m"), new Channel("random", "b"), new Channel("anime", "a"), new Channel("music", "m")];
                 }
+                AppComponent.prototype.SendPost = function () {
+                    if (this.addPostText.trim() === "")
+                        return;
+                    this.socket.emit("send-post", { text: this.addPostText });
+                    this.addPostText = "";
+                };
                 AppComponent.prototype.PostEntered = function ($event) {
                     if ($event.which == 13) {
                         for (var i = 0; i < this.posts.length; i++) {

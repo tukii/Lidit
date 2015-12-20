@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "tsc": "tsc",
-    "tsc:w": "tsc -w",
-    "lite": "lite-server",
-    "go": "concurrent \"npm run tsc:w\" \"npm run lite\" "
+    "tsc:w": "tsc -w"
   },
   "license": "ISC",
   "dependencies": {

@@ -1,8 +1,12 @@
-﻿* {
+﻿@font-face {
+    font-family: "BankGBold";
+    src: url("fonts/BankGothic Bold.ttf");    
+}
+* {
     box-sizing: inherit !important;
 }
 body{
-    font-family: "Segoe UI" !important;
+    font-family: "BankGBold" !important;
     background: url(images/bg3.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -50,6 +54,29 @@ body{
     background: transparent;
     font-size: 15px;
     transition: all 0.35s ease;
+}
+.add-post{
+    width: 100%;
+    text-align: right;
+    transition: all 0.2s ease;
+}
+.add-post>textarea{
+    background:rgba(255,255,255,0.05);
+    color:white;
+    border: 0;
+    border: 1px solid white;
+    font-size: 12px;
+    width:100%;
+    transition: all 0.2s ease;
+}
+.add-post-inactive{
+    height: 1px;
+    margin-bottom: 20px;
+    transition: all 0.2s ease;
+}
+.add-post-inactive> textarea,.add-post-inactive> label,.add-post-inactive>.post-button{
+    display: none;
+    transition: all 0.2s ease;
 }
 .post-list{
     margin-top: 30px;
