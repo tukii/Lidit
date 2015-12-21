@@ -12,12 +12,7 @@
 		</ul>		
 	</div>
 <div class="post-list col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-3 col-md-6 col-md-offset-4 col-lg-4 col-lg-offset-4">
-    <div class="add-post" [ngClass]="{'add-post-active':isAddPostOpen, 'add-post-inactive':!isAddPostOpen}" >
-        <button (click)="isAddPostOpen = !isAddPostOpen">{{isAddPostOpen===true? "Close" : "Open"}}</button>
-        <textarea [(ngModel)]="addPostText" style="resize:none;" rows="7"></textarea>
-        <label>drop image here or <button>BROWSE</button></label>
-        <button (click)="SendPost(); isAddPostOpen=false;" class="post-button">Post</button>
-    </div>
+    <add-post [socket]='socket'></add-post>
 	<div class="posts"  *ngFor="#post of posts" >
 		<span class="post-open-handler" (click)="ToggleComments(post)"></span>
 			<div class="arrows" >

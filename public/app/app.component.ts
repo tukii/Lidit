@@ -1,5 +1,6 @@
 ﻿/// <reference path="../../typings/socket.io/socket.io-client.d.ts" />
 import {Component} from 'angular2/core';
+import {AddPostComponent} from './add-post.component.js';
 
 interface Hero {
     id: number;
@@ -7,21 +8,19 @@ interface Hero {
 }
 @Component({
     selector: 'lidit-app',
-    templateUrl: '/static/views/main.html'
+    templateUrl: '/static/views/main.html',
+    directives: [AddPostComponent]
 })
 export class AppComponent {
+    self:AppComponent;
+    
     posts: Array<Post>;
     channels: Array<Channel>;
     typedPost: string;
     availableTags: Array<string> = ["123"];
     socket: any;
-    isAddPostOpen:boolean;
-    addPostText:string = "";
-    
-    self:AppComponent;
 
     constructor() {
-        this.isAddPostOpen = true;
         this.socket = io.connect('http://localhost:8000');
 
         this.socket.on('connect',function(){
@@ -42,12 +41,6 @@ export class AppComponent {
         this.typedPost = "";
         
         this.channels = [new Channel("random","b"), new Channel("anime","a"),new Channel("music","m"),new Channel("random","b"), new Channel("anime","a"),new Channel("music","m"),new Channel("random","b"), new Channel("anime","a"),new Channel("music","m"),new Channel("random","b"), new Channel("anime","a"),new Channel("music","m")];
-    }
-    public SendPost(){
-        if(this.addPostText.trim()==="")return;
-        
-        this.socket.emit("send-post",{text:this.addPostText});
-        this.addPostText="";
     }
     
     public PostEntered($event: any) {
