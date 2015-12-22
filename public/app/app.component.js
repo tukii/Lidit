@@ -1,4 +1,4 @@
-System.register(['angular2/core'], function(exports_1) {
+System.register(['angular2/core', './add-post.component.js'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,20 +8,21 @@ System.register(['angular2/core'], function(exports_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1;
+    var core_1, add_post_component_js_1;
     var AppComponent, Channel, Post, Comment;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (add_post_component_js_1_1) {
+                add_post_component_js_1 = add_post_component_js_1_1;
             }],
         execute: function() {
             AppComponent = (function () {
                 function AppComponent() {
                     var _this = this;
                     this.availableTags = ["123"];
-                    this.addPostText = "";
-                    this.isAddPostOpen = true;
                     this.socket = io.connect('http://localhost:8000');
                     this.socket.on('connect', function () {
                         console.log('connected');
@@ -38,12 +39,6 @@ System.register(['angular2/core'], function(exports_1) {
                     this.typedPost = "";
                     this.channels = [new Channel("random", "b"), new Channel("anime", "a"), new Channel("music", "m"), new Channel("random", "b"), new Channel("anime", "a"), new Channel("music", "m"), new Channel("random", "b"), new Channel("anime", "a"), new Channel("music", "m"), new Channel("random", "b"), new Channel("anime", "a"), new Channel("music", "m")];
                 }
-                AppComponent.prototype.SendPost = function () {
-                    if (this.addPostText.trim() === "")
-                        return;
-                    this.socket.emit("send-post", { text: this.addPostText });
-                    this.addPostText = "";
-                };
                 AppComponent.prototype.PostEntered = function ($event) {
                     if ($event.which == 13) {
                         for (var i = 0; i < this.posts.length; i++) {
@@ -83,7 +78,8 @@ System.register(['angular2/core'], function(exports_1) {
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'lidit-app',
-                        templateUrl: '/static/views/main.html'
+                        templateUrl: '/static/views/main.html',
+                        directives: [add_post_component_js_1.AddPostComponent]
                     }), 
                     __metadata('design:paramtypes', [])
                 ], AppComponent);

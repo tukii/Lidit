@@ -12,15 +12,12 @@ console.log('Starting server...')
 server.listen(port);
 console.log('Listening on port '+ port);
 
-//app.use(express.static(__dirname+"/views"));
 app.use('/static',express.static(__dirname+"/public"));
+
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/public/index.html');
-});/*
-app.get('/{lid}', function (req, res) {
-    res.sendFile(__dirname + '/public/index.html');
 });
-*/
+
 io.on('connection',function(socket){
     console.log('user connected');
     
