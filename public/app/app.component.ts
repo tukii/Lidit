@@ -2,10 +2,6 @@
 import {Component} from 'angular2/core';
 import {AddPostComponent} from './add-post.component.js';
 
-interface Hero {
-    id: number;
-    name: string;
-}
 @Component({
     selector: 'lidit-app',
     templateUrl: '/static/views/main.html',
