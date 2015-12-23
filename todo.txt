@@ -23,3 +23,6 @@ V 0.2
     -implement image posting
     -add markdown support
     -properly validate text, strip tags, etc
+V 0.3
+    -optional login?
+    -favorite sublids?

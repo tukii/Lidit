@@ -1,6 +1,8 @@
 ﻿/// <reference path="../../typings/socket.io/socket.io-client.d.ts" />
 import {Component} from 'angular2/core';
+import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 import {AddPostComponent} from './add-post.component.js';
+import {PostsComponent} from './posts.component.js';
 
 
 var socket = io.connect('http://localhost:8000');
@@ -8,8 +10,11 @@ var socket = io.connect('http://localhost:8000');
 @Component({
     selector: 'lidit-app',
     templateUrl: '/static/views/main.html',
-    directives: [AddPostComponent]
+    directives: [AddPostComponent, ROUTER_DIRECTIVES]
 })
+@RouteConfig([
+    {path:"/:ch", name: 'ChannelPage', component:PostsComponent}
+])
 export class AppComponent {
     self:AppComponent;
     
