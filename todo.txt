@@ -6,7 +6,7 @@ refactor css/html
 refactor js to prepare for server integration
 +	-rename description to comment
 +	-remove unneeded code
-	-refactor for socket.io
++	-refactor for socket.io
 create backend
 +	-find something for live-dev with express
 	-create basic posting/commenting
@@ -14,4 +14,6 @@ create backend
 	-sublid setup
 	-complete all the basic functionality
 V 0.2
-
+    -move posting under the last comment
+    -add extra info on each post (upvotes/downovtes, number of comments...)
+    -get sublids from the server and sort by popularity (post number over last 1 hour?)

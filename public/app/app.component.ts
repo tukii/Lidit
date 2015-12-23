@@ -97,7 +97,7 @@ class Post {
     typedComment: string = "";
     constructor(txt: string, descs: Array<Comment>) {
         this.image = "123";
-        if (descs.length == 0) {
+        if (descs.length === 0) {
             this.firstComment = new Comment(0, 0, "No comments...");
         }
         else {
@@ -113,48 +113,52 @@ class Post {
         this.typedComment = "";
     }
     public AddTypedComment() {
-        if (this.typedComment.trim() == "") return;
+        if (this.typedComment.trim() === "") return;
         this.comments.push(new Comment(0, 0, this.typedComment));
         this.typedComment = "";
     }
     public ButtonPressed($event: any) {
-        if ($event.which == 13) {
+        if ($event.which === 13) {
             this.AddTypedComment();
         }
     }
 }
+class CommentState{
+    static NONE:number = 0;
+    static UPVOTED:number = 1;
+    static DOWNVOTED:number = 2;
+}
 class Comment {
     thumbUps: number;
     thumbDowns: number;
-    downvoted: boolean;
-    upvoted: boolean;
-
-    public set Upvoted(b: boolean) {
-        if (b == true) this.downvoted = false;
-        this.upvoted = b;
-    }
-    public set Downvoted(b: boolean) {
-        if (b == true) this.upvoted = false;
-        this.downvoted = b;
-    }
-
-
     text: string;
+    localState: number = CommentState.NONE; // compare this with CommentState
+    
     constructor(ups: number, downs: number, txt: string) {
         this.thumbDowns = downs;
         this.thumbUps = ups;
         this.text = txt;
-        this.Upvoted = false;
-        this.Downvoted = false;
     }
+    
+    public get isUpvoted() : boolean {
+        return this.localState === CommentState.UPVOTED;
+    }
+    
+    public get isDownvoted() : boolean {
+        return this.localState === CommentState.DOWNVOTED;
+    }
+    
+    public ToggleUpvote() : void{
+        //TODO send message to the server
+        this.localState = CommentState.UPVOTED;
+    }
+    
+    public ToggleDownvote() : void{
+        //TODO send message to the server
+        this.localState = CommentState.UPVOTED;
+    }
+        
     public Value(): number {
         return this.thumbUps - this.thumbDowns;
-    }
-
-    public ToggleUpvote() {
-        this.Upvoted = !this.upvoted;
-    }
-    public ToggleDownvote() {
-        this.Downvoted = !this.downvoted;
     }
 }

@@ -28,8 +28,8 @@
 				<div class="posts" *ngFor="#comment of post.comments">
 					<div class="arrows">
 						<!-- TODO change arrows position/style -->
-						<div class="up-arrow" (click)="comment.ToggleUpvote()" [ngClass]="{'green-arrow': comment.upvoted}"></div>
-						<div class="down-arrow" (click)="comment.ToggleDownvote()" [ngClass]="{'red-arrow': comment.downvoted}"></div>
+						<div class="up-arrow" (click)="comment.ToggleUpvote()" [ngClass]="{'green-arrow': comment.isUpvoted}"></div>
+						<div class="down-arrow" (click)="comment.ToggleDownvote()" [ngClass]="{'red-arrow': comment.isDownvoted}"></div>
 					</div>
 					<div class="text-content">
 						<div class="comment"><i>{{comment.text}}</i></div>
