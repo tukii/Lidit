@@ -16,7 +16,8 @@ create backend
 	-setup mongodb and its queries
 	-complete all the basic functionality
 V 0.2
-    -select active sublid
+    -select(visually) active sublid
+    -create services for data?
     -move posting under the last comment?
     -add extra info on each post (upvotes/downovtes, id, number of comments...)
     -get sublids from the server and sort by popularity (post number over last 1 hour?)

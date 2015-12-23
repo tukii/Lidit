@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../typings/socket.io/socket.io-client.d.ts" />
 import {Component} from 'angular2/core';
-import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
+import {Router, RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 import {AddPostComponent} from './add-post.component.js';
 import {PostsComponent} from './posts.component.js';
 
@@ -22,7 +22,7 @@ export class AppComponent {
     channels: Array<Channel>;
     socket: any;
 
-    constructor() {
+    constructor(private _router: Router) {
         this.socket = socket;
 
         this.socket.on('connect',() => {
@@ -66,6 +66,9 @@ export class AppComponent {
             if (this.posts[i] == post) continue;
             this.posts[i].areCommentsVisible = false;
         }
+    }
+    public onSelect(ch:Channel) :void {
+        this._router.navigate(['ChannelPage',{ch: ch.Abbrevation }]);
     }
 }
 
