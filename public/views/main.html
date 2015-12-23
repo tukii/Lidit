@@ -12,16 +12,12 @@
 <div class="post-list col-xs-8 col-xs-offset-3">
 	<div class="posts"  *ngFor="#post of posts" >
 		<span class="post-open-handler" (click)="ToggleComments(post)"></span>
-			<div class="arrows" >
-				<div class="up-arrow green-arrow"></div>
-				<div class="down-arrow"></div>
-			</div>
 			<div class="text-content">
 				<!-- TODO add image if exists -->
-				<div class="naslov"><b>{{post.text}}</b></div>
-				<div class="tekst" *ngIf="!post.areCommentsVisible"><i>{{post.comments[0].text}}</i></div>
+				<!--<div class="naslov"><b></b></div>-->
+				<div class="tekst">{{post.text}}</div> 
 			</div>
-			<div ngClass="top-comment" *ngIf="post.areCommentsVisible">
+			<div class="comment-container" *ngIf="post.areCommentsVisible">
 				<div class="posts" *ngFor="#comment of post.comments">
 					<div class="arrows">
 						<!-- TODO change arrows position/style -->

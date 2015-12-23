@@ -129,13 +129,10 @@ body{
     margin-left: 120px;
     color: #BBB;
 }
-.naslov{
-    font-size: 20px;
-}
 .ui-helper-hidden-accessible {
     display: none;
 }
-.top-comment{
+.comment-container{
     clear: both;
     margin-left: 50px;
     border-bottom-left-radius: 0px;
@@ -143,7 +140,7 @@ body{
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
 }
-.top-comment .posts{
+.comment-container .posts{
     min-height: 50px;
     height: 50px;
     background: rgba(50, 50, 50, 0.2);
@@ -152,10 +149,10 @@ body{
     border-radius: 0px;
     margin-top: 10px;
 }
-.top-comment .posts:hover{
+.comment-container .posts:hover{
     background: rgba(50, 50, 50, 0.6);
 }
-.top-comment .posts .arrows{
+.comment-container .posts .arrows{
     margin-top: 12.5px;
 }
 .new-comment{

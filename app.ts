@@ -18,7 +18,7 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/public/index.html');
 });
 
-var postId = 0;
+var postId = 4;
 var commentId = 0;
 io.on('connection',function(socket){
     
@@ -30,13 +30,14 @@ io.on('connection',function(socket){
     
     //data {ch:"b" text:"text"}
     socket.on("send-post",function(data){
-       console.log(data);
-       io.emit("new-post",{title:"Test",text:data.text}); 
+       postId = postId+1;
+       io.emit("new-post",{id:postId,text:data.text}); 
     });
     
     //data {channel:"text",postId:5,text:"text"}
     socket.on("send-comment",function(data){
-        io.of(data.channel).emit("new-comment",{text:data.text});
+        commentId = commentId+1;
+        io.of(data.channel).emit("new-comment",{postId:data.postId,id:commentId,text:data.text});
     })
     
     //ch {name:"text"}
@@ -48,7 +49,6 @@ io.on('connection',function(socket){
         else{
             socket.leaveAll();
             socket.join("/");
-            io.of("").write
         }
     });
     

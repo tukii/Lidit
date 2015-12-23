@@ -10,13 +10,15 @@ refactor js to prepare for server integration
 create backend
 +	-find something for live-dev with express
 	-create basic posting/commenting
-	-setup mongodb and its queries
 	-sublid setup
     -add sublid name somewhere (top left corner?)
+	-setup mongodb and its queries
 	-complete all the basic functionality
 V 0.2
     -select active sublid
     -move posting under the last comment?
-    -add extra info on each post (upvotes/downovtes, number of comments...)
+    -add extra info on each post (upvotes/downovtes, id, number of comments...)
     -get sublids from the server and sort by popularity (post number over last 1 hour?)
     -implement image posting
+    -add markdown support
+    -properly validate text, strip tags, etc
