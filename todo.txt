@@ -9,8 +9,9 @@ refactor js to prepare for server integration
 +	-refactor for socket.io
 create backend
 +	-find something for live-dev with express
-	-create basic posting/commenting
++	-create basic posting/commenting
 	-sublid setup
+    -fix autoupdate
     -add sublid name somewhere (top left corner?)
 	-setup mongodb and its queries
 	-complete all the basic functionality
