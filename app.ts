@@ -18,6 +18,8 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/public/index.html');
 });
 
+var postId = 0;
+var commentId = 0;
 io.on('connection',function(socket){
     
     var username:string = "";
@@ -26,13 +28,20 @@ io.on('connection',function(socket){
     socket.leaveAll();
     socket.join("/");
     
+    //data {ch:"b" text:"text"}
     socket.on("send-post",function(data){
        console.log(data);
        io.emit("new-post",{title:"Test",text:data.text}); 
     });
     
+    //data {channel:"text",postId:5,text:"text"}
+    socket.on("send-comment",function(data){
+        io.of(data.channel).
+    })
+    
+    //ch {name:"text"}
     socket.on("join",function(ch){
-       if(typeof ch.name === "string"){
+       if(ValidateString(ch.name)){
            socket.leaveAll();
            socket.join(ch.name);
         }
@@ -43,8 +52,13 @@ io.on('connection',function(socket){
         }
     });
     
+    //ch {name:"text"}
     socket.on("change-name",function(data){
-        if(typeof data.name === "string" && data.name.length>3)
+        if(ValidateString(data.name) && data.name.length>3)
             username = data.name;
     });
 });
+
+function ValidateString(name:any) : boolean{
+    return typeof name === "string" 
+}

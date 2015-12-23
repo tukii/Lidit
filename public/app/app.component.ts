@@ -16,7 +16,6 @@ export class AppComponent {
     
     posts: Array<Post>;
     channels: Array<Channel>;
-    typedPost: string;
     availableTags: Array<string> = ["123"];
     socket: any;
 
@@ -38,22 +37,8 @@ export class AppComponent {
         this.AddPost(new Post("Test test 123", [new Comment(5, 2, "Hello worldddddddddddddd")]));
         this.AddPost(new Post("Plz say somethign smart", [new Comment(5, 2, "l2spell newb")]));
         this.AddPost(new Post("SPAAAAAAAAAAAAAAAAAM", [new Comment(5, 2, "AAAAAAAAAAAAAAAAAAAAAAAMmmmmmm mmmmmmmmm aaaaaaaaa mmmmmmmmmmmmmb")]));
-        this.typedPost = "";
         
         this.channels = [new Channel("random","b"), new Channel("anime","a"),new Channel("music","m"),new Channel("random","b"), new Channel("anime","a"),new Channel("music","m"),new Channel("random","b"), new Channel("anime","a"),new Channel("music","m"),new Channel("random","b"), new Channel("anime","a"),new Channel("music","m")];
-    }
-    
-    public PostEntered($event: any) {
-        if ($event.which == 13) {
-            for (var i = 0; i < this.posts.length; i++) {
-                if (this.posts[i].text === this.typedPost) return;
-            }
-            this.AddNewPost(this.typedPost);
-            this.typedPost = "";
-        }
-    }
-    public AddNewPost(post: string) {
-        this.AddPost(new Post(post, []));
     }
     public AddPost(post: Post) {
         if (this.posts.length == 0) {

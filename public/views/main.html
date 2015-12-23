@@ -1,16 +1,13 @@
-<!--<div class="post-type">
-	<input type="text" id="searchBox" class="form-control" placeholder="Enter post..." [(ngModel)]="typedpost" (keyup)="postEntered($event)">
-</div> -->
 <div class="channel-picker">
-		<ul>
-			<li *ngFor="#ch of channels">
-				<a href="/{{ch.Abbrevation}}">
-					<span class="channel-abr">/{{ch.Abbrevation}}</span>
-					<span class="channel-comment">{{ch.Name}}</span>
-				</a>
-			</li>
-		</ul>		
-	</div>
+    <ul>
+        <li *ngFor="#ch of channels">
+            <a href="/{{ch.Abbrevation}}">
+                <span class="channel-abr">/{{ch.Abbrevation}}</span>
+                <span class="channel-comment">{{ch.Name}}</span>
+            </a>
+        </li>
+    </ul>		
+</div>
 <add-post [socket]='socket' class="col-xs-offset-3 col-xs-8 col-lg-offset-4 col-lg-4 text-center"></add-post>
 <div class="post-list col-xs-8 col-xs-offset-3">
 	<div class="posts"  *ngFor="#post of posts" >
