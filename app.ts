@@ -36,7 +36,7 @@ io.on('connection',function(socket){
     
     //data {channel:"text",postId:5,text:"text"}
     socket.on("send-comment",function(data){
-        io.of(data.channel).
+        io.of(data.channel).emit("new-comment",{text:data.text});
     })
     
     //ch {name:"text"}
@@ -60,5 +60,5 @@ io.on('connection',function(socket){
 });
 
 function ValidateString(name:any) : boolean{
-    return typeof name === "string" 
+    return typeof name === "string";
 }
