@@ -37,7 +37,7 @@ export class AppComponent {
         this.AddPost(new Post("BOOM BOOM", [new Comment(5, 2, "Hey guise lel don't go to school tmrw"), new Comment(10, 2, "fake fake fake fake fake fake fake"), new Comment(0, 7, "YEAH RIGHT I DARE U!!!")]));
         this.AddPost(new Post("Test test 123", [new Comment(5, 2, "Hello worldddddddddddddd")]));
         this.AddPost(new Post("Plz say somethign smart", [new Comment(5, 2, "l2spell newb")]));
-        this.AddPost(new Post("SPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM", [new Comment(5, 2, "AAAAAAAAAAAAAAAAAAAAAAAMmmmmmm mmmmmmmmm aaaaaaaaa mmmmmmmmmmmmmb")]));
+        this.AddPost(new Post("SPAAAAAAAAAAAAAAAAAM", [new Comment(5, 2, "AAAAAAAAAAAAAAAAAAAAAAAMmmmmmm mmmmmmmmm aaaaaaaaa mmmmmmmmmmmmmb")]));
         this.typedPost = "";
         
         this.channels = [new Channel("random","b"), new Channel("anime","a"),new Channel("music","m"),new Channel("random","b"), new Channel("anime","a"),new Channel("music","m"),new Channel("random","b"), new Channel("anime","a"),new Channel("music","m"),new Channel("random","b"), new Channel("anime","a"),new Channel("music","m")];

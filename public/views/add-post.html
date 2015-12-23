@@ -1,5 +1,5 @@
-<div class="add-post" [ngClass]="{'add-post-active':isAddPostOpen, 'add-post-inactive':!isAddPostOpen}" >
-    <button (click)="isAddPostOpen = !isAddPostOpen">{{isAddPostOpen===true? "Close" : "Open"}}</button>
+<button class="toggle-form" (click)="isAddPostOpen = !isAddPostOpen">{{isAddPostOpen===true? "X" : "V"}}</button>
+<div class="add-post" [ngClass]="{'add-post-active':isAddPostOpen, 'add-post-inactive':!isAddPostOpen}">
     <textarea [(ngModel)]="addPostText" style="resize:none;" rows="7"></textarea>
     <label>drop image here or <button>BROWSE</button></label>
     <button (click)="SendPost(); isAddPostOpen=false;" class="post-button">Post</button>
