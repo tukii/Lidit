@@ -38,12 +38,13 @@ body{
     position: relative;
     display: block;
     *padding: .4em;
+    cursor: pointer;
     
     color: #AAA;
     text-decoration: none;
     transition: all .3s ease-out;
 }
-.channel-picker>ul>li>a>.channel-comment{
+.channel-comment{
     font-size: 12px;
 }
 .channel-picker>ul>li>a:hover{
@@ -53,10 +54,25 @@ body{
     
     text-decoration: none;
 }
+.channel-picker>ul>li>a:active{
+    border-left: 5px solid darkcyan;
+    background: rgba(80, 80, 80, 0.6);
+    margin: 0;
+    
+    text-decoration: none;
+}
 .channel-picker>ul>li>a:hover span{
     background: transparent;
     font-size: 17px;
     transition: all 0.35s ease;
+}
+.channel-abr, .channel-comment, .channel-picker>ul>li>a{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 .add-post{
     position: relative;

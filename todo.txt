@@ -11,7 +11,7 @@ create backend
 +	-find something for live-dev with express
 +	-create basic posting/commenting
 	-sublid setup
-    -fix autoupdate
+    -fix changeDetection of posts and comments
     -add sublid name somewhere (top left corner?)
 	-setup mongodb and its queries
 	-complete all the basic functionality

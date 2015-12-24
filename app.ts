@@ -14,6 +14,10 @@ console.log('Listening on port '+ port);
 
 app.use('/static',express.static(__dirname+"/public"));
 
+
+app.get('/:whatever', function(req,res){
+    res.sendFile(__dirname + '/public/index.html');
+});
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/public/index.html');
 });
