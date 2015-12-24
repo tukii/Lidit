@@ -9,19 +9,19 @@ System.register(['angular2/core'], function(exports_1) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1;
-    var socket, SocketService;
+    var SocketService;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             }],
         execute: function() {
-            socket = io.connect("localhost:8000");
             SocketService = (function () {
                 function SocketService() {
+                    this.socket = io.connect("localhost:8000");
                 }
                 SocketService.prototype.getSocket = function () {
-                    return socket;
+                    return this.socket;
                 };
                 SocketService = __decorate([
                     core_1.Injectable(), 

@@ -3,35 +3,31 @@ import {Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from 'ang
 import {SocketService} from './services/socket.service.js';
 
 @Component({
-    templateUrl: "static/views/posts.html",
-    changeDetection: ChangeDetectionStrategy.CheckAlways
+    templateUrl: "static/views/posts.html"
 })
-export class PostsComponent implements OnInit {
+export class PostsComponent {
+    socket: SocketIOClient.Socket;
     ch:string;
     posts: Array<Post> = [];
-    socket: SocketIOClient.Socket;
     commentText:string = "";
     
-    constructor(private _socketService:SocketService, private _ref: ChangeDetectorRef){
-        this.AddPost(new Post(0,"BOOM BOOM", [new Comment(5, 2, "Hey guise lel don't go to school tmrw")]));
-    }
-    
-    ngOnInit(){
+    constructor(private _socketService:SocketService){
+        
         this.socket = this._socketService.getSocket();
-        this.socket.on('new-post',(data) =>{
-            this.AddPost(new Post(data.id, data.text,[]))
-            this._ref.markForCheck();
+        this.socket.on('new-post', data => {
+            this.AddPost(new Post(data.id, data.text,[]));
         });
         
-        this.socket.on('new-comment',(data) => {
+        this.socket.on('new-comment', data => {
             for(var i = 0; i <this.posts.length;i++){
                 if(this.posts[i].id == data.postId){
                     this.posts[i].AddComment(data.text);
-                    this._ref.markForCheck();
                     return;
                 }
             }
         });
+
+        this.AddPost(new Post(0,"BOOM BOOM", [new Comment(5, 2, "Hey guise lel don't go to school tmrw")]));
     }
     
     public AddPost(post: Post) {
@@ -40,7 +36,6 @@ export class PostsComponent implements OnInit {
             return;
         }
         this.posts.splice(1, 0, post);
-        
     }
     public ToggleComments(post: Post) {
         post.areCommentsVisible = !post.areCommentsVisible;

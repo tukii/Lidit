@@ -10,8 +10,8 @@ refactor js to prepare for server integration
 create backend
 +	-find something for live-dev with express
 +	-create basic posting/commenting
++   -fix changeDetection of posts and comments
 	-sublid setup
-    -fix changeDetection of posts and comments
     -add sublid name somewhere (top left corner?)
 	-setup mongodb and its queries
 	-complete all the basic functionality
@@ -27,3 +27,7 @@ V 0.2
 V 0.3
     -optional login?
     -favorite sublids?
+    -multiple backgrounds?
+    -autodelete inactive sublids?
+    -sublid search?
+    
