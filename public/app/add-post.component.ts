@@ -1,19 +1,24 @@
-import { Component } from 'angular2/core';
+import { Component, OnInit, Input } from 'angular2/core';
+import { RouteParams } from 'angular2/router';
 
 @Component({
     selector: 'add-post',
-    templateUrl: '/static/views/add-post.html',
-    inputs: ['socket']
+    templateUrl: '/static/views/add-post.html'
 })
-export class AddPostComponent {
+export class AddPostComponent implements OnInit {
     isAddPostOpen:boolean = true;
     addPostText:string = "";
-    socket : any;
+    @Input('socket') socket : any;
+    @Input('ch') ch: any;
     
     public SendPost(){
         if(this.addPostText.trim()==="")return;
-        
-        this.socket.emit("send-post",{text:this.addPostText});
+        console.log(this.ch);
+        this.socket.emit("send-post",{channel:this.ch,text:this.addPostText});
         this.addPostText="";
+    }
+    
+    ngOnInit() {
+        console.log(this.ch);  
     }
 }

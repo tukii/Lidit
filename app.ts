@@ -30,18 +30,18 @@ io.on('connection',function(socket){
     
     console.log('user connected');
     socket.leaveAll();
-    socket.join("/");
     
     //data {ch:"b" text:"text"}
     socket.on("send-post",function(data){
        postId = postId+1;
-       io.emit("new-post",{id:postId,text:data.text}); 
+       socket.broadcast
+       io.to(data.channel).emit("new-post",{id:postId,text:data.text}); 
     });
     
     //data {channel:"text",postId:5,text:"text"}
     socket.on("send-comment",function(data){
         commentId = commentId+1;
-        io.of(data.channel).emit("new-comment",{postId:data.postId,id:commentId,text:data.text});
+        io.to(data.channel).emit("new-comment",{postId:data.postId,id:commentId,text:data.text});
     })
     
     //ch {name:"text"}
@@ -52,7 +52,6 @@ io.on('connection',function(socket){
         }
         else{
             socket.leaveAll();
-            socket.join("/");
         }
     });
     

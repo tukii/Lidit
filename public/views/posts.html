@@ -1,25 +1,28 @@
-<div class="posts"  *ngFor="#post of posts" >
-    <span class="post-open-handler" (click)="ToggleComments(post)"></span>
-        <div class="text-content">
-            <!-- TODO add image if exists -->
-            <!--<div class="naslov"><b></b></div>-->
-            <div class="tekst">{{post.text}}</div> 
-        </div>
-        <div class="comment-container" *ngIf="post.areCommentsVisible">
-            <div class="posts" *ngFor="#comment of post.comments">
-                <div class="arrows">
-                    <!-- TODO change arrows position/style -->
-                    <div class="up-arrow" (click)="comment.ToggleUpvote()" [ngClass]="{'green-arrow': comment.isUpvoted}"></div>
-                    <div class="down-arrow" (click)="comment.ToggleDownvote()" [ngClass]="{'red-arrow': comment.isDownvoted}"></div>
-                </div>
-                <div class="text-content">
-                    <div class="comment"><i>{{comment.text}}</i></div>
+<add-post [socket]='socket' [ch]='ch' class="col-xs-offset-3 col-xs-8 col-lg-offset-4 col-lg-4 text-center"></add-post>
+<div class="post-list col-xs-8 col-xs-offset-3 col-lg-7 col-lg-offset-3">
+    <div class="posts"  *ngFor="#post of posts" >
+        <span class="post-open-handler" (click)="ToggleComments(post)"></span>
+            <div class="text-content">
+                <!-- TODO add image if exists -->
+                <!--<div class="naslov"><b></b></div>-->
+                <div class="tekst">{{post.text}}</div> 
+            </div>
+            <div class="comment-container" *ngIf="post.areCommentsVisible">
+                <div class="posts" *ngFor="#comment of post.comments">
+                    <div class="arrows">
+                        <!-- TODO change arrows position/style -->
+                        <div class="up-arrow" (click)="comment.ToggleUpvote()" [ngClass]="{'green-arrow': comment.isUpvoted}"></div>
+                        <div class="down-arrow" (click)="comment.ToggleDownvote()" [ngClass]="{'red-arrow': comment.isDownvoted}"></div>
+                    </div>
+                    <div class="text-content">
+                        <div class="comment"><i>{{comment.text}}</i></div>
+                    </div>
                 </div>
             </div>
+        <div class="new-comment" *ngIf="post.areCommentsVisible">
+            <span>Add your comment</span>
+            <textarea [(ngModel)]="commentText" placeholder="Your comment here..." ></textarea>
+            <button (click)="SendComment(post.id)">Add</button>
         </div>
-    <div class="new-comment" *ngIf="post.areCommentsVisible">
-        <span>Add your comment</span>
-        <textarea [(ngModel)]="commentText" placeholder="Your comment here..." ></textarea>
-        <button (click)="SendComment(post.id)">Add</button>
     </div>
 </div>

@@ -11,7 +11,7 @@ create backend
 +	-find something for live-dev with express
 +	-create basic posting/commenting
 +   -fix changeDetection of posts and comments
-	-sublid setup
++	-sublid setup
     -add sublid name somewhere (top left corner?)
 	-setup mongodb and its queries
 	-complete all the basic functionality
@@ -25,6 +25,7 @@ V 0.2
     -add markdown support
     -properly validate text, strip tags, etc
 V 0.3
+    -add root page? or keep it for trending but prevent posting?
     -optional login?
     -favorite sublids?
     -multiple backgrounds?

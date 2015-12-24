@@ -1,17 +1,22 @@
 /// <reference path="../../typings/socket.io/socket.io-client.d.ts" />
-import {Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from 'angular2/core';
+import {Component, OnInit} from 'angular2/core';
+import {RouteParams} from 'angular2/router';
 import {SocketService} from './services/socket.service.js';
+import {AddPostComponent} from './add-post.component.js';
 
 @Component({
-    templateUrl: "static/views/posts.html"
+    templateUrl: "static/views/posts.html",
+    directives: [AddPostComponent]
 })
-export class PostsComponent {
+export class PostsComponent implements OnInit{
     socket: SocketIOClient.Socket;
     ch:string;
     posts: Array<Post> = [];
     commentText:string = "";
     
-    constructor(private _socketService:SocketService){
+    constructor(
+        private _routeParams: RouteParams,
+        private _socketService:SocketService){
         
         this.socket = this._socketService.getSocket();
         this.socket.on('new-post', data => {
@@ -27,7 +32,13 @@ export class PostsComponent {
             }
         });
 
-        this.AddPost(new Post(0,"BOOM BOOM", [new Comment(5, 2, "Hey guise lel don't go to school tmrw")]));
+        //this.AddPost(new Post(0,"BOOM BOOM", [new Comment(5, 2, "Hey guise lel don't go to school tmrw")]));
+    }
+    
+    ngOnInit(){
+        this.ch = this._routeParams.get('ch');
+        this.socket.emit('join',{name:this.ch});
+        // TODO load posts from mongo?
     }
     
     public AddPost(post: Post) {
@@ -48,7 +59,7 @@ export class PostsComponent {
     
     public SendComment(postId:number) {
         if (this.commentText.trim() === "") return;
-        this.socket.emit("send-comment",{text:this.commentText,postId:postId,channel:"/"});
+        this.socket.emit("send-comment",{text:this.commentText,postId:postId,channel:this.ch});
         this.commentText="";
     }
 }
@@ -89,7 +100,7 @@ class Comment {
     thumbUps: number;
     thumbDowns: number;
     text: string;
-    localState: number = CommentState.NONE; // compare this with CommentState
+    localState: number = CommentState.NONE;
     
     constructor(ups: number, downs: number, txt: string) {
         this.thumbDowns = downs;
