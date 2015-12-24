@@ -5,20 +5,15 @@ import { RouteParams } from 'angular2/router';
     selector: 'add-post',
     templateUrl: '/static/views/add-post.html'
 })
-export class AddPostComponent implements OnInit {
-    isAddPostOpen:boolean = true;
+export class AddPostComponent {
+    isAddPostOpen:boolean = false;
     addPostText:string = "";
     @Input('socket') socket : any;
     @Input('ch') ch: any;
     
     public SendPost(){
         if(this.addPostText.trim()==="")return;
-        console.log(this.ch);
         this.socket.emit("send-post",{channel:this.ch,text:this.addPostText});
         this.addPostText="";
-    }
-    
-    ngOnInit() {
-        console.log(this.ch);  
     }
 }

@@ -13,12 +13,15 @@ create backend
 +   -fix changeDetection of posts and comments
 +	-sublid setup
     -add sublid name somewhere (top left corner?)
-	-setup mongodb and its queries
++	-setup mongodb and its queries
+    -move callbacks to socket service
 	-complete all the basic functionality
 V 0.2
+    -refactor backend, write TS, not js, use typed mongo
     -select(visually) active sublid
     -create services for data?
     -move posting under the last comment?
+    -save comments with post in db?
     -add extra info on each post (upvotes/downovtes, id, number of comments...)
     -get sublids from the server and sort by popularity (post number over last 1 hour?)
     -implement image posting

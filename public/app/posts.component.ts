@@ -38,6 +38,8 @@ export class PostsComponent implements OnInit{
     ngOnInit(){
         this.ch = this._routeParams.get('ch');
         this.socket.emit('join',{name:this.ch});
+        
+        this.socket.on('posts', arr=> arr.forEach(data => this.AddPost(new Post(data.id, data.text,[]))));
         // TODO load posts from mongo?
     }
     
