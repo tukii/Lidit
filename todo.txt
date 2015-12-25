@@ -14,10 +14,11 @@ create backend
 +	-sublid setup
     -add sublid name somewhere (top left corner?)
 +	-setup mongodb and its queries
-    -move callbacks to socket service
-	-complete all the basic functionality
+    -load latestpost id from db
+complete all of the basic functionality
 V 0.2
     -refactor backend, write TS, not js, use typed mongo
+    -move mongo to its own file?
     -select(visually) active sublid
     -create services for data?
     -move posting under the last comment?
@@ -27,6 +28,7 @@ V 0.2
     -implement image posting
     -add markdown support
     -properly validate text, strip tags, etc
+    -[BUG] comments don't load sometimes - fix it
 V 0.3
     -add root page? or keep it for trending but prevent posting?
     -optional login?
@@ -34,4 +36,4 @@ V 0.3
     -multiple backgrounds?
     -autodelete inactive sublids?
     -sublid search?
-    
+    -add NISAM ROBOT captacha for posting

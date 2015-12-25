@@ -9,19 +9,34 @@ var io :SocketIO.Server = require('socket.io')(server);
 var MongoClient = require('mongodb').MongoClient;
 
 var db;
+
+var postId = 1;
+var commentId = 1;
 MongoClient.connect('url', function(err, mongodb) {
-  if(err){
-      console.log("Error connecting to mongo db.")
-      console.log(err);
-      return;
-  }
-  db = mongodb;
-  console.log("Connected to mongo db.");
+    if(err){
+        console.log("Error connecting to mongo db.")
+        console.log(err);
+        return;
+    }
+    db = mongodb;
+    
+    var options = { "sort": [['postId','desc']] };
+    db.collection('posts').findOne({}, options , function(err, doc) {
+        if(err || doc==null)return;
+        postId = doc.postId;
+    });
+    
+    var options = { "sort": [['commentId','desc']] };
+    db.collection('comments').findOne({}, options , function(err, doc) {
+        if(err || doc==null)return;
+        commentId = doc.commentId;
+    });
+
 });
 
 var insertNewPost = function(post) {
   var collection = db.collection('posts');
-  // Insert a post
+  
   collection.insert(post, function(err, result) {
       if(err){
           console.log("error creating new post");
@@ -33,13 +48,13 @@ var insertNewPost = function(post) {
 
 var insertNewComment = function(comment) {
   var collection = db.collection('comments');
-  // Insert a post
+  
   collection.insert(comment, function(err, result) {
       if(err){
-          console.log("error creating new post");
+          console.log("error creating new comment");
           return;
       }
-    console.log("Added new post");
+    console.log("Added new comment");
   });
 }
 
@@ -48,17 +63,16 @@ var findDocuments = function() {
   collection.find({}).toArray(function(err, docs) {
     console.log("Found the following records");
     console.dir(docs)
-  });      
+  });
 }
 
 var getPostsfor = function(ch,callback) {
     var col = db.collection('posts');
-    var x = col.find({channel:ch}).toArray(function(err,posts){
+    col.find({channel:ch}).toArray(function(err,posts){
         console.log("Sending posts:");
         console.dir(posts);
         callback(posts);
     })
-    console.log("x=" +x);
 }
 
 var getCommentsfor = function(ch,callback) {
@@ -85,8 +99,6 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/public/index.html');
 });
 
-var postId = 4;
-var commentId = 0;
 io.on('connection',function(socket){
     
     var username:string = "";
@@ -97,7 +109,7 @@ io.on('connection',function(socket){
     //data {ch:"b" text:"text"}
     socket.on("send-post",function(data){
        postId = postId + 1;
-       var post = {id:postId,channel:data.channel,text:data.text};
+       var post = {postId:postId,channel:data.channel,text:data.text};
        insertNewPost(post);
        io.to(data.channel).emit("new-post", post); 
     });
@@ -105,8 +117,9 @@ io.on('connection',function(socket){
     //data {channel:"text",postId:5,text:"text"}
     socket.on("send-comment",function(data){
         commentId = commentId+1;
-        var comment = {channel:data.channel, postId:data.postId, id:commentId, text:data.text};
+        var comment = {channel:data.channel, postId:data.postId, commentId:commentId, text:data.text};
         insertNewComment(comment);
+        console.log(comment);
         io.to(data.channel).emit("new-comment",comment);
     })
     

@@ -22,7 +22,7 @@
         <div class="new-comment" *ngIf="post.areCommentsVisible">
             <span>Add your comment</span>
             <textarea [(ngModel)]="commentText" placeholder="Your comment here..." ></textarea>
-            <button (click)="SendComment(post.id)">Add</button>
+            <button (click)="SendComment(post.postId)">Add</button>
         </div>
     </div>
 </div>
