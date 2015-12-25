@@ -98,6 +98,12 @@ body{
     height: 0px;
     margin-bottom: 30px;
 }
+.channel-info{
+    position: fixed;
+    top:0px;
+    font-size: 55px;
+    color:#DDD;
+}
 .toggle-form {
     position: fixed;
     top: 0px;
@@ -274,8 +280,9 @@ body{
     text-align: center;
 }
 #__bs_notify__{
-    position: fixed;
-    left: 0px;
+    position: absolute;
+    left:200px;
+    bottom: 0px !important;
     width: 100px;
     height:30px;
 }
