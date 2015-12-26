@@ -50,14 +50,17 @@ body{
     
     text-decoration: none;
 }
-.channel-picker>ul>li>a:active{
-    border-left: 5px solid darkcyan;
-    background: rgba(80, 80, 80, 0.6);
-    margin: 0;
+.channel-picker>ul>li>a:active, .router-link-active{
+    border-left: 5px solid darkcyan !important;
+    background: rgba(80, 80, 80, 0.6) !important;
+    margin: 0 !important;
     
-    text-decoration: none;
+    text-decoration: none !important;
 }
-.channel-picker>ul>li>a:hover span{
+.channel-picker>ul>li>a:hover, .channel-picker>ul>li>a:active, .channel-picker>ul>li>a:focus {
+    outline: 0;
+}
+.channel-picker>ul>li>a:hover span, .router-link-active span{
     background: transparent;
     font-size: 17px;
     transition: all 0.35s ease;

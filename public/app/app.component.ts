@@ -15,12 +15,11 @@ import {SocketService} from './services/socket.service.js';
 export class AppComponent implements OnInit {
     channels: Array<Channel>;
     socket: SocketIOClient.Socket;
-    ch: string;
     
     constructor(
         private _router: Router,
         private _socketService: SocketService) {
-            //TODO get channels from the server
+        //TODO get channels from the server
         this.channels = [new Channel("random","b"), new Channel("anime","a"),new Channel("music","m")];
     }
     

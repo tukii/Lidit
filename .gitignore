@@ -305,3 +305,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 public/app/services/post.service.js
+public/app/services/socket.service.js

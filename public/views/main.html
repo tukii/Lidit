@@ -1,11 +1,11 @@
 <div class="channel-picker">
     <ul>
         <li *ngFor="#ch of channels">
-            <a (click)="onSelect(ch)">
+            <a [routerLink]="['ChannelPage',{ch:ch.Abbrevation}]">
                 <span class="channel-abr">/{{ch.Abbrevation}}</span>
                 <span class="channel-comment">{{ch.Name}}</span>
             </a>
         </li>
-    </ul>		
+    </ul>
 </div>
 <router-outlet></router-outlet>
