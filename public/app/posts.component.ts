@@ -26,7 +26,7 @@ export class PostsComponent implements OnInit, OnDestroy {
         this.ch = this._routeParams.get('ch');
         
         this.socket.on('new-post', data => {
-            this.AddPost(new Post(data.postId, data.text,[]));
+            this.AddPost(new Post(data.postId, data.text, new Date(data.creationDate),[]));
         });
         
         this.socket.on('new-comment', data => this.AddComment(data));
@@ -37,7 +37,7 @@ export class PostsComponent implements OnInit, OnDestroy {
         
         this.socket.on('posts', arr => {
             this.posts = [];
-            arr.forEach(data => this.AddPost(new Post(data.postId, data.text,[])))
+            arr.forEach(data => this.AddPost(new Post(data.postId, data.text,new Date(data.creationDate || null),[])))
         });
         
         this.socket.emit('join',{name:this.ch});
@@ -52,7 +52,7 @@ export class PostsComponent implements OnInit, OnDestroy {
             if(this.posts[i].postId == data.postId){
                 console.log(data);
                 //todo create comment instance
-                this.posts[i].AddComment(new Comment(data.commentId,data.text));
+                this.posts[i].AddComment(new Comment(data.commentId,data.text, new Date(data.creationDate || null)));
                 return;
             }
         }

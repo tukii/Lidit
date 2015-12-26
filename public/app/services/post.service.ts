@@ -1,19 +1,18 @@
 export class Post {
-    postId: number;
-    creationDate: Date = new Date();
     image: string;
-    text: string;
     comments: Array<Comment> = [];
     areCommentsVisible: boolean;
     typedComment: string = "";
     thumbUps: number = 0;
     thumbDowns: number = 0;
-    constructor(id:number, txt: string, comments?: Array<Comment>) {
+    constructor(
+        public postId:number, 
+        public text: string,
+        public creationDate:Date,
+     comments?: Array<Comment>) {
         this.image = "123";
-        this.postId = id;
-        
+                
         this.areCommentsVisible = false;
-        this.text = txt;
         this.comments = comments;
     }
     public AddComment(com: Comment) {
@@ -34,11 +33,10 @@ export class Comment {
     commentId: number;
     thumbUps: number = 0;
     thumbDowns: number = 0;
-    creationDate: Date = new Date();
     text: string;
     localState: number = CommentState.NONE;
     
-    constructor(id:number,txt: string /*ups: number, downs: number,*/ ) {
+    constructor(id:number,txt: string, public creationDate:Date /*ups: number, downs: number,*/ ) {
         //this.thumbDowns = downs;
         //this.thumbUps = ups;
         this.commentId = id;

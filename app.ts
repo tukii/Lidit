@@ -12,7 +12,7 @@ var db;
 
 var postId = 1;
 var commentId = 1;
-MongoClient.connect('url', function(err, mongodb) {
+MongoClient.connect('', function(err, mongodb) {
     if(err){
         console.log("Error connecting to mongo db.")
         console.log(err);
@@ -31,7 +31,7 @@ MongoClient.connect('url', function(err, mongodb) {
         if(err || doc==null)return;
         commentId = doc.commentId;
     });
-
+    console.log('connected to mongo');
 });
 
 var insertNewPost = function(post) {
@@ -109,7 +109,7 @@ io.on('connection',function(socket){
     //data {ch:"b" text:"text"}
     socket.on("send-post",function(data){
        postId = postId + 1;
-       var post = {postId:postId,channel:data.channel,text:data.text};
+       var post = {postId:postId,creationDate:new Date(),channel:data.channel,text:data.text};
        insertNewPost(post);
        io.to(data.channel).emit("new-post", post); 
     });
@@ -117,7 +117,7 @@ io.on('connection',function(socket){
     //data {channel:"text",postId:5,text:"text"}
     socket.on("send-comment",function(data){
         commentId = commentId+1;
-        var comment = {channel:data.channel, postId:data.postId, commentId:commentId, text:data.text};
+        var comment = { commentId:commentId, creationDate:new Date(), channel:data.channel, postId:data.postId,text:data.text};
         insertNewComment(comment);
         console.log(comment);
         io.to(data.channel).emit("new-comment",comment);
