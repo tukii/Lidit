@@ -18,13 +18,13 @@ V 0.1
 +complete all of the basic functionality
 V 0.2
 +   -select(visually) active sublid
-    -create services for data?
++   -add extra info on each post (upvotes/downovtes, id, number of comments...)
     -move posting under the last comment?
-    -save comments with post in db?
-    -add extra info on each post (upvotes/downovtes, id, number of comments...)
     -get sublids from the server and sort by popularity (post number over last 1 hour?)
     -implement image posting
     -properly validate text, strip tags, etc
+    -create services for data?
+    -save comments with post in db?
     -refactor backend, write TS, not js, use typed mongo
     -move mongo to its own file?
     -[BUG] comments don't load sometimes - fix it

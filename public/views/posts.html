@@ -18,6 +18,7 @@
                     <div class="text-content">
                         <div class="comment"><i>{{comment.text}}</i></div>
                     </div>
+                    <div class="post-stats">{{comment.prettyId}} - {{comment.creationDate | date:"dd/MM/yyyy H:m"}} - {{comment.thumbUps}} <span class="rotate">V</span>&nbsp;&nbsp; {{comment.thumbDowns}} V </div>
                 </div>
             </div>
         <div class="new-comment" *ngIf="post.areCommentsVisible">
@@ -25,5 +26,6 @@
             <textarea [(ngModel)]="commentText" placeholder="Your comment here..." ></textarea>
             <button (click)="SendComment(post.postId)">Add</button>
         </div>
+        <div class="post-stats">{{post.prettyId}} - {{post.creationDate | date:"dd/MM/yyyy H:m"}} - {{ post.comments.length }} {{post.comments.length == 1?"comment":"comments"}} - {{post.thumbUps}} <span class="rotate">V</span>&nbsp;&nbsp; {{post.thumbDowns}} V </div>
     </div>
 </div>

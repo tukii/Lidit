@@ -3,7 +3,7 @@ import {Component, OnInit, OnDestroy} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 import {SocketService} from './services/socket.service.js';
 import {AddPostComponent} from './add-post.component.js';
-import {Post} from './services/post.service.js';
+import {Post, Comment} from './services/post.service.js';
 
 @Component({
     templateUrl: "static/views/posts.html",
@@ -52,7 +52,7 @@ export class PostsComponent implements OnInit, OnDestroy {
             if(this.posts[i].postId == data.postId){
                 console.log(data);
                 //todo create comment instance
-                this.posts[i].AddComment(data.text);
+                this.posts[i].AddComment(new Comment(data.commentId,data.text));
                 return;
             }
         }

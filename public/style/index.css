@@ -121,6 +121,7 @@ body{
     transition: all .3s ease-out;
     position: relative;
     border-bottom: 1px solid white;
+    padding-top: 15px;
 }
 .posts:hover{
     cursor: pointer;
@@ -148,7 +149,17 @@ body{
 .text-content{
     padding-top: 5px;
     margin-left: 120px;
-    color: #BBB;
+    color: white;
+}
+.post-stats{
+    position: absolute;
+    font-size: 12px;
+    top: 0px;
+    right: 0px;
+    text-align: right;
+    color:#BBB;
+    font-family: "BankGBold";
+    border-bottom: 1px solid rgba(120, 120, 120, 0.5);
 }
 .ui-helper-hidden-accessible {
     display: none;
@@ -278,6 +289,13 @@ body{
     font-family: "Segoe UI";
     text-align: center;
 }
+
+.rotate {
+    position: absolute;
+    transform: rotate(-180deg);
+    margin-top: 2px;
+}
+
 #__bs_notify__{
     position: absolute;
     left:200px;
