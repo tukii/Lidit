@@ -6,7 +6,7 @@ export class SocketService {
     socket:SocketIOClient.Socket;
     
     constructor(){
-        this.socket = io.connect("localhost:8000");
+        this.socket = io.connect();
     }
     
     public getSocket():SocketIOClient.Socket{

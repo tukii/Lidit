@@ -29,6 +29,7 @@ V 0.2
     -properly validate text, strip tags, etc
     -[BUG] comments don't load sometimes - fix it
 V 0.3
+    -animation on expand, open on mouseover?
     -add root page? or keep it for trending but prevent posting?
     -optional login?
     -favorite sublids?
