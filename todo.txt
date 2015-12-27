@@ -25,11 +25,13 @@ V 0.2
     -implement image posting
     -properly validate text, strip tags, etc
     -add server stats (current users, posts over channels, content size?)
+    -implement upvoting/downvoting
+v 0.2.5
     -create services for data?
     -save comments with post in db?
     -refactor backend, write TS, not js, use typed mongo
     -move mongo to its own file?
-    -[BUG] comments don't load sometimes - fix it
+    -[BUG] comments don't load sometimes - fix it    
 V 0.3
     -story mode post?
     -animation on expand, open on mouseover?

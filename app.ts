@@ -12,7 +12,7 @@ var db;
 
 var postId = 1;
 var commentId = 1;
-MongoClient.connect('', function(err, mongodb) {
+MongoClient.connect('mongodb://188.166.71.245:27017/data', function(err, mongodb) {
     if(err){
         console.log("Error connecting to mongo db.")
         console.log(err);
