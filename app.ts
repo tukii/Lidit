@@ -93,10 +93,24 @@ var getChannels = function(callback){
     })
 }
 
+var getChannelCount = function(callback){
+    var col = db.collection('channels');
+    col.find({}).count(callback);
+}
+var getPostCount = function(callback){
+    var col = db.collection('posts');
+    col.find({}).count(callback);
+}
+var getCommentCount = function(callback){
+    var col = db.collection('comments');
+    col.find({}).count(callback);
+}
+
 var checkChannel = function(ch,onFail){
     var col = db.collection('channels');
     
-    if(typeof ch.abbr !== "undefined" && typeof ch.abbr === "string" && ch.abbr.length <6 && col.find({abbr: ch.abbr}).count() == 0 ){
+    //todo fix col.find({abbr: ch.abbr}).count() == 0 
+    if(typeof ch.abbr !== "undefined" && typeof ch.abbr === "string" && ch.abbr.length <6){
         col.insert({abbr:ch.abbr,name:""});
         onFail();
     }
@@ -117,11 +131,30 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/public/index.html');
 });
 
+
+//send server stats
+setInterval(function(){
+    console.log("interval")
+    getPostCount(function(err,postCnt){
+        console.log("1")
+        getChannelCount(function(err,channelCount){
+            console.log("2")
+            getCommentCount(function(err,commentCount){
+                console.log("3")
+                io.emit('server-stats',{
+                    posts: postCnt,
+                    comments: commentCount,
+                    channels: channelCount,
+                    users: io.sockets.sockets.length
+                });
+            });
+        });
+    });
+},500);
+
 io.on('connection',function(socket){
-    
     console.log('socketio user connected');
     socket.leaveAll();
-    
     //emit all channels
     getChannels(channels=>socket.emit('channels',channels));
     //data {ch:"b" text:"text"}
@@ -154,6 +187,9 @@ io.on('connection',function(socket){
             socket.leaveAll();
         }
     });
+    socket.on('disconnect',function(){
+        console.log("user disconnected");
+    })
 });
 
 function ValidateString(name:any) : boolean{

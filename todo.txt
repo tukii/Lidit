@@ -24,7 +24,7 @@ V 0.2
     -sort sublids by popularity (post number over last 1 hour?)
     -implement image posting
     -properly validate text, strip tags, etc
-    -add server stats (current users, posts over channels, content size?)
++   -add server stats (current users, posts over channels)
     -implement upvoting/downvoting
 v 0.2.5
     -create services for data?

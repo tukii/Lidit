@@ -161,6 +161,14 @@ body{
     font-family: "BankGBold";
     border-bottom: 1px solid rgba(120, 120, 120, 0.5);
 }
+.server-stats{
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    color: #CCC;
+    font-family: "BankGBold";
+    font-size: 12px;
+}
 .ui-helper-hidden-accessible {
     display: none;
 }

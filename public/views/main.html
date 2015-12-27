@@ -9,3 +9,4 @@
     </ul>
 </div>
 <router-outlet></router-outlet>
+<div class="server-stats">{{stats.users || 0}} {{stats.users!==1?"users":"user"}} online. {{stats.posts || 0}} posts, {{stats.comments || 0}} comments in {{stats.channels}} channels.</div>

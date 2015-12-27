@@ -15,6 +15,7 @@ import {SocketService} from './services/socket.service.js';
 export class AppComponent implements OnInit {
     channels: Array<Channel>;
     socket: SocketIOClient.Socket;
+    stats:any = {};
     
     constructor(
         private _router: Router,
@@ -37,6 +38,7 @@ export class AppComponent implements OnInit {
         this.socket.on('new-channel',chan=>{
            this.channels.push(new Channel(chan.name || "",chan.abbr)); 
         });
+        this.socket.on('server-stats',stats=>this.stats=stats);
     }
     
     public onSelect(ch:Channel) : void {
