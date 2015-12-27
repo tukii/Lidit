@@ -40,7 +40,7 @@ export class PostsComponent implements OnInit, OnDestroy {
             arr.forEach(data => this.AddPost(new Post(data.postId, data.text,new Date(data.creationDate || null),[])))
         });
         
-        this.socket.emit('join',{name:this.ch});
+        this.socket.emit('join',{abbr:this.ch});
     }
     
     ngOnDestroy(){

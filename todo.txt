@@ -20,15 +20,18 @@ V 0.2
 +   -select(visually) active sublid
 +   -add extra info on each post (upvotes/downovtes, id, number of comments...)
     -move posting under the last comment?
-    -get sublids from the server and sort by popularity (post number over last 1 hour?)
++   -get sublids from the server
+    -sort sublids by popularity (post number over last 1 hour?)
     -implement image posting
     -properly validate text, strip tags, etc
+    -add server stats (current users, posts over channels, content size?)
     -create services for data?
     -save comments with post in db?
     -refactor backend, write TS, not js, use typed mongo
     -move mongo to its own file?
     -[BUG] comments don't load sometimes - fix it
 V 0.3
+    -story mode post?
     -animation on expand, open on mouseover?
     -add root page? or keep it for trending but prevent posting?
     -optional login?

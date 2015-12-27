@@ -84,6 +84,24 @@ var getCommentsfor = function(ch,callback) {
     })
 }
 
+var getChannels = function(callback){
+    var col = db.collection('channels');
+    col.find({}).toArray(function(err,channels){
+        console.log("Sending channels:")
+        console.dir(channels);
+        callback(channels);
+    })
+}
+
+var checkChannel = function(ch,onFail){
+    var col = db.collection('channels');
+    
+    if(typeof ch.abbr !== "undefined" && typeof ch.abbr === "string" && ch.abbr.length <6 && col.find({abbr: ch.abbr}).count() == 0 ){
+        col.insert({abbr:ch.abbr,name:""});
+        onFail();
+    }
+}
+
 var port = process.env.port || 8000;
 
 console.log('Starting server...')
@@ -101,11 +119,11 @@ app.get('/', function (req, res) {
 
 io.on('connection',function(socket){
     
-    var username:string = "";
-    
     console.log('socketio user connected');
     socket.leaveAll();
     
+    //emit all channels
+    getChannels(channels=>socket.emit('channels',channels));
     //data {ch:"b" text:"text"}
     socket.on("send-post",function(data){
        postId = postId + 1;
@@ -119,27 +137,22 @@ io.on('connection',function(socket){
         commentId = commentId+1;
         var comment = { commentId:commentId, creationDate:new Date(), channel:data.channel, postId:data.postId,text:data.text};
         insertNewComment(comment);
-        console.log(comment);
         io.to(data.channel).emit("new-comment",comment);
     })
     
-    //ch {name:"text"}
+    //ch {abbr:"text"}
     socket.on("join",function(ch){
-       if(ValidateString(ch.name)){
+       console.log('joined channel '+ch.abbr);
+       if(ValidateString(ch.abbr)){
            socket.leaveAll();
-           socket.join(ch.name);
-           getPostsfor(ch.name, posts=> socket.emit('posts', posts));
-           getCommentsfor(ch.name, comments => socket.emit('comments', comments));
+           socket.join(ch.abbr);
+           //checkChannel(ch,() => {socket.emit('new-channel',{abbr:ch.abbr})});
+           getPostsfor(ch.abbr, posts=> socket.emit('posts', posts));
+           getCommentsfor(ch.abbr, comments => socket.emit('comments', comments));
         }
         else{
             socket.leaveAll();
         }
-    });
-    
-    //ch {name:"text"}
-    socket.on("change-name",function(data){
-        if(ValidateString(data.name) && data.name.length>3)
-            username = data.name;
     });
 });
 

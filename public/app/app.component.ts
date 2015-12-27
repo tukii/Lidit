@@ -28,6 +28,15 @@ export class AppComponent implements OnInit {
         this.socket.on('connect',() => {
             console.log('connected');
         });
+        this.socket.on('channels',arr=>{
+           this.channels=[];
+            arr.forEach(function(chan){
+                this.channels.push(new Channel(chan.name || "",chan.abbr));
+            }.bind(this));
+        });
+        this.socket.on('new-channel',chan=>{
+           this.channels.push(new Channel(chan.name || "",chan.abbr)); 
+        });
     }
     
     public onSelect(ch:Channel) : void {
