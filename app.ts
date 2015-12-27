@@ -134,13 +134,9 @@ app.get('/', function (req, res) {
 
 //send server stats
 setInterval(function(){
-    console.log("interval")
     getPostCount(function(err,postCnt){
-        console.log("1")
         getChannelCount(function(err,channelCount){
-            console.log("2")
             getCommentCount(function(err,commentCount){
-                console.log("3")
                 io.emit('server-stats',{
                     posts: postCnt,
                     comments: commentCount,
@@ -153,7 +149,7 @@ setInterval(function(){
 },500);
 
 io.on('connection',function(socket){
-    console.log('socketio user connected');
+    console.log('socketio user connected ' + socket.handshake.address);
     socket.leaveAll();
     //emit all channels
     getChannels(channels=>socket.emit('channels',channels));
