@@ -69,8 +69,6 @@ var findDocuments = function() {
 var getPostsfor = function(ch,callback) {
     var col = db.collection('posts');
     col.find({channel:ch}).toArray(function(err,posts){
-        console.log("Sending posts:");
-        console.dir(posts);
         callback(posts);
     })
 }
@@ -78,8 +76,6 @@ var getPostsfor = function(ch,callback) {
 var getCommentsfor = function(ch,callback) {
     var col = db.collection('comments');
     col.find({channel:ch}).toArray(function(err,comments){
-        console.log("Sending comments:");
-        console.dir(comments);
         callback(comments);
     })
 }
@@ -87,8 +83,6 @@ var getCommentsfor = function(ch,callback) {
 var getChannels = function(callback){
     var col = db.collection('channels');
     col.find({}).toArray(function(err,channels){
-        console.log("Sending channels:")
-        console.dir(channels);
         callback(channels);
     })
 }

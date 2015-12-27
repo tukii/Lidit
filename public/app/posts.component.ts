@@ -50,9 +50,10 @@ export class PostsComponent implements OnInit, OnDestroy {
     public AddComment(data){
         for(var i = 0; i <this.posts.length;i++){
             if(this.posts[i].postId == data.postId){
-                console.log(data);
                 //todo create comment instance
                 this.posts[i].AddComment(new Comment(data.commentId,data.text, new Date(data.creationDate || null)));
+                this.posts.unshift(this.posts[i]);
+                this.posts.splice(i+1,1);
                 return;
             }
         }
