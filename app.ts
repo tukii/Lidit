@@ -2,12 +2,14 @@
 /// <reference path="typings/express/express.d.ts" />
 /// <reference path="typings/mongodb/mongodb.d.ts" />
 
-import * as express from 'express';
-var app = express();
-var server = require('http').Server(app);
-var io :SocketIO.Server = require('socket.io')(server);
-var MongoClient = require('mongodb').MongoClient;
-var marked = require('marked');
+import * as express from 'express'
+
+var app = express()
+var server = require('http').Server(app)
+var io :SocketIO.Server = require('socket.io')(server)
+var MongoClient = require('mongodb').MongoClient
+var marked = require('marked')
+var striptags = require('striptags')
 
 var db;
 
@@ -71,7 +73,7 @@ var getPostsfor = function(ch,callback) {
     var col = db.collection('posts');
     col.find({channel:ch}).toArray(function(err,posts){
         posts.map( x => {
-            x.text = marked(x.text)
+            x.text = marked(striptags(x.text))
         })
         callback(posts);
     })
@@ -81,7 +83,7 @@ var getCommentsfor = function(ch,callback) {
     var col = db.collection('comments');
     col.find({channel:ch}).toArray(function(err,comments){
         comments.map( x=> {
-            x.text = marked(x.text)
+            x.text = marked(striptags(x.text))
         })
         callback(comments)
     })
@@ -177,7 +179,7 @@ io.on('connection',function(socket){
        postId = postId + 1;
        var post = {postId:postId,creationDate:new Date(),channel:data.channel,text:data.text};
        insertNewPost(post);
-       post.text = marked(post.text)
+       post.text = marked(striptags(post.text))
        io.to(data.channel).emit("new-post", post); 
     });
     
@@ -187,7 +189,7 @@ io.on('connection',function(socket){
         commentId = commentId+1;
         var comment = { commentId:commentId, creationDate:new Date(), channel:data.channel, postId:data.postId,text:data.text};
         insertNewComment(comment);
-        comment.text = marked(comment.text);
+        comment.text = marked(striptags(comment.text))
         io.to(data.channel).emit("new-comment",comment);
     })
     
