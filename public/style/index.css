@@ -2,11 +2,16 @@
     font-family: "BankGBold";
     src: url("fonts/BankGothic Bold.ttf");    
 }
+@font-face {
+    font-family: "BIRDMAN";
+    src: url("fonts/BIRDMAN.ttf");    
+}
+
 * {
     box-sizing: inherit !important;
 }
 body{
-    font-family: "Comic Sans MS" !important;
+    font-family: "Verdana" !important;
     background: url(images/bg3.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -98,6 +103,7 @@ body{
     margin-bottom: 30px;
 }
 .channel-info{
+    font-family: "BIRDMAN";
     position: fixed;
     top:0px;
     font-size: 55px;

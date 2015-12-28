@@ -6,17 +6,17 @@
             <div class="text-content">
                 <!-- TODO add image if exists -->
                 <!--<div class="naslov"><b></b></div>-->
-                <div class="tekst">{{post.text}}</div> 
+                <div class="tekst" [innerHtml]="post.text"></div> 
             </div>
             <div class="comment-container" *ngIf="post.areCommentsVisible">
                 <div class="posts" *ngFor="#comment of post.comments">
                     <div class="arrows">
-                        <!-- TODO change arrows position/style -->
+                        <!-- TODO change arrows position/style 
                         <div class="up-arrow" (click)="comment.ToggleUpvote()" [ngClass]="{'green-arrow': comment.isUpvoted}"></div>
-                        <div class="down-arrow" (click)="comment.ToggleDownvote()" [ngClass]="{'red-arrow': comment.isDownvoted}"></div>
+                        <div class="down-arrow" (click)="comment.ToggleDownvote()" [ngClass]="{'red-arrow': comment.isDownvoted}"></div>-->
                     </div>
                     <div class="text-content">
-                        <div class="comment"><i>{{comment.text}}</i></div>
+                        <div class="comment" [innerHtml]="comment.text"></div>
                     </div>
                     <div class="post-stats">{{comment.prettyId}} - {{comment.creationDate | date:"dd/MM/yyyy H:m"}} - {{comment.thumbUps}} <span class="rotate">V</span>&nbsp;&nbsp; {{comment.thumbDowns}} V </div>
                 </div>

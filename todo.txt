@@ -21,11 +21,12 @@ V 0.2
 +   -add extra info on each post (upvotes/downovtes, id, number of comments...)
 +   -get sublids from the server
 +   -add server stats (current users, posts over channels)
-    -move posting under the last comment?
     -implement upvoting/downvoting
-    -sort sublids by popularity (post number over last 1 hour?)
     -implement image posting
-    -properly validate text, strip tags, etc
++   -add markdown support
+    -move posting under the last comment?
+    -sort sublids by popularity (post number over last 1 hour?)
+    -properly validate input, strip tags, etc
 v 0.2.5
     -create services for data?
     -save comments with post in db?
@@ -41,6 +42,5 @@ V 0.3
     -multiple backgrounds?
     -autodelete inactive sublids?
     -sublid search?
-    -add markdown support
     -add NISAM ROBOT captacha for posting
     -implement PI at the bottom :D

@@ -40,6 +40,32 @@ export class PostsComponent implements OnInit, OnDestroy {
             arr.forEach(data => this.AddPost(new Post(data.postId, data.text,new Date(data.creationDate || null),[])))
         });
         
+        this.socket.on('post-deleted',data=>{
+            for (var i = 0; i < this.posts.length; i++) {
+                if(this.posts[i].postId == data.id){
+                    this.posts.splice(i,1)
+                    return;
+                }
+            }
+        })
+        
+        this.socket.on('comment-deleted', data =>{
+            for (var i = 0; i < this.posts.length; i++) {
+                var element = this.posts[i];
+                if(element.postId == data.postId){
+                    console.log('found that post')
+                    for (var j = 0; j < element.comments.length; j++) {
+                        var comm = element.comments[j];
+                        if(comm.commentId==data.commentId){
+                            element.comments.splice(j,1);
+                            break;
+                        }
+                    }
+                    return;
+                }
+            }
+        })
+        
         this.socket.emit('join',{abbr:this.ch});
     }
     
@@ -80,5 +106,13 @@ export class PostsComponent implements OnInit, OnDestroy {
         if (this.commentText.trim() === "") return;
         this.socket.emit("send-comment",{text:this.commentText,postId:postId,channel:this.ch});
         this.commentText="";
+    }
+    
+    public deletePost(id:number){
+        this.socket.emit('delete-post',{id:id})
+    }
+    
+    public deleteComment(pid:number,cid:number){
+        this.socket.emit('delete-comment',{postId:pid,commentId:cid})
     }
 }
