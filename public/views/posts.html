@@ -3,15 +3,14 @@
     <add-post [socket]='socket' [ch]='ch'></add-post>
     
     <div class="posts" *ngFor="#post of posts" >
-            
-            
         <!-- <div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deletePost(post.postId)">DELETE</div> -->
+        
             <div class="text-content">
                 <img align="left" src="static/uploads/nemaslike.jpg"/>
-                <div class="tekst" [innerHtml]="post.text"></div> 
+                <div class="tekst" [innerHtml]="post.text"></div>
+                <span class="post-open-handler img-open" style="color:white" (click)="ToggleComments(post)"> O/C</span>
             </div>
             
-            <span class="post-open-handler" (click)="ToggleComments(post)"></span>
             <div class="comment-container" *ngIf="post.areCommentsVisible">
                 <div class="posts" *ngFor="#comment of post.comments">
                     <!--<div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deleteComment(post.postId,comment.commentId)">DELETE</div>
@@ -30,12 +29,29 @@
                         <span class="rotate">V</span>&nbsp;&nbsp; {{comment.thumbDowns}} V 
                     </div>
                 </div>
+                <div class="posts posts-preview">
+                    <div class="text-content">
+                        <div class="comment comment-preview" [innerHtml]="commentText"></div>
+                    </div>
+                    <div class="post-stats">
+                        00000000 - 
+                        00/00/0000 00:00 - 
+                        0 
+                        <span class="rotate">V</span>&nbsp;&nbsp; 0 V 
+                    </div>
+                </div>
+                <textarea spellcheck="false" id="np" [(ngModel)]="commentText" class="new-post-text preview-comment-text" placeholder="Write your comment..."></textarea>
+                <img src="" alt="drag image here to upload" class="new-post-img">
+                <button (click)="SendComment(post.postId)" class="post-button">Comment</button>
             </div>
-        <div class="new-comment" *ngIf="post.areCommentsVisible">
-            <span>Add your comment</span>
-            <textarea [(ngModel)]="commentText" placeholder="Your comment here..." ></textarea>
-            <button (click)="SendComment(post.postId)">Add</button>
+        
+        <div class="post-stats">{{post.prettyId}} - 
+            {{post.creationDate | date:"dd/MM/yyyy H:m"}} - 
+            {{ post.comments.length }} {{post.comments.length == 1?"comment":"comments"}} - 
+            {{post.thumbUps}} 
+            <span class="rotate">V</span>&nbsp;&nbsp; {{post.thumbDowns}} V
         </div>
-        <div class="post-stats">{{post.prettyId}} - {{post.creationDate | date:"dd/MM/yyyy H:m"}} - {{ post.comments.length }} {{post.comments.length == 1?"comment":"comments"}} - {{post.thumbUps}} <span class="rotate">V</span>&nbsp;&nbsp; {{post.thumbDowns}} V </div>
+        
+                
     </div>
 </div>

@@ -153,6 +153,10 @@ body{
 .add-post>label{
     color:#999;
 }
+.text-content{
+    position: relative;
+    min-height: 150px;
+}
 .text-content img{
     width:150px;
     height:150px;
@@ -168,6 +172,10 @@ body{
 }
 .comment{
     color: white;
+}
+.comment-preview{
+    top: 0px;
+    height: 0px;
 }
 .post-stats{
     position: absolute;
@@ -202,14 +210,14 @@ body{
 .comment-container .posts{
     min-height: 50px;
     height: 50px;
-    background: rgba(50, 50, 50, 0.2);
+    background: transparent;
     margin: 0;
     width: 98.2%;
     border-radius: 0px;
     margin-top: 10px;
 }
 .comment-container .posts:hover{
-    background: rgba(50, 50, 50, 0.6);
+    background: transparent;
 }
 .comment-container .posts .arrows{
     margin-top: 12.5px;
@@ -270,9 +278,17 @@ body{
 /* todo remove this after implementing onmouseover open */
 .post-open-handler{
     position: absolute;
-    height: 100%;
-    width:95%;
-    margin-right: -15px;
+    bottom:-30px;
+    right: -15px;
+    width: 50px;
+    height:50px;
+    margin-top: 50px;
+}
+.img-open{
+    content: "close"
+}
+.img-close{
+    content: "open"
 }
 .arrows {
 	margin-top: 25px;
