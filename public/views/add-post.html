@@ -1,6 +1,3 @@
-<button class="toggle-form" (click)="isAddPostOpen = !isAddPostOpen">{{isAddPostOpen===true? "Close" : "New post"}}</button>
-<div class="add-post" [ngClass]="{'add-post-active':isAddPostOpen, 'add-post-inactive':!isAddPostOpen}">
-    <textarea [(ngModel)]="addPostText" style="resize:none;" rows="7"></textarea>
-    <label>drop image here or</label> <button class="browse-button">Browse...</button>
-    <button (click)="SendPost(); isAddPostOpen=false;" class="post-button">Post</button>
-</div>
+<textarea spellcheck="false" id="np" [(ngModel)]="addPostText" class="new-post-text" placeholder="Write your own post..."></textarea>
+<img src="" alt="drag image here to upload" class="new-post-img">
+<button (click)="SendPost(); isAddPostOpen=false;" class="post-button">Post</button>

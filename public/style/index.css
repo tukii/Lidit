@@ -6,12 +6,18 @@
     font-family: "BIRDMAN";
     src: url("fonts/BIRDMAN.ttf");    
 }
-
+@font-face {
+    font-family: "Lato";
+    src: url("fonts/Lato-Thin.ttf");
+}
+ul{
+    display: inline-block;
+}
 * {
     box-sizing: inherit !important;
 }
 body{
-    font-family: "Verdana" !important;
+    font-family: "Lato" !important;
     background: url(images/bg3.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -48,7 +54,7 @@ body{
 .channel-comment{
     font-size: 12px;
 }
-.channel-picker>ul>li>a:hover{
+.channel-picker>ul>li>a:hover {
     border-left: 5px solid darkslategrey;
     background: rgba(80, 80, 80, 0.5);
     margin: 0;
@@ -128,15 +134,15 @@ body{
     position: relative;
     border-bottom: 1px solid white;
     padding-top: 15px;
+    clear: both;
+    box-sizing: content-box !important;
+    overflow: hidden;
 }
 .posts:hover{
     cursor: pointer;
-    background: rgba(150, 150, 150, 0.2);
+    background: rgba(150, 150, 150, 0.1);
 }
-.post-button{
-    margin-left: 10px;
-}
-.post-button, .browse-button, .toggle-form{
+.browse-button, .toggle-form{
     padding-bottom: 2px;
     font-size: 16px;
     background:transparent;
@@ -144,17 +150,23 @@ body{
     border-bottom: 1px solid #EEE;
     color: #EEE;
 }
-.post-button:hover, .browse-button:hover, .toggle-form:hover{
-    color: orangered;
-    transition: all 1s ease;
-    border-color: orangered;
-}
 .add-post>label{
     color:#999;
 }
-.text-content{
+.text-content img{
+    width:150px;
+    height:150px;
+    margin-right:6px;
+    margin-top:10px;
+}
+.tekst{
+    position: relative;
     padding-top: 5px;
-    margin-left: 120px;
+    color: white;
+    vertical-align: top;
+    word-wrap: normal;
+}
+.comment{
     color: white;
 }
 .post-stats{
@@ -304,17 +316,87 @@ body{
     font-family: "Segoe UI";
     text-align: center;
 }
-
 .rotate {
     position: absolute;
     transform: rotate(-180deg);
     margin-top: 2px;
 }
-
 #__bs_notify__{
     position: absolute;
     left:200px;
     bottom: 0px !important;
     width: 100px;
     height:30px;
+}
+.new-post-text {
+  width: 400px;
+  resize: none;
+  border:none;
+  border-bottom: 1px solid #BBB;
+  height: auto;
+  height: 30px;
+  min-height: 30px;
+  max-height: 30px;
+  font-size: 35px;
+  font-family: "Lato" !important;
+  font-weight: 100 !important;
+  outline: none;
+  color: #AAA;
+  overflow: hidden;
+  min-height: 50px;
+  background: none;
+  transition: width 0.3s ease;
+}
+.new-post-text:focus{
+  width: calc(88% - 170px);
+  max-height: 500px;
+  min-height: 150px;
+  resize: vertical;
+}
+.post-button{
+    visibility: hidden !important;
+    width: 0px;
+    margin-top: 5px;
+    height:150px;
+    float:right;    
+    color: whitesmoke;
+    background: none;
+    border: 1px solid #BBB;
+    top: 0px;
+    right: 0px;
+    transition: all 0.3s ease;
+    opacity: 0;
+}
+.post-button:hover{
+    transition:all 0.3s ease;
+}
+.new-post-img{
+    float: left;
+    bottom: 0px;
+    border: 1px dotted grey;
+    outline: none;
+    box-shadow: none;
+    text-shadow: none;
+    color:white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    visibility: hidden;
+    width: 0px;
+    height:0px;
+}
+.new-post-text:focus + .new-post-img{
+    visibility: visible;
+    opacity: 0.5;
+    width: 150px !important;
+    height: 150px !important;
+    margin-right: 6px;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+.new-post-text:focus ~ .post-button{
+    visibility: visible !important;
+    opacity: 1;
+    width: 10%;
+    transition: all 0.3s ease;
+    transition-property: width, opacity;
 }

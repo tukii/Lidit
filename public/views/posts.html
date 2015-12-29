@@ -1,24 +1,34 @@
 <div class="channel-info">/{{ch}}</div>
-<add-post [socket]='socket' [ch]='ch' class="col-xs-offset-3 col-xs-8 col-lg-offset-4 col-lg-4 text-center"></add-post>
 <div class="post-list col-xs-8 col-xs-offset-3 col-lg-7 col-lg-offset-3">
-    <div class="posts"  *ngFor="#post of posts" >
-        <span class="post-open-handler" (click)="ToggleComments(post)"></span>
+    <add-post [socket]='socket' [ch]='ch'></add-post>
+    
+    <div class="posts" *ngFor="#post of posts" >
+            
+            
+        <!-- <div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deletePost(post.postId)">DELETE</div> -->
             <div class="text-content">
-                <!-- TODO add image if exists -->
-                <!--<div class="naslov"><b></b></div>-->
+                <img align="left" src="static/uploads/nemaslike.jpg"/>
                 <div class="tekst" [innerHtml]="post.text"></div> 
             </div>
+            
+            <span class="post-open-handler" (click)="ToggleComments(post)"></span>
             <div class="comment-container" *ngIf="post.areCommentsVisible">
                 <div class="posts" *ngFor="#comment of post.comments">
-                    <div class="arrows">
+                    <!--<div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deleteComment(post.postId,comment.commentId)">DELETE</div>
+                     <div class="arrows">
                         <!-- TODO change arrows position/style 
                         <div class="up-arrow" (click)="comment.ToggleUpvote()" [ngClass]="{'green-arrow': comment.isUpvoted}"></div>
-                        <div class="down-arrow" (click)="comment.ToggleDownvote()" [ngClass]="{'red-arrow': comment.isDownvoted}"></div>-->
-                    </div>
+                        <div class="down-arrow" (click)="comment.ToggleDownvote()" [ngClass]="{'red-arrow': comment.isDownvoted}"></div>
+                    </div> -->
                     <div class="text-content">
                         <div class="comment" [innerHtml]="comment.text"></div>
                     </div>
-                    <div class="post-stats">{{comment.prettyId}} - {{comment.creationDate | date:"dd/MM/yyyy H:m"}} - {{comment.thumbUps}} <span class="rotate">V</span>&nbsp;&nbsp; {{comment.thumbDowns}} V </div>
+                    <div class="post-stats">
+                        {{comment.prettyId}} - 
+                        {{comment.creationDate | date:"dd/MM/yyyy H:m"}} - 
+                        {{comment.thumbUps}} 
+                        <span class="rotate">V</span>&nbsp;&nbsp; {{comment.thumbDowns}} V 
+                    </div>
                 </div>
             </div>
         <div class="new-comment" *ngIf="post.areCommentsVisible">
