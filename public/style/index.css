@@ -47,8 +47,6 @@ p {
 .channel-info {
 	font-size: 55px;
     color: #ddd;
-    /*margin-top: 20px;*/
-    /*text-align: center;*/
     font-family: "Birdman", sans-serif;
     position: absolute;
     left: 60px;
@@ -76,14 +74,12 @@ p {
     color: #aaa;
     text-decoration: none;
     transition: padding .3s ease-out;
-    /*padding: 7px 15px;*/
     padding: 0.8em 1.7em 0.8em 2.25em;
 }
 .channel-picker>ul>li>a:hover {
     border-left: 4px solid darkslategrey;
     background: rgba(80, 80, 80, 0.5);    
     text-decoration: none;
-    /*padding: 3px 7px;*/
     padding: 0.3em 1.7em 0.3em 0.75em;
 }
 .channel-picker>ul>li>a:active, .router-link-active{
@@ -112,12 +108,12 @@ p {
 	float: left;
 	padding: 10px;
 }
-/*POSTS*/
+/*POST*/
 .post-list {
 	float: none;
 	margin: 0 auto;
 }
-.posts { /*zašto se ovo ne zove post nego ima s, why whyyy*/
+.post { 
 	background: transparent;
     height: auto;
     min-height: 100px;
@@ -130,10 +126,10 @@ p {
     padding: 10px;
     clear:both;
 }
-.posts ul {
+.post ul {
     display: inline-block;
 }
-.posts:hover{
+.post:hover{
     cursor: pointer;
     background: rgba(150, 150, 150, 0.1);
 }
@@ -147,7 +143,7 @@ p {
 	font-family: "BankGothic", sans-serif;
 	font-size: 12px;
 }
-.posts img {
+.post-img {
 	height: 150px;
 	opacity: 0.1;
 	margin-right: 10px;
@@ -160,9 +156,16 @@ p {
 .img-open {
 	content: "close";
 }
+.comment-container{
+    height: 0px;
+    transition: all .5s ease;
+}
+.cc-visible{
+    height: auto;
+    transition: all .5s ease;
+}
 /*NEW COMMENT*/
 .new-post {
-	margin-top: 10px;
 	position: relative;
 	overflow: hidden;
 }
@@ -183,9 +186,7 @@ p {
 	resize: none;
 	border: none;
 	border-bottom: 1px solid #BBB;
-	height: auto;
 	height: 30px;
-	min-height: 30px; /*bubu >.>*/
 	max-height: 30px;
 	font-size: 30px;
 	font-weight: 100;
@@ -204,7 +205,7 @@ p {
 .post-button {
     visibility: hidden !important;
     width: 0px;
-    height: 150px;
+    height: 75px;
     float: right;
     color: whitesmoke;
     background: none;
@@ -224,17 +225,18 @@ p {
     visibility: visible !important;
     opacity: 1;
     width: 150px;
+    margin-top: 75px;
     transition: all 0.3s ease;
     transition-property: width, opacity;
 }
-.posts-preview {
+.post-preview {
 	width: 0px;
 	height: 0px;
 	padding: 0px;
 	min-height: 0px;
 	visibility: hidden;
 }
-/*.new-post-text:focus + .posts-preview {
+/*.new-post-text:focus + .post-preview {
 	width: 150px;
 	min-height: 150px;
 	visibility: inherit;

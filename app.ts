@@ -195,7 +195,7 @@ io.on('connection',function(socket){
     
     //ch {abbr:"text"}
     socket.on("join",function(ch){
-        emitServerStats();
+       emitServerStats();
        console.log('joined channel '+ch.abbr);
        if(ValidateString(ch.abbr)){
            socket.leaveAll();
