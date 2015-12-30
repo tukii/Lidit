@@ -1,16 +1,20 @@
-<div class="channel-picker">
-    <ul>
-        <li *ngFor="#ch of channels">
-            <a [routerLink]="['ChannelPage',{ch:ch.Abbrevation}]">
-                <span class="channel-abr">/{{ch.Abbrevation}}</span>
-                <span class="channel-comment">{{ch.Name}}</span>
-            </a>
-        </li>
-    </ul>
-</div>
-<router-outlet></router-outlet>
-<div class="server-stats">
-    {{stats.users || 0}} {{stats.users!==1?"users":"user"}} online. <br>
-    {{stats.channels}} channels.<br>
-    {{stats.posts || 0}} posts, {{stats.comments || 0}} comments.
-</div>
+<section class="left-container">
+    <div class="server-stats">
+        {{stats.users || 0}} {{stats.users!==1?"users":"user"}} online. <br>
+        {{stats.channels || 0}} channels.<br>
+        {{stats.posts || 0}} posts, {{stats.comments || 0}} comments.
+    </div>
+    <div class="channel-picker">
+        <ul>
+            <li *ngFor="#ch of channels">
+                <a [routerLink]="['ChannelPage',{ch:ch.Abbrevation}]">
+                    <span class="channel-abr">/{{ch.Abbrevation}}</span>
+                    <span class="channel-comment">{{ch.Name}}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</section>
+<section class="right-container">
+    <router-outlet></router-outlet>
+</section>

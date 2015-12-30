@@ -1,71 +1,94 @@
 ﻿@font-face {
-    font-family: "BankGBold";
-    src: url("fonts/BankGothic Bold.ttf");    
+    font-family: BankGothic;
+    src: url(fonts/BankGothic.ttf);
 }
 @font-face {
-    font-family: "BIRDMAN";
-    src: url("fonts/BIRDMAN.ttf");    
+    font-family: Lato;
+    src: url(fonts/Lato-Thin.ttf);
+    font-weight: 100;
 }
 @font-face {
-    font-family: "Lato";
-    src: url("fonts/Lato-Thin.ttf");
+    font-family: Lato;
+    src: url(fonts/Lato-Regular.ttf);
 }
-ul{
-    display: inline-block;
+@font-face {
+    font-family: Birdman;
+    src: url(fonts/BIRDMAN_.ttf);
 }
-* {
-    box-sizing: inherit !important;
-}
-body{
-    font-family: "Lato" !important;
-    background: url(images/bg3.png) no-repeat center center fixed; 
+body {
+	font-family: "Lato", sans-serif;
+	margin: 0 auto;
+	color: #a7a9ab;
+    background: #111;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
 }
-.channel-picker{
-    position: fixed;
-    left: 0px;
-    bottom: 10px;
+p {
+	margin: 0;
+}
+.rotate {
+    position: absolute;
+    transform: rotate(-180deg);
+    margin-top: 2px;
+}
+.left-container {
+	position: relative;
+	float: left;
+	width: 185px;
+	height: 100vh;
+	padding: 10px;
+}
+.server-stats {
+	font-family: "BankGothic", sans-serif;
+	font-size: 12px;
+}
+.channel-info {
+	font-size: 55px;
+    color: #ddd;
+    /*margin-top: 20px;*/
+    /*text-align: center;*/
+    font-family: "Birdman", sans-serif;
+    position: absolute;
+    left: 60px;
+    top: 101px;
+}
+.channel-picker {
+	position: fixed;
+	bottom: 0;
+	width: 180px;
 }
 .channel-picker>ul{
-    font-size: 18px !important;
-    font-family:"Segoe UI";
+    font-size: 15px;
     list-style: none;
+    -webkit-padding-start: inherit;
+    padding:0;
 }
 .channel-picker>ul>li{
-    border-bottom: 1px solid #BBB;
+    border-bottom: 1px solid #444;
 }
 .channel-picker>ul>li>a{
-    color: #BBB;
     background: transparent;
-    padding: 0.3em 1.7em 0.3em 0.75em;
-    margin: .5em 0 .5em 1.5em;
     position: relative;
     display: block;
-    *padding: .4em;
-    cursor: pointer;
-    
-    color: #AAA;
+    cursor: pointer;    
+    color: #aaa;
     text-decoration: none;
-    transition: all .3s ease-out;
-}
-.channel-comment{
-    font-size: 12px;
+    transition: padding .3s ease-out;
+    /*padding: 7px 15px;*/
+    padding: 0.8em 1.7em 0.8em 2.25em;
 }
 .channel-picker>ul>li>a:hover {
-    border-left: 5px solid darkslategrey;
-    background: rgba(80, 80, 80, 0.5);
-    margin: 0;
-    
+    border-left: 4px solid darkslategrey;
+    background: rgba(80, 80, 80, 0.5);    
     text-decoration: none;
+    /*padding: 3px 7px;*/
+    padding: 0.3em 1.7em 0.3em 0.75em;
 }
 .channel-picker>ul>li>a:active, .router-link-active{
-    border-left: 5px solid darkcyan !important;
-    background: rgba(80, 80, 80, 0.6) !important;
-    margin: 0 !important;
-    
+    border-left: 3px solid darkcyan !important;
+    background: rgba(80, 80, 80, 0.6) !important;  
     text-decoration: none !important;
 }
 .channel-picker>ul>li>a:hover, .channel-picker>ul>li>a:active, .channel-picker>ul>li>a:focus {
@@ -73,7 +96,6 @@ body{
 }
 .channel-picker>ul>li>a:hover span, .router-link-active span{
     background: transparent;
-    font-size: 17px;
     transition: all 0.35s ease;
 }
 .channel-abr, .channel-comment, .channel-picker>ul>li>a{
@@ -84,335 +106,136 @@ body{
     -ms-user-select: none;
     user-select: none;
 }
-.add-post{
-    position: relative;
-    top: 0px;
-    width: 100%;
-    text-align: right;
-    transition: all 0.2s ease;
+/*RIGHT SIDE :D*/
+.right-container {
+	width: calc(100% - 185px);
+	float: left;
+	padding: 10px;
 }
-.add-post>textarea{
-    background:rgba(255,255,255,0.05);
-    color:white;
-    border: 0;
-    top: 0px;
-    right: 0px;
-    border: 1px solid white;
-    font-size: 12px;
-    width:100%;
+/*POSTS*/
+.post-list {
+	float: none;
+	margin: 0 auto;
 }
-.add-post-inactive{
-    top: -170px;
-    margin: 0;
-    padding: 0;
-    height: 0px;
-    margin-bottom: 30px;
-}
-.channel-info{
-    font-family: "BIRDMAN";
-    position: fixed;
-    top:0px;
-    font-size: 55px;
-    color:#DDD;
-    margin-left: 1.75em;
-    margin-top: 1.5em;
-}
-.toggle-form {
-    position: fixed;
-    top: 0px;
-    right: 0px;
-    height: 20px;
-    text-align: center;
-    background: transparent;
-}
-.posts{
-    background: transparent;
+.posts { /*zašto se ovo ne zove post nego ima s, why whyyy*/
+	background: transparent;
     height: auto;
-    padding-bottom: 15px;
     min-height: 100px;
     transition: all .3s ease-out;
     position: relative;
     border-bottom: 1px solid white;
-    padding-top: 15px;
-    clear: both;
-    box-sizing: content-box !important;
+    /*box-sizing: content-box !important;*/
+    box-sizing: border-box;
     overflow: hidden;
+    padding: 10px;
+    clear:both;
+}
+.posts ul {
+    display: inline-block;
 }
 .posts:hover{
     cursor: pointer;
     background: rgba(150, 150, 150, 0.1);
 }
-.browse-button, .toggle-form{
-    padding-bottom: 2px;
-    font-size: 16px;
-    background:transparent;
-    border:none;
-    border-bottom: 1px solid #EEE;
-    color: #EEE;
+.post-container {
+	min-height: 150px;
+	position: relative;
 }
-.add-post>label{
-    color:#999;
+.post-stats {
+	text-align: right;
+	margin-bottom: 5px;
+	font-family: "BankGothic", sans-serif;
+	font-size: 12px;
 }
-.text-content{
-    position: relative;
-    min-height: 150px;
+.posts img {
+	height: 150px;
+	opacity: 0.1;
+	margin-right: 10px;
 }
-.text-content img{
-    width:150px;
-    height:150px;
-    margin-right:6px;
-    margin-top:10px;
+.post-open-handler {
+	position: absolute;
+	bottom: 0;
+	right: 0;
 }
-.tekst{
-    position: relative;
-    padding-top: 5px;
-    color: white;
-    vertical-align: top;
-    word-wrap: normal;
+.img-open {
+	content: "close";
 }
-.comment{
-    color: white;
+/*NEW COMMENT*/
+.new-post {
+	margin-top: 10px;
+	position: relative;
+	overflow: hidden;
 }
-.comment-preview{
-    top: 0px;
-    height: 0px;
-}
-.post-stats{
-    position: absolute;
-    font-size: 12px;
-    top: 0px;
-    right: 0px;
-    text-align: right;
-    color:#BBB;
-    font-family: "BankGBold";
-    border-bottom: 1px solid rgba(120, 120, 120, 0.5);
-}
-.server-stats{
-    position: fixed;
-    left: 0px;
-    top: 0px;
-    color: #CCC;
-    font-family: "BankGBold";
-    font-size: 12px;
-    line-height: 10px;
-}
-.ui-helper-hidden-accessible {
-    display: none;
-}
-.comment-container{
-    clear: both;
-    margin-left: 50px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;   
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-}
-.comment-container .posts{
-    min-height: 50px;
-    height: 50px;
-    background: transparent;
-    margin: 0;
-    width: 98.2%;
-    border-radius: 0px;
-    margin-top: 10px;
-}
-.comment-container .posts:hover{
-    background: transparent;
-}
-.comment-container .posts .arrows{
-    margin-top: 12.5px;
-}
-.new-comment{
-    position: absolute;
-    right: -200px;
-    top:20px;
-    border-radius: 1px;
-    border: 1px solid orangered;
-    background-color: transparent;
-    padding: 5px;
-    text-align: center;
-}
-.new-comment::before{
-    position: absolute;
-    left: -16px;
-    width: 0;
-	height: 0;
-	border-top: 12px solid transparent;
-	border-right: 16px solid rgba(255, 75, 0, 0.4);
-	border-bottom: 12px solid transparent;
-	border-left: 0px solid transparent;
-    content: " ";
-}
-.new-comment textarea{
-    display: block;
-    height: 300px;
-    margin-top: 5px;
-    resize: none;
-    border: 0;
-    color: #AAA;
-    background-color: rgba(80, 80, 80, 0.2);
-    box-shadow: 0px 0px 3px orangered inset;
-    padding: 5px;
-}
-.new-comment span{
-    font-size: 16;
-    font-weight: bold;
-    color:#DDD;
-}
-.new-comment button{
-    width: 100%;
-    padding: 0px;
-    margin: 0;
-    margin-top: 5px;
-    border: 1px solid #AAA;
-    color:#AAA;
-    font-weight:bold;
-    background-color: rgba(250, 120, 0, 0.6)
-}
-.new-comment button:hover{
-    background-color: #E5E5E5;
-}
-.new-comment button:active{
-    background-color: #DADFDF;
-}
-/* todo remove this after implementing onmouseover open */
-.post-open-handler{
-    position: absolute;
-    bottom:-30px;
-    right: -15px;
-    width: 50px;
-    height:50px;
-    margin-top: 50px;
-}
-.img-open{
-    content: "close"
-}
-.img-close{
-    content: "open"
-}
-.arrows {
-	margin-top: 25px;
-    margin-left: 12px;
-    float: left;
-}
-.up-arrow {
-	margin-bottom: 15px;
-}
-.up-arrow, .down-arrow {
-	width: 0;
-	height: 0;
-	border-top: 0px solid transparent;
-	border-right: 12px solid transparent;
-	border-bottom: 16px solid #ccc;
-	border-left: 12px solid transparent;
-}
-.down-arrow {
-	border-top: 16px solid #ccc;
-	border-right: 12px solid transparent;
-	border-bottom: 0 solid transparent;
-	border-left: 12px solid transparent;
-}
-.green-arrow {
-    border-bottom-color: #4CBB17;
-}
-.app-loading{
-    position: relative;
-    color:red;
-    text-align: center;
-    display: block;
-    top: 50%;
-    transform: translateY(-50%);
-}
-.app-loading-img{
-    width: 50px;
-    height:50px;
-}
-.loading-text{
-    color: grey;
-    font-family: "Segoe UI";
-    text-align: center;
-}
-.rotate {
-    position: absolute;
-    transform: rotate(-180deg);
-    margin-top: 2px;
-}
-#__bs_notify__{
-    position: absolute;
-    left:200px;
-    bottom: 0px !important;
-    width: 100px;
-    height:30px;
+.new-post-img {
+	float: left;
+	border: 1px dotted grey;
+	outline: none;
+	box-shadow: none;
+	text-shadow: none;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	visibility: hidden;
+	width: 0px;
+	height: 0px;
 }
 .new-post-text {
-  width: 400px;
-  resize: none;
-  border:none;
-  border-bottom: 1px solid #BBB;
-  height: auto;
-  height: 30px;
-  min-height: 30px;
-  max-height: 30px;
-  font-size: 35px;
-  font-family: "Lato" !important;
-  font-weight: 100 !important;
-  outline: none;
-  color: #AAA;
-  overflow: hidden;
-  min-height: 50px;
-  background: none;
-  transition: width 0.3s ease;
+	width: 400px;
+	resize: none;
+	border: none;
+	border-bottom: 1px solid #BBB;
+	height: auto;
+	height: 30px;
+	min-height: 30px; /*bubu >.>*/
+	max-height: 30px;
+	font-size: 30px;
+	font-weight: 100;
+	outline: none;
+	color: #AAA;
+	overflow: hidden;
+	min-height: 50px;
+	background: none;
+	transition: width 0.3s ease;
 }
-.new-post-text:focus{
-  width: calc(88% - 170px);
-  max-height: 500px;
-  min-height: 150px;
-  resize: vertical;
+.new-post-text:focus {
+	width: calc(100% - 315px);
+	max-height: 500px;
+	min-height: 150px;
 }
-.post-button{
+.post-button {
     visibility: hidden !important;
     width: 0px;
-    margin-top: 5px;
-    height:150px;
-    float:right;    
+    height: 150px;
+    float: right;
     color: whitesmoke;
     background: none;
     border: 1px solid #BBB;
-    top: 0px;
-    right: 0px;
     transition: all 0.3s ease;
     opacity: 0;
 }
-.post-button:hover{
-    transition:all 0.3s ease;
-}
-.new-post-img{
-    float: left;
-    bottom: 0px;
-    border: 1px dotted grey;
-    outline: none;
-    box-shadow: none;
-    text-shadow: none;
-    color:white;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    visibility: hidden;
-    width: 0px;
-    height:0px;
-}
-.new-post-text:focus + .new-post-img{
+.new-post-text:focus + .new-post-img, .new-post img:hover{
     visibility: visible;
     opacity: 0.5;
-    width: 150px !important;
-    height: 150px !important;
+    width: 150px;
+    height: 150px;
     margin-right: 6px;
-    margin-top: 10px;
     transition: all 0.3s ease;
 }
-.new-post-text:focus ~ .post-button{
+.new-post-text:focus ~ .post-button, .post-button:hover {
     visibility: visible !important;
     opacity: 1;
-    width: 10%;
+    width: 150px;
     transition: all 0.3s ease;
     transition-property: width, opacity;
 }
+.posts-preview {
+	width: 0px;
+	height: 0px;
+	padding: 0px;
+	min-height: 0px;
+	visibility: hidden;
+}
+/*.new-post-text:focus + .posts-preview {
+	width: 150px;
+	min-height: 150px;
+	visibility: inherit;
+}*/ /*js stuff*/

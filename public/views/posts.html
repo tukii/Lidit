@@ -1,57 +1,52 @@
 <div class="channel-info">/{{ch}}</div>
-<div class="post-list col-xs-8 col-xs-offset-3 col-lg-7 col-lg-offset-3">
-    <add-post [socket]='socket' [ch]='ch'></add-post>
+<div class="post-list col-xs-12 col-md-9">
+    <add-post class="new-post" [socket]='socket' [ch]='ch'></add-post>
     
     <div class="posts" *ngFor="#post of posts" >
         <!-- <div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deletePost(post.postId)">DELETE</div> -->
-        
-            <div class="text-content">
-                <img align="left" src="static/uploads/nemaslike.jpg"/>
-                <div class="tekst" [innerHtml]="post.text"></div>
-                <span class="post-open-handler img-open" style="color:white" (click)="ToggleComments(post)"> O/C</span>
-            </div>
-            
-            <div class="comment-container" *ngIf="post.areCommentsVisible">
-                <div class="posts" *ngFor="#comment of post.comments">
-                    <!--<div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deleteComment(post.postId,comment.commentId)">DELETE</div>
-                     <div class="arrows">
-                        <!-- TODO change arrows position/style 
-                        <div class="up-arrow" (click)="comment.ToggleUpvote()" [ngClass]="{'green-arrow': comment.isUpvoted}"></div>
-                        <div class="down-arrow" (click)="comment.ToggleDownvote()" [ngClass]="{'red-arrow': comment.isDownvoted}"></div>
-                    </div> -->
-                    <div class="text-content">
-                        <div class="comment" [innerHtml]="comment.text"></div>
-                    </div>
-                    <div class="post-stats">
-                        {{comment.prettyId}} - 
-                        {{comment.creationDate | date:"dd/MM/yyyy H:m"}} - 
-                        {{comment.thumbUps}} 
-                        <span class="rotate">V</span>&nbsp;&nbsp; {{comment.thumbDowns}} V 
-                    </div>
-                </div>
-                <div class="posts posts-preview">
-                    <div class="text-content">
-                        <div class="comment comment-preview" [innerHtml]="commentText"></div>
-                    </div>
-                    <div class="post-stats">
-                        00000000 - 
-                        00/00/0000 00:00 - 
-                        0 
-                        <span class="rotate">V</span>&nbsp;&nbsp; 0 V 
-                    </div>
-                </div>
-                <textarea spellcheck="false" id="np" [(ngModel)]="commentText" class="new-post-text preview-comment-text" placeholder="Write your comment..."></textarea>
-                <img src="" alt="drag image here to upload" class="new-post-img">
-                <button (click)="SendComment(post.postId)" class="post-button">Comment</button>
-            </div>
         
         <div class="post-stats">{{post.prettyId}} - 
             {{post.creationDate | date:"dd/MM/yyyy H:m"}} - 
             {{ post.comments.length }} {{post.comments.length == 1?"comment":"comments"}} - 
             {{post.thumbUps}} 
             <span class="rotate">V</span>&nbsp;&nbsp; {{post.thumbDowns}} V
+        </div>      
+        
+        <div class="post-container">
+            <img align="left" src="http://www.unityhighschool.org/wp-content/uploads/2015/08/default_image_01.png"/>
+            <div class="post-text" [innerHtml]="post.text"></div>
+            <span class="post-open-handler img-open" style="color:white" (click)="ToggleComments(post)"> O/C</span>
         </div>
         
-                
+        <div class="comment-container" *ngIf="post.areCommentsVisible">
+            <div class="posts" *ngFor="#comment of post.comments">
+                <!--<div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deleteComment(post.postId,comment.commentId)">DELETE</div> -->
+                <div class="post-stats">
+                    {{comment.prettyId}} - 
+                    {{comment.creationDate | date:"dd/MM/yyyy H:m"}} - 
+                    {{comment.thumbUps}} 
+                    <span class="rotate">V</span>&nbsp;&nbsp; {{comment.thumbDowns}} V 
+                </div>
+                <div class="text-content">
+                    <div class="comment" [innerHtml]="comment.text"></div>
+                </div>
+            </div>
+            <div class="posts posts-preview">
+                <div class="post-stats">
+                    00000000 - 
+                    00/00/0000 00:00 - 
+                    0 
+                    <span class="rotate">V</span>&nbsp;&nbsp; 0 V 
+                </div>
+                <div class="text-content">
+                    <div class="comment comment-preview" [innerHtml]="commentText"></div>
+                </div>
+            </div>
+            <div class="new-post">
+                <textarea [(ngModel)]="commentText" class="new-post-text preview-comment-text ng-pristine ng-valid ng-touched" id="np" placeholder="Write your comment..." spellcheck="false"></textarea>
+                <img alt="drag image here to upload" class="new-post-img" src="">
+                <button (click)="SendComment(post.postId)" class="post-button">Comment</button>
+            </div>
+        </div>   
     </div>
 </div>

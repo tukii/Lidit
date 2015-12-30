@@ -1,3 +1,5 @@
-<textarea spellcheck="false" id="np" [(ngModel)]="addPostText" class="new-post-text" placeholder="Write your own post..."></textarea>
-<img src="" alt="drag image here to upload" class="new-post-img">
-<button (click)="SendPost(); isAddPostOpen=false;" class="post-button">Post</button>
+<div>
+    <textarea [(ngModel)]="addPostText" class="new-post-text ng-pristine ng-valid ng-touched" id="np" placeholder="Write your own post..." spellcheck="false"></textarea>
+    <img alt="drag image here to upload" class="new-post-img" src="">
+    <button (click)="SendPost(); isAddPostOpen=false;" class="post-button">Post</button>
+</div>

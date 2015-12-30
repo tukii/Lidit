@@ -25,7 +25,7 @@ V 0.2
 +   -add markdown support
     -implement upvoting/downvoting
     -implement image posting
-    -move posting under the last comment?
++   -move posting under the last comment?
     -properly validate input, strip tags, etc
 v 0.2.5
     -create services for data?
