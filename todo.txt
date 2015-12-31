@@ -26,6 +26,7 @@ V 0.2
     -implement upvoting/downvoting
     -implement image posting
 +   -move posting under the last comment?
++   -animation on expand
     -properly validate input, strip tags, etc
 v 0.2.5
     -create services for data?
@@ -35,8 +36,8 @@ v 0.2.5
 V 0.3
     -read/unread pulse
     -sort sublids by popularity (post number over last 1 hour?)
-    -story mode post?
-    -animation on expand, open on mouseover?
+    -story mode post? 
+    -preview post on mouseover?
     -add root page? or keep it for trending but prevent posting?
     -optional login?
     -favorite sublids?

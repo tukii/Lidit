@@ -94,6 +94,7 @@ export class PostsComponent implements OnInit, OnDestroy {
     }
     
     public ToggleComments(post: Post) {
+        $('#comment_section_'+post.postId).slideToggle();
         post.areCommentsVisible = !post.areCommentsVisible;
         for (var i = 0; i < this.posts.length; i++) {
             if (this.posts[i] == post) continue;
