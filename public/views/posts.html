@@ -31,7 +31,8 @@
                     <div class="comment" [innerHtml]="comment.text"></div>
                 </div>
             </div>
-            <div class="post post-preview">
+        </div>
+        <div class="post post-preview" *ngIf="post.areCommentsVisible">
                 <div class="post-stats">
                     00000000 - 
                     00/00/0000 00:00 - 
@@ -42,11 +43,10 @@
                     <div class="comment comment-preview" [innerHtml]="commentText"></div>
                 </div>
             </div>
-            <div class="new-post">
-                <textarea [(ngModel)]="commentText" class="new-post-text preview-comment-text ng-pristine ng-valid ng-touched" id="np" placeholder="Write your comment..." spellcheck="false"></textarea>
-                <img alt="drag image here to upload" class="new-post-img" src="">
-                <button (click)="SendComment(post.postId)" class="post-button">Comment</button>
-            </div>
-        </div>   
+        <div class="new-post" *ngIf="post.areCommentsVisible">
+            <textarea [(ngModel)]="commentText" class="new-post-text preview-comment-text ng-pristine ng-valid ng-touched" id="np" placeholder="Write your comment..." spellcheck="false"></textarea>
+            <img alt="drag image here to upload" class="new-post-img" src="">
+            <button (click)="SendComment(post.postId)" class="post-button">Comment</button>
+        </div>
     </div>
 </div>
