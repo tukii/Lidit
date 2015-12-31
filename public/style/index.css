@@ -159,6 +159,7 @@ p {
 .comment-container{
     display: none;
     border-left: 5px solid #444;
+    border-bottom-left-radius: 5px;
 }
 /*NEW COMMENT*/
 .new-post {
