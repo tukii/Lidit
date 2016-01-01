@@ -16,4 +16,8 @@ export class AddPostComponent {
         this.socket.emit("send-post",{channel:this.ch,text:this.addPostText});
         this.addPostText="";
     }
+    
+    public OpenAddPost(){
+        this.isAddPostOpen = true;
+    }
 }
