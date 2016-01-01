@@ -143,6 +143,9 @@ console.log('Listening on port '+ port);
 
 app.use('/static',express.static(__dirname+"/public"));
 
+app.get('/robots.txt',function(req,res){
+    res.sendFile(__dirname + '/public/robots.txt');
+});
 app.get('/:whatever', function(req,res){
     res.sendFile(__dirname + '/public/index.html');
 });
@@ -195,7 +198,6 @@ io.on('connection',function(socket){
     
     //ch {abbr:"text"}
     socket.on("join",function(ch){
-       emitServerStats();
        console.log('joined channel '+ch.abbr);
        if(ValidateString(ch.abbr)){
            socket.leaveAll();
@@ -203,7 +205,8 @@ io.on('connection',function(socket){
            //checkChannel(ch,() => {socket.emit('new-channel',{abbr:ch.abbr})});
            getPostsfor(ch.abbr, posts=> {
                socket.emit('posts', posts)
-               getCommentsfor(ch.abbr, comments => socket.emit('comments', comments));    
+               getCommentsfor(ch.abbr, comments => socket.emit('comments', comments));
+               emitServerStats();    
             });
         }
         else{
