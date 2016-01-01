@@ -1,52 +1,54 @@
-<div class="channel-info">/{{ch}}</div>
-<div class="post-list col-xs-12 col-md-9">
-    <add-post class="new-post" [socket]='socket' [ch]='ch'></add-post>
-    
-    <div class="post" *ngFor="#post of posts" >
-        <!-- <div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deletePost(post.postId)">DELETE</div> -->
+<section class="right-container">
+    <div class="channel-info">/{{ch}}</div>
+    <div class="post-list col-xs-12 col-md-9">
+        <add-post class="new-post" [socket]='socket' [ch]='ch'></add-post>
         
-        <div class="post-stats">{{post.prettyId}} - 
-            {{post.creationDate | date:"dd/MM/yyyy H:m"}} - 
-            {{ post.comments.length }} {{post.comments.length == 1?"comment":"comments"}} - 
-            {{post.thumbUps}} 
-            <span class="rotate">V</span>&nbsp;&nbsp; {{post.thumbDowns}} V
-        </div>      
-        
-        <div class="post-container">
-            <img class="post-img" align="left" src="http://www.unityhighschool.org/wp-content/uploads/2015/08/default_image_01.png"/>
-            <div class="post-text" [innerHtml]="post.text"></div>
-            <span class="post-open-handler img-open" id="comOpenClose" style="color:white" (click)="ToggleComments(post)"> <img src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-down-01-128.png" style="width:40px;height:40px;border:1px solid #AAA;"></span>
-        </div>
-        
-        <div id="comment_section_{{post.postId}}" class="comment-container">
-            <div class="post" *ngFor="#comment of post.comments">
-                <!--<div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deleteComment(post.postId,comment.commentId)">DELETE</div> -->
-                <div class="post-stats">
-                    {{comment.prettyId}} - 
-                    {{comment.creationDate | date:"dd/MM/yyyy H:m"}} - 
-                    {{comment.thumbUps}} 
-                    <span class="rotate">V</span>&nbsp;&nbsp; {{comment.thumbDowns}} V 
-                </div>
-                <div class="text-content">
-                    <div class="comment" [innerHtml]="comment.text"></div>
+        <div class="post" *ngFor="#post of posts" >
+            <!-- <div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deletePost(post.postId)">DELETE</div> -->
+            
+            <div class="post-stats">{{post.prettyId}} - 
+                {{post.creationDate | date:"dd/MM/yyyy H:m"}} - 
+                {{ post.comments.length }} {{post.comments.length == 1?"comment":"comments"}} - 
+                {{post.thumbUps}} 
+                <span class="rotate">V</span>&nbsp;&nbsp; {{post.thumbDowns}} V
+            </div>      
+            
+            <div class="post-container">
+                <img class="post-img" align="left" src="http://www.unityhighschool.org/wp-content/uploads/2015/08/default_image_01.png"/>
+                <div class="post-text" [innerHtml]="post.text"></div>
+                <span class="post-open-handler img-open" id="comOpenClose" style="color:white" (click)="ToggleComments(post)"> <img src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-down-01-128.png" style="width:40px;height:40px;border:1px solid #AAA;"></span>
+            </div>
+            
+            <div id="comment_section_{{post.postId}}" class="comment-container">
+                <div class="post" *ngFor="#comment of post.comments">
+                    <!--<div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deleteComment(post.postId,comment.commentId)">DELETE</div> -->
+                    <div class="post-stats">
+                        {{comment.prettyId}} - 
+                        {{comment.creationDate | date:"dd/MM/yyyy H:m"}} - 
+                        {{comment.thumbUps}} 
+                        <span class="rotate">V</span>&nbsp;&nbsp; {{comment.thumbDowns}} V 
+                    </div>
+                    <div class="text-content">
+                        <div class="comment" [innerHtml]="comment.text"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="post post-preview" *ngIf="post.areCommentsVisible">
-                <div class="post-stats">
-                    00000000 - 
-                    00/00/0000 00:00 - 
-                    0 
-                    <span class="rotate">V</span>&nbsp;&nbsp; 0 V 
+            <div class="post post-preview" *ngIf="post.areCommentsVisible">
+                    <div class="post-stats">
+                        00000000 - 
+                        00/00/0000 00:00 - 
+                        0 
+                        <span class="rotate">V</span>&nbsp;&nbsp; 0 V 
+                    </div>
+                    <div class="text-content">
+                        <div class="comment comment-preview" [innerHtml]="commentText"></div>
+                    </div>
                 </div>
-                <div class="text-content">
-                    <div class="comment comment-preview" [innerHtml]="commentText"></div>
-                </div>
+            <div class="new-post" *ngIf="post.areCommentsVisible">
+                <textarea [(ngModel)]="commentText" class="new-post-text preview-comment-text ng-pristine ng-valid ng-touched" id="np" placeholder="Write your comment..." spellcheck="false"></textarea>
+                <img alt="drag image here to upload" class="new-post-img" src="">
+                <button (click)="SendComment(post.postId)" class="post-button">Comment</button>
             </div>
-        <div class="new-post" *ngIf="post.areCommentsVisible">
-            <textarea [(ngModel)]="commentText" class="new-post-text preview-comment-text ng-pristine ng-valid ng-touched" id="np" placeholder="Write your comment..." spellcheck="false"></textarea>
-            <img alt="drag image here to upload" class="new-post-img" src="">
-            <button (click)="SendComment(post.postId)" class="post-button">Comment</button>
         </div>
     </div>
-</div>
+</section>

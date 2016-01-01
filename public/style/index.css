@@ -103,7 +103,7 @@ p {
     user-select: none;
 }
 /*RIGHT SIDE :D*/
-.right-container {
+right-container {
 	width: calc(100% - 185px);
 	float: left;
 	padding: 10px;
@@ -194,7 +194,7 @@ p {
 	background: none;
 	transition: width 0.3s ease;
 }
-.new-post-text:focus {
+.add-post-open > .new-post-text {
 	width: calc(100% - 315px);
 	max-height: 500px;
 	min-height: 150px;
@@ -210,7 +210,7 @@ p {
     transition: all 0.3s ease;
     opacity: 0;
 }
-.new-post-text:focus + .new-post-img, .new-post img:hover{
+.add-post-open > .new-post-img{
     visibility: visible;
     opacity: 0.5;
     width: 150px;
@@ -218,7 +218,7 @@ p {
     margin-right: 6px;
     transition: all 0.3s ease;
 }
-.new-post-text:focus ~ .post-button, .post-button:hover {
+.add-post-open > .post-button {
     visibility: visible !important;
     opacity: 1;
     width: 150px;
