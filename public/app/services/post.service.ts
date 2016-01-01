@@ -1,5 +1,5 @@
 export class Post {
-    image: string;
+    imagePath: string = "";
     comments: Array<Comment> = [];
     areCommentsVisible: boolean;
     typedComment: string = "";
@@ -9,9 +9,7 @@ export class Post {
         public postId:number, 
         public text: string,
         public creationDate:Date,
-     comments?: Array<Comment>) {
-        this.image = "123";
-                
+     comments?: Array<Comment>) {                
         this.areCommentsVisible = false;
         this.comments = comments;
     }

@@ -7,7 +7,8 @@ import {Post, Comment} from './services/post.service.js';
 
 @Component({
     templateUrl: "static/views/posts.html",
-    directives: [AddPostComponent]
+    directives: [AddPostComponent],
+    selector: 'right-container'
 })
 export class PostsComponent implements OnInit, OnDestroy {
     socket: SocketIOClient.Socket;
