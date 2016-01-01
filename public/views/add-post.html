@@ -1,9 +1,0 @@
-<div [ngClass]="{'add-post-open':isAddPostOpen}" >
-    <textarea (click)="OpenAddPost()" [(ngModel)]="addPostText" class="new-post-text ng-pristine ng-valid ng-touched" id="np" placeholder="Write your own post..." spellcheck="false"></textarea>
-    <!--<img alt="drag image here to upload" class="new-post-img" src=""> -->
-    <form action="/file-upload"
-        class="dropzone new-post-img"
-        id="my-awesome-dropzone">
-    </form>
-    <button (click)="SendPost(); isAddPostOpen=false;" class="post-button">Post</button>
-</div>

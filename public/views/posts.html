@@ -1,7 +1,18 @@
-<section class="right-container">
+<section class="right-container" (click)="CloseAll($event);">
     <div class="channel-info">/{{ch}}</div>
     <div class="post-list col-xs-12 col-md-9">
-        <add-post class="new-post" [socket]='socket' [ch]='ch'></add-post>
+        <section class="new-post" >
+            <div [ngClass]="{'add-post-open':isAddPostOpen}">
+                <textarea (click)="OpenAddPost($event)" [(ngModel)]="addPostText" class="new-post-text ng-pristine ng-valid ng-touched" id="np" placeholder="Write your own post..." spellcheck="false"></textarea>
+                <!--<img alt="drag image here to upload" class="new-post-img" src=""> -->
+                <form (click)="ImageOnclick($event)"
+                    action="/file-upload"
+                    class="dropzone new-post-img"
+                    id="dzPost">
+                </form>
+                <button (click)="SendPost(); isAddPostOpen=false;" class="post-button">Post</button>
+            </div>
+        </section>
         
         <div class="post" *ngFor="#post of posts" >
             <!-- <div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deletePost(post.postId)">DELETE</div> -->

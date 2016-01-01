@@ -177,6 +177,8 @@ right-container {
 	visibility: hidden;
 	width: 0px;
 	height: 0px;
+    opacity: 0;
+    min-height: 0px !important;
 }
 .new-post-text {
 	width: 400px;

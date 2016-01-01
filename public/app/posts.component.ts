@@ -7,7 +7,6 @@ import {Post, Comment} from './services/post.service.js';
 
 @Component({
     templateUrl: "static/views/posts.html",
-    directives: [AddPostComponent],
     selector: 'right-container'
 })
 export class PostsComponent implements OnInit, OnDestroy {
@@ -15,6 +14,10 @@ export class PostsComponent implements OnInit, OnDestroy {
     ch:string;
     commentText:string = "";
     posts:Array<Post> = [];
+    isAddCommentOpen:boolean = false;
+    addCommentText:string = "";
+    isAddPostOpen:boolean = false;
+    addPostText:string = "";
     
     constructor(
         private _routeParams: RouteParams,
@@ -68,6 +71,7 @@ export class PostsComponent implements OnInit, OnDestroy {
         })
         
         this.socket.emit('join',{abbr:this.ch});
+        $("#dzPost").dropzone();
     }
     
     ngOnDestroy(){
@@ -95,13 +99,34 @@ export class PostsComponent implements OnInit, OnDestroy {
     }
     
     public ToggleComments(post: Post) {
-        $('#comment_section_'+post.postId).slideToggle();
-        post.areCommentsVisible = !post.areCommentsVisible;
-        for (var i = 0; i < this.posts.length; i++) {
-            if (this.posts[i] == post) continue;
-            this.posts[i].areCommentsVisible = false;
+        var newState = !post.areCommentsVisible;
+        if(newState){
+            this.OpenPostComments(post);
         }
+        else{
+            this.ClosePostComments(post);
+        }
+        
         this.commentText = "";
+    }
+    
+    public OpenPostComments(post: Post){
+        this.CloseAllComments();
+        post.areCommentsVisible = true;
+        $('#comment_section_'+post.postId).slideDown();
+    }
+    
+    public ClosePostComments(post: Post){
+        this.CloseAllComments();
+    }
+    
+    public CloseAllComments(){
+        for (var i = 0; i < this.posts.length; i++) {
+            if(this.posts[i].areCommentsVisible){
+                this.posts[i].areCommentsVisible = false;
+                $('#comment_section_'+this.posts[i].postId).slideUp();
+            }
+        }
     }
     
     public SendComment(postId:number) {
@@ -116,5 +141,27 @@ export class PostsComponent implements OnInit, OnDestroy {
     
     public deleteComment(pid:number,cid:number){
         this.socket.emit('delete-comment',{postId:pid,commentId:cid})
+    }
+    
+    public SendPost(){
+        if(this.addPostText.trim()==="")return;
+        this.socket.emit("send-post",{channel:this.ch,text:this.addPostText});
+        this.addPostText="";
+    }
+    
+    public OpenAddPost(ev:Event){
+        ev.stopPropagation();
+        this.isAddPostOpen = true;
+    }
+    public CloseAddPost(){
+        this.isAddPostOpen =false;
+    }
+    
+    public CloseAll(event){
+        this.CloseAddPost();
+        this.isAddCommentOpen = false;
+    }
+    public ImageOnclick(ev:Event){
+        ev.stopPropagation();
     }
 }
