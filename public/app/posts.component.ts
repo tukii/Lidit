@@ -16,6 +16,7 @@ export class PostsComponent implements OnInit, OnDestroy {
     posts:Array<Post> = [];
     isAddCommentOpen:boolean = false;
     addCommentText:string = "";
+    static isPostDZInit:boolean = false;
     isAddPostOpen:boolean = false;
     addPostText:string = "";
     
@@ -71,7 +72,11 @@ export class PostsComponent implements OnInit, OnDestroy {
         })
         
         this.socket.emit('join',{abbr:this.ch});
-        $("#dzPost").dropzone();
+        
+        if(!PostsComponent.isPostDZInit){
+            PostsComponent.isPostDZInit = true;
+            $("#dzPost").dropzone();
+        }
     }
     
     ngOnDestroy(){
