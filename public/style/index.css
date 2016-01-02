@@ -175,6 +175,10 @@ right-container {
     opacity:1;
     transition: opacity 1s ease;
 }
+.comment:hover .post-img{
+    opacity:1;
+    transition: opacity 1s ease;
+}
 .post-open-handler {
 	position: absolute;
 	bottom: 0;

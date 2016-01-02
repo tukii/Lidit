@@ -41,7 +41,7 @@
             </div>
             
             <div id="comment_section_{{post.postId}}" class="comment-container">
-                <div class="post" *ngFor="#comment of post.comments">
+                <div class="post comment" *ngFor="#comment of post.comments">
                     <!--<div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deleteComment(post.postId,comment.commentId)">DELETE</div> -->
                     <a *ngIf="comment.imagePath" target="_blank" class="img-link" [href]="post.imagePath">
                     {{comment.imageName}}
