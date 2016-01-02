@@ -159,12 +159,17 @@ right-container {
     outline:none;
 }
 .post-img {
-	max-height: 150px;
-    max-width: 150px;
+	max-height: 200px;
+    max-width: 200px;
 	opacity: 0.3;
 	margin-right: 10px;
-    transition: opacity 1s ease;
+    transition: all 1s ease !important;
     background-repeat: no-repeat;
+}
+.img-expand{
+    max-height: 500px;
+    max-width: 100%;
+    transition: all 0.5s ease !important;
 }
 .post-container:hover .post-img{
     opacity:1;

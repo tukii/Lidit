@@ -26,7 +26,7 @@ V 0.2
     -implement upvoting/downvoting
 +   -implement image posting
 +   -fix comments
-    -add extend/contract image on click
++   -add extend/contract image on click
 +   -move posting under the last comment?
 +   -animation on expand
     -properly validate input, strip tags, etc

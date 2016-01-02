@@ -1,4 +1,5 @@
 /// <reference path="../../typings/socket.io/socket.io-client.d.ts" />
+/// <reference path="../../typings/jquery/jquery.d.ts" />
 import {Component, OnInit, OnDestroy} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 import {SocketService} from './services/socket.service.js';
@@ -230,6 +231,15 @@ export class PostsComponent implements OnInit, OnDestroy {
         if(this.isAddCommentOpen){
             this.isAddCommentOpen =false;
             Dropzone.forElement("#dzComment").destroy();
+        }
+    }
+    
+    public toggleExpand(ev){
+        if($(ev.target).hasClass('img-expand')){
+            $(ev.target).removeClass('img-expand');
+        }
+        else{
+            $(ev.target).addClass('img-expand');
         }
     }
     
