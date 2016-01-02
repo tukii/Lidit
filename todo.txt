@@ -24,11 +24,13 @@ V 0.2
 +   -[BUG] comments don't load sometimes - fix it
 +   -add markdown support
     -implement upvoting/downvoting
-    -implement image posting
+    -implement image posting (one part finished)
+    -fix comments
 +   -move posting under the last comment?
 +   -animation on expand
     -properly validate input, strip tags, etc
 v 0.2.5
+    -add google cloud/AWS for image hosting
     -create services for data?
     -save comments with post in db?
     -refactor backend, write TS, not js, use typed mongo

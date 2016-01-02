@@ -1,6 +1,7 @@
 ﻿/// <reference path="typings/socket.io/socket.io.d.ts" />
 /// <reference path="typings/express/express.d.ts" />
 /// <reference path="typings/mongodb/mongodb.d.ts" />
+/// <reference path="typings/multer/multer.d.ts" />
 
 import * as express from 'express'
 
@@ -10,6 +11,15 @@ var io :SocketIO.Server = require('socket.io')(server)
 var MongoClient = require('mongodb').MongoClient
 var marked = require('marked')
 var striptags = require('striptags')
+var multer = require('multer')
+var upload = multer({storage: multer.diskStorage({
+    destination: function(req,file,cb){
+        cb(null,'./public/uploads')
+    },
+    filename: function(req,file,cb){
+        cb(null,'['+Date.now()+'] '+file.originalname)
+    }
+})})
 
 var db;
 
@@ -146,6 +156,12 @@ app.use('/static',express.static(__dirname+"/public"));
 app.get('/robots.txt',function(req,res){
     res.sendFile(__dirname + '/public/robots.txt');
 });
+app.post('/file-upload',upload.single('file'),function(req,res){
+   console.dir("Uploaded file:");
+   console.dir(req.file);
+   res.write(req.file.filename);
+   res.status(204).end();
+});
 app.get('/:whatever', function(req,res){
     res.sendFile(__dirname + '/public/index.html');
 });
@@ -180,7 +196,7 @@ io.on('connection',function(socket){
     socket.on("send-post",function(data){
        emitServerStats();
        postId = postId + 1;
-       var post = {postId:postId,creationDate:new Date(),channel:data.channel,text:data.text};
+       var post = {postId:postId,creationDate:new Date(),channel:data.channel,text:data.text,image:data.image};
        insertNewPost(post);
        post.text = marked(striptags(post.text))
        io.to(data.channel).emit("new-post", post); 

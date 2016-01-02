@@ -1,5 +1,6 @@
 export class Post {
-    imagePath: string = "";
+    imagePath: string;
+    imageName: string;
     comments: Array<Comment> = [];
     areCommentsVisible: boolean;
     typedComment: string = "";
@@ -9,9 +10,12 @@ export class Post {
         public postId:number, 
         public text: string,
         public creationDate:Date,
-     comments?: Array<Comment>) {                
+        image:string) {
+        if(typeof image !== "undefined" && image.trim()!==""){
+            this.imagePath = "static/uploads/"+image;
+            this.imageName = image.substring(image.lastIndexOf(']')+1);
+        }      
         this.areCommentsVisible = false;
-        this.comments = comments;
     }
     public AddComment(com: Comment) {
         this.comments.push(com);

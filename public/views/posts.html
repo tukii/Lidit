@@ -9,6 +9,12 @@
                     action="/file-upload"
                     class="dropzone new-post-img"
                     id="dzPost">
+                    <svg viewBox="0 0 150 150" width="150px" style="position:absolute; z-index:-20">
+                        <path d="M25,0 L0,0 L0,25" fill="none" stroke="white" stroke-width="3" />
+                        <path d="M0,125 L0,150 L25,150" fill="none" stroke="white" stroke-width="3" />
+                        <path d="M125,150 L150,150 L150,125" fill="none" stroke="white" stroke-width="3" />
+                        <path d="M150,25 L150,0 L125,0" fill="none" stroke="white" stroke-width="3" />
+                    </svg>
                 </form>
                 <button (click)="SendPost(); isAddPostOpen=false;" class="post-button">Post</button>
             </div>
@@ -17,15 +23,19 @@
         <div class="post" *ngFor="#post of posts" >
             <!-- <div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deletePost(post.postId)">DELETE</div> -->
             
+            <a *ngIf="post.imagePath" target="_blank" class="img-link" [href]="post.imagePath">
+                {{post.imageName}}
+            </a> 
             <div class="post-stats">{{post.prettyId}} - 
                 {{post.creationDate | date:"dd/MM/yyyy H:m"}} - 
                 {{ post.comments.length }} {{post.comments.length == 1?"comment":"comments"}} - 
                 {{post.thumbUps}} 
                 <span class="rotate">V</span>&nbsp;&nbsp; {{post.thumbDowns}} V
-            </div>      
+            </div>
             
             <div class="post-container">
-                <img class="post-img" align="left" src="http://www.unityhighschool.org/wp-content/uploads/2015/08/default_image_01.png"/>
+                <!-- alt="" -->
+                <img *ngIf="post.imagePath" class="post-img" align="left" [src]="post.imagePath" onerror="this.src='http://www.unityhighschool.org/wp-content/uploads/2015/08/default_image_01.png'" />
                 <div class="post-text" [innerHtml]="post.text"></div>
                 <span class="post-open-handler img-open" id="comOpenClose" style="color:white" (click)="ToggleComments(post)"> <img src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-down-01-128.png" style="width:40px;height:40px;border:1px solid #AAA;"></span>
             </div>

@@ -19,6 +19,7 @@ export class PostsComponent implements OnInit, OnDestroy {
     static isPostDZInit:boolean = false;
     isAddPostOpen:boolean = false;
     addPostText:string = "";
+    addPostImage:string = "";
     
     constructor(
         private _routeParams: RouteParams,
@@ -31,7 +32,7 @@ export class PostsComponent implements OnInit, OnDestroy {
         this.ch = this._routeParams.get('ch');
         
         this.socket.on('new-post', data => {
-            this.AddPost(new Post(data.postId, data.text, new Date(data.creationDate),[]));
+            this.AddPost(new Post(data.postId, data.text, new Date(data.creationDate),data.image));
         });
         
         this.socket.on('new-comment', data => this.AddComment(data));
@@ -42,7 +43,7 @@ export class PostsComponent implements OnInit, OnDestroy {
         
         this.socket.on('posts', arr => {
             this.posts = [];
-            arr.forEach(data => this.AddPost(new Post(data.postId, data.text,new Date(data.creationDate || null),[])))
+            arr.forEach(data => this.AddPost(new Post(data.postId, data.text,new Date(data.creationDate || null),data.image)))
         });
         
         this.socket.on('post-deleted',data=>{
@@ -58,7 +59,6 @@ export class PostsComponent implements OnInit, OnDestroy {
             for (var i = 0; i < this.posts.length; i++) {
                 var element = this.posts[i];
                 if(element.postId == data.postId){
-                    console.log('found that post')
                     for (var j = 0; j < element.comments.length; j++) {
                         var comm = element.comments[j];
                         if(comm.commentId==data.commentId){
@@ -75,7 +75,32 @@ export class PostsComponent implements OnInit, OnDestroy {
         
         if(!PostsComponent.isPostDZInit){
             PostsComponent.isPostDZInit = true;
-            $("#dzPost").dropzone();
+            Dropzone.options.dzPost = {
+                maxFiles: 1,
+                maxFilesize: 5,
+                addRemoveLinks: true,
+                accept: function(file, done) 
+                {
+                    var re = /(?:\.([^.]+))?$/;
+                    var ext = re.exec(file.name)[1];
+                    ext = ext.toUpperCase();
+                    if ( ext == "JPG" || ext == "JPEG" || ext == "PNG" ||  ext == "GIF" ||  ext == "BMP") 
+                    {
+                        done();
+                    }else { 
+                        done("Please select only supported picture files."); 
+                    }
+                },
+                success: function(file,response){
+                    this.addPostImage = response;
+                }.bind(this),
+                removedfile: function(file,cb){
+                    this.addPostImage = '';
+                    $(document).find(file.previewElement).remove();
+                }.bind(this)
+            }
+            var myDz = $("#dzPost").dropzone();
+            
         }
     }
     
@@ -150,7 +175,7 @@ export class PostsComponent implements OnInit, OnDestroy {
     
     public SendPost(){
         if(this.addPostText.trim()==="")return;
-        this.socket.emit("send-post",{channel:this.ch,text:this.addPostText});
+        this.socket.emit("send-post",{channel:this.ch,text:this.addPostText,image:this.addPostImage});
         this.addPostText="";
     }
     
