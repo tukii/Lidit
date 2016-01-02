@@ -21,7 +21,7 @@
         </section>
         
         <div class="post" *ngFor="#post of posts" >
-            <div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deletePost(post.postId)">DELETE</div>
+            <!--<div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deletePost(post.postId)">DELETE</div>-->
             
             <a *ngIf="post.imagePath" target="_blank" class="img-link" [href]="post.imagePath">
                 {{post.imageName}}
