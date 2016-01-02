@@ -1,15 +1,15 @@
-<section class="right-container" (click)="CloseAll($event);">
+<section class="right-container" (click)="CloseAll();">
     <div class="channel-info">/{{ch}}</div>
     <div class="post-list col-xs-12 col-md-9">
         <section class="new-post" >
             <div [ngClass]="{'add-post-open':isAddPostOpen}">
-                <textarea (click)="OpenAddPost($event)" [(ngModel)]="addPostText" class="new-post-text ng-pristine ng-valid ng-touched" id="np" placeholder="Write your own post..." spellcheck="false"></textarea>
+                <textarea (click)="OpenAddPost($event)" [(ngModel)]="addPostText" class="new-post-text" id="np" placeholder="Write your own post..." spellcheck="false"></textarea>
                 <!--<img alt="drag image here to upload" class="new-post-img" src=""> -->
                 <form (click)="ImageOnclick($event)"
                     action="/file-upload"
                     class="dropzone new-post-img"
                     id="dzPost">
-                    <svg viewBox="0 0 150 150" width="150px" style="position:absolute; z-index:-20">
+                    <svg viewBox="0 0 150 150" width="150px" style="position:absolute; z-index:-20;">
                         <path d="M25,0 L0,0 L0,25" fill="none" stroke="white" stroke-width="3" />
                         <path d="M0,125 L0,150 L25,150" fill="none" stroke="white" stroke-width="3" />
                         <path d="M125,150 L150,150 L150,125" fill="none" stroke="white" stroke-width="3" />
@@ -21,7 +21,7 @@
         </section>
         
         <div class="post" *ngFor="#post of posts" >
-            <!-- <div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deletePost(post.postId)">DELETE</div> -->
+            <div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deletePost(post.postId)">DELETE</div>
             
             <a *ngIf="post.imagePath" target="_blank" class="img-link" [href]="post.imagePath">
                 {{post.imageName}}
@@ -43,12 +43,16 @@
             <div id="comment_section_{{post.postId}}" class="comment-container">
                 <div class="post" *ngFor="#comment of post.comments">
                     <!--<div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deleteComment(post.postId,comment.commentId)">DELETE</div> -->
+                    <a *ngIf="comment.imagePath" target="_blank" class="img-link" [href]="post.imagePath">
+                    {{comment.imageName}}
+                </a> 
                     <div class="post-stats">
                         {{comment.prettyId}} - 
                         {{comment.creationDate | date:"dd/MM/yyyy H:m"}} - 
                         {{comment.thumbUps}} 
                         <span class="rotate">V</span>&nbsp;&nbsp; {{comment.thumbDowns}} V 
                     </div>
+                    <img *ngIf="comment.imagePath" class="post-img" align="left" [src]="comment.imagePath" onerror="this.src='http://www.unityhighschool.org/wp-content/uploads/2015/08/default_image_01.png'" />
                     <div class="text-content">
                         <div class="comment" [innerHtml]="comment.text"></div>
                     </div>
@@ -65,9 +69,19 @@
                         <div class="comment comment-preview" [innerHtml]="commentText"></div>
                     </div>
                 </div>
-            <div class="new-post" *ngIf="post.areCommentsVisible">
-                <textarea [(ngModel)]="commentText" class="new-post-text preview-comment-text ng-pristine ng-valid ng-touched" id="np" placeholder="Write your comment..." spellcheck="false"></textarea>
-                <img alt="drag image here to upload" class="new-post-img" src="">
+            <div class="new-post" *ngIf="post.areCommentsVisible" [ngClass]="{'add-post-open':isAddCommentOpen}">
+                <textarea (click)="OpenAddComment($event,post.postId)" [(ngModel)]="commentText" class="new-post-text preview-comment-text" id="np" placeholder="Write your comment..." spellcheck="false"></textarea>
+                <form (click)="ImageOnclick($event)"
+                    action="/file-upload"
+                    class="dropzone new-post-img"
+                    id="dzComment">
+                    <svg viewBox="0 0 150 150" width="150px" style="position:absolute; z-index:-20;">
+                        <path d="M25,0 L0,0 L0,25" fill="none" stroke="white" stroke-width="3" />
+                        <path d="M0,125 L0,150 L25,150" fill="none" stroke="white" stroke-width="3" />
+                        <path d="M125,150 L150,150 L150,125" fill="none" stroke="white" stroke-width="3" />
+                        <path d="M150,25 L150,0 L125,0" fill="none" stroke="white" stroke-width="3" />
+                    </svg>
+                </form>
                 <button (click)="SendComment(post.postId)" class="post-button">Comment</button>
             </div>
         </div>

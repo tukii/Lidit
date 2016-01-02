@@ -14,8 +14,11 @@ export class PostsComponent implements OnInit, OnDestroy {
     ch:string;
     commentText:string = "";
     posts:Array<Post> = [];
+    
     isAddCommentOpen:boolean = false;
     addCommentText:string = "";
+    addCommentImage:string = "";
+    
     isAddPostOpen:boolean = false;
     addPostText:string = "";
     addPostImage:string = "";
@@ -97,6 +100,31 @@ export class PostsComponent implements OnInit, OnDestroy {
             }.bind(this)
         }
         
+        Dropzone.options.dzComment = {
+            maxFiles: 1,
+            maxFilesize: 5,
+            addRemoveLinks: true,
+            accept: function(file, done) 
+            {
+                var re = /(?:\.([^.]+))?$/;
+                var ext = re.exec(file.name)[1];
+                ext = ext.toUpperCase();
+                if ( ext == "JPG" || ext == "JPEG" || ext == "PNG" ||  ext == "GIF" ||  ext == "BMP") 
+                {
+                    done();
+                }else { 
+                    done("Please select only supported picture files."); 
+                }
+            },
+            success: function(file,response){
+                this.addCommentImage = response;
+            }.bind(this),
+            removedfile: function(file,cb){
+                this.addCommentImage = '';
+                $(document).find(file.previewElement).remove();
+            }.bind(this)
+        }
+        
         var myDz = $("#dzPost").dropzone();
         
         
@@ -105,13 +133,14 @@ export class PostsComponent implements OnInit, OnDestroy {
     ngOnDestroy(){
         this.socket.removeAllListeners();
         Dropzone.forElement("#dzPost").destroy();
+        this.CloseAll();
     }
     
     public AddComment(data){
         for(var i = 0; i <this.posts.length;i++){
             if(this.posts[i].postId == data.postId){
                 //todo create comment instance
-                this.posts[i].AddComment(new Comment(data.commentId,data.text, new Date(data.creationDate || null)));
+                this.posts[i].AddComment(new Comment(data.commentId,data.text, new Date(data.creationDate || null),data.image));
                 this.posts.unshift(this.posts[i]);
                 this.posts.splice(i+1,1);
                 return;
@@ -146,6 +175,7 @@ export class PostsComponent implements OnInit, OnDestroy {
     }
     
     public ClosePostComments(post: Post){
+        this.CloseAddComment();
         this.CloseAllComments();
     }
     
@@ -160,7 +190,7 @@ export class PostsComponent implements OnInit, OnDestroy {
     
     public SendComment(postId:number) {
         if (this.commentText.trim() === "") return;
-        this.socket.emit("send-comment",{text:this.commentText,postId:postId,channel:this.ch});
+        this.socket.emit("send-comment",{text:this.commentText,postId:postId,channel:this.ch,image:this.addCommentImage});
         this.commentText="";
     }
     
@@ -181,15 +211,31 @@ export class PostsComponent implements OnInit, OnDestroy {
     
     public OpenAddPost(ev:Event){
         ev.stopPropagation();
+        this.CloseAddComment();
         this.isAddPostOpen = true;
     }
     public CloseAddPost(){
         this.isAddPostOpen =false;
     }
+    public OpenAddComment(ev:Event,id:number){
+        ev.stopPropagation();
+        if(!this.isAddCommentOpen){
+            this.CloseAddPost();
+            this.isAddCommentOpen = true;
+            this.addCommentId;
+            $("#dzComment").dropzone();
+        }
+    }
+    public CloseAddComment(){
+        if(this.isAddCommentOpen){
+            this.isAddCommentOpen =false;
+            Dropzone.forElement("#dzComment").destroy();
+        }
+    }
     
-    public CloseAll(event){
+    public CloseAll(){
+        this.CloseAddComment();
         this.CloseAddPost();
-        this.isAddCommentOpen = false;
     }
     public ImageOnclick(ev:Event){
         ev.stopPropagation();

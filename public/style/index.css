@@ -255,6 +255,10 @@ right-container {
     font-family: "Lato";
     font-weight: 100;
 }
+.dz-error-message{
+    top:80px !important;
+    left:5px !important;
+}
 /*.new-post-text:focus + .post-preview {
 	width: 150px;
 	min-height: 150px;

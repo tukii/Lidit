@@ -24,8 +24,8 @@ V 0.2
 +   -[BUG] comments don't load sometimes - fix it
 +   -add markdown support
     -implement upvoting/downvoting
-    -implement image posting (one part finished)
-    -fix comments
++   -implement image posting
++   -fix comments
     -add extend/contract image on click
 +   -move posting under the last comment?
 +   -animation on expand
@@ -37,6 +37,7 @@ v 0.2.5
     -refactor backend, write TS, not js, use typed mongo
     -move mongo to its own file?
 V 0.3
+    -auto embed
     -read/unread pulse
     -sort sublids by popularity (post number over last 1 hour?)
     -story mode post? 

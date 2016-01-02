@@ -32,15 +32,19 @@ export class CommentState{
     static DOWNVOTED:number = 2;
 }
 export class Comment {
+    imagePath: string;
+    imageName: string;
     commentId: number;
     thumbUps: number = 0;
     thumbDowns: number = 0;
     text: string;
     localState: number = CommentState.NONE;
     
-    constructor(id:number,txt: string, public creationDate:Date /*ups: number, downs: number,*/ ) {
-        //this.thumbDowns = downs;
-        //this.thumbUps = ups;
+    constructor(id:number,txt: string, public creationDate:Date,image:string) {
+        if(typeof image !== "undefined" && image.trim()!==""){
+            this.imagePath = "static/uploads/"+image;
+            this.imageName = image.substring(image.lastIndexOf(']')+1);
+        }
         this.commentId = id;
         this.text = txt;
         this.commentId =id;

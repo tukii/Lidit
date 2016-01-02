@@ -206,7 +206,7 @@ io.on('connection',function(socket){
     socket.on("send-comment",function(data){
         emitServerStats();
         commentId = commentId+1;
-        var comment = { commentId:commentId, creationDate:new Date(), channel:data.channel, postId:data.postId,text:data.text};
+        var comment = { commentId:commentId, creationDate:new Date(), channel:data.channel, postId:data.postId,text:data.text,image:data.image};
         insertNewComment(comment);
         comment.text = marked(striptags(comment.text))
         io.to(data.channel).emit("new-comment",comment);
