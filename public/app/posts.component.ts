@@ -16,7 +16,6 @@ export class PostsComponent implements OnInit, OnDestroy {
     posts:Array<Post> = [];
     isAddCommentOpen:boolean = false;
     addCommentText:string = "";
-    static isPostDZInit:boolean = false;
     isAddPostOpen:boolean = false;
     addPostText:string = "";
     addPostImage:string = "";
@@ -73,39 +72,39 @@ export class PostsComponent implements OnInit, OnDestroy {
         
         this.socket.emit('join',{abbr:this.ch});
         
-        if(!PostsComponent.isPostDZInit){
-            PostsComponent.isPostDZInit = true;
-            Dropzone.options.dzPost = {
-                maxFiles: 1,
-                maxFilesize: 5,
-                addRemoveLinks: true,
-                accept: function(file, done) 
+        Dropzone.options.dzPost = {
+            maxFiles: 1,
+            maxFilesize: 5,
+            addRemoveLinks: true,
+            accept: function(file, done) 
+            {
+                var re = /(?:\.([^.]+))?$/;
+                var ext = re.exec(file.name)[1];
+                ext = ext.toUpperCase();
+                if ( ext == "JPG" || ext == "JPEG" || ext == "PNG" ||  ext == "GIF" ||  ext == "BMP") 
                 {
-                    var re = /(?:\.([^.]+))?$/;
-                    var ext = re.exec(file.name)[1];
-                    ext = ext.toUpperCase();
-                    if ( ext == "JPG" || ext == "JPEG" || ext == "PNG" ||  ext == "GIF" ||  ext == "BMP") 
-                    {
-                        done();
-                    }else { 
-                        done("Please select only supported picture files."); 
-                    }
-                },
-                success: function(file,response){
-                    this.addPostImage = response;
-                }.bind(this),
-                removedfile: function(file,cb){
-                    this.addPostImage = '';
-                    $(document).find(file.previewElement).remove();
-                }.bind(this)
-            }
-            var myDz = $("#dzPost").dropzone();
-            
+                    done();
+                }else { 
+                    done("Please select only supported picture files."); 
+                }
+            },
+            success: function(file,response){
+                this.addPostImage = response;
+            }.bind(this),
+            removedfile: function(file,cb){
+                this.addPostImage = '';
+                $(document).find(file.previewElement).remove();
+            }.bind(this)
         }
+        
+        var myDz = $("#dzPost").dropzone();
+        
+        
     }
     
     ngOnDestroy(){
         this.socket.removeAllListeners();
+        Dropzone.forElement("#dzPost").destroy();
     }
     
     public AddComment(data){
@@ -177,6 +176,7 @@ export class PostsComponent implements OnInit, OnDestroy {
         if(this.addPostText.trim()==="")return;
         this.socket.emit("send-post",{channel:this.ch,text:this.addPostText,image:this.addPostImage});
         this.addPostText="";
+        this.addPostImage="";
     }
     
     public OpenAddPost(ev:Event){
