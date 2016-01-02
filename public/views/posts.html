@@ -52,7 +52,7 @@
                         {{comment.thumbUps}} 
                         <span class="rotate">V</span>&nbsp;&nbsp; {{comment.thumbDowns}} V 
                     </div>
-                    <img *ngIf="comment.imagePath" class="post-img" align="left" [src]="comment.imagePath" onerror="this.src='http://www.unityhighschool.org/wp-content/uploads/2015/08/default_image_01.png'" />
+                    <img *ngIf="comment.imagePath" (click)="toggleExpand($event)" class="post-img" align="left" [src]="comment.imagePath" onerror="this.src='http://www.unityhighschool.org/wp-content/uploads/2015/08/default_image_01.png'" />
                     <div class="text-content">
                         <div class="comment" [innerHtml]="comment.text"></div>
                     </div>

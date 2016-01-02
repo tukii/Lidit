@@ -163,7 +163,7 @@ right-container {
     max-width: 200px;
 	opacity: 0.3;
 	margin-right: 10px;
-    transition: all 1s ease !important;
+    transition: all 0.5s ease !important;
     background-repeat: no-repeat;
 }
 .img-expand{
