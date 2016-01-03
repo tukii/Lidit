@@ -254,7 +254,6 @@ io.on('connection',function(socket){
            getPostsfor(ch.abbr, posts=> {
                socket.emit('posts', posts)
                getCommentsfor(ch.abbr, comments => socket.emit('comments', comments))
-              // getUpvotesfor(ch.abbr,upvotes => socket.emit('upvotes',upvotes))
                emitServerStats();    
             });
         }
@@ -320,13 +319,28 @@ function tryEmbed(text) {
     var match = text.match(regExp);
 
     if (match && match[1].length == 11) {
-        return text +'\n'+ CreateEmbed(match[1])
+        return text +'\n'+ CreateYTEmbed(match[1])
     } else {
-        return text
+        regExp = /https?:\/\/(?:www.|player.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)(?:$|\/|)/;
+        match = text.match(regExp);
+
+        if (match) {
+            return text +'\n'+ CreateVimEmbed(match[1])
+        } else {
+            return text
+        }
     }
 }
 
-function CreateEmbed(id){
+function CreateVimEmbed(id){
+    return`
+    <iframe src="https://player.vimeo.com/video/${id}?byline=0" width="500" height="281" 
+        frameborder="0"
+        allowfullscreen>
+    </iframe>`
+}
+
+function CreateYTEmbed(id){
     return `
         <iframe width="420" height="315" 
             src="http://www.youtube.com/embed/${id}" 
