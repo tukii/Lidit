@@ -30,7 +30,7 @@ V 0.2
 +   -animation on expand
 +   -embed youtube video if linked
     -implement upvoting/downvoting
-    -embed vimeo video if linked?
++   -embed vimeo video if linked?
     -properly validate input, strip tags, etc
     -move post to top if its newer than comment
 v 0.3

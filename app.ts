@@ -321,7 +321,7 @@ function tryEmbed(text) {
     if (match && match[1].length == 11) {
         return text +'\n'+ CreateYTEmbed(match[1])
     } else {
-        regExp = /https?:\/\/(?:www.|player.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)(?:$|\/|)/;
+        regExp = /https?:\/\/(?:www\.|player\.)?vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)(?:$|\/|)/;
         match = text.match(regExp);
 
         if (match) {
