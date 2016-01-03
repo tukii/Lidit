@@ -12,6 +12,7 @@ var MongoClient = require('mongodb').MongoClient
 var marked = require('marked')
 var striptags = require('striptags')
 var multer = require('multer')
+var crypto =require('crypto')
 var upload = multer({storage: multer.diskStorage({
     destination: function(req,file,cb){
         cb(null,'./public/uploads')
@@ -83,7 +84,7 @@ var getPostsfor = function(ch,callback) {
     var col = db.collection('posts');
     col.find({channel:ch}).toArray(function(err,posts){
         posts.map( x => {
-            x.text = marked(striptags(x.text))
+            x.text = tryEmbed(marked(striptags(x.text)))
         })
         callback(posts);
     })
@@ -91,6 +92,16 @@ var getPostsfor = function(ch,callback) {
 
 var getCommentsfor = function(ch,callback) {
     var col = db.collection('comments');
+    col.find({channel:ch}).toArray(function(err,comments){
+        comments.map( x=> {
+            x.text = tryEmbed(marked(striptags(x.text)))
+        })
+        callback(comments)
+    })
+}
+
+var getUpvotesfor = function(ch,callback) {
+    var col = db.collection('posts');
     col.find({channel:ch}).toArray(function(err,comments){
         comments.map( x=> {
             x.text = marked(striptags(x.text))
@@ -121,6 +132,25 @@ var getChannels = function(callback){
         callback(channels);
     })
 }
+
+var upvote = function(id,hash,onsuccess){
+    var col = db.collection('post_votes');
+    col.find({id:id,hash:hash,type:'-'}).count(function(num){
+        if(num!=0) return;
+        col.insert({id:id,hash:hash,type:'-'});
+        onsuccess();
+    })
+}
+
+var downvote = function(id,hash,onsuccess){
+    var col = db.collection('post_votes');
+    col.find({id:id,hash:hash,type:'+'}).count(function(num){
+        if(num!=0) return;
+        col.insert({id:id,hash:hash,type:'+'});
+        onsuccess();
+    })
+}
+
 
 var getChannelCount = function(callback){
     var col = db.collection('channels');
@@ -185,6 +215,7 @@ var emitServerStats = function(){
 }
 
 io.on('connection',function(socket){
+    var currentChannel = '/'
     console.log('socketio user connected ' + socket.handshake.address);
     socket.leaveAll();
     //emit all channels
@@ -198,7 +229,7 @@ io.on('connection',function(socket){
        postId = postId + 1;
        var post = {postId:postId,creationDate:new Date(),channel:data.channel,text:data.text,image:data.image};
        insertNewPost(post);
-       post.text = marked(striptags(post.text))
+       post.text = tryEmbed(marked(striptags(post.text)))
        io.to(data.channel).emit("new-post", post); 
     });
     
@@ -218,10 +249,12 @@ io.on('connection',function(socket){
        if(ValidateString(ch.abbr)){
            socket.leaveAll();
            socket.join(ch.abbr);
+           currentChannel = ch.abbr;
            //checkChannel(ch,() => {socket.emit('new-channel',{abbr:ch.abbr})});
            getPostsfor(ch.abbr, posts=> {
                socket.emit('posts', posts)
-               getCommentsfor(ch.abbr, comments => socket.emit('comments', comments));
+               getCommentsfor(ch.abbr, comments => socket.emit('comments', comments))
+              // getUpvotesfor(ch.abbr,upvotes => socket.emit('upvotes',upvotes))
                emitServerStats();    
             });
         }
@@ -235,7 +268,7 @@ io.on('connection',function(socket){
         emitServerStats();
         deletePost(data.id,() => {
           deleteComment(data.id,()=>{})
-          io.emit('post-deleted',{id:data.id})
+          io.to(currentChannel).emit('post-deleted',{id:data.id})
         })
     })
     
@@ -243,15 +276,62 @@ io.on('connection',function(socket){
     socket.on('delete-comment',function(data){
         emitServerStats();
         deleteComment(data.commentId,()=>{
-            io.emit('comment-deleted',{postId:data.postId, commentId:data.commentId})
+            io.to(currentChannel).emit('comment-deleted',{postId:data.postId, commentId:data.commentId})
         })
     })
     
     socket.on('disconnect',function(){
         console.log("user disconnected");
     })
+    
+    socket.on('upvote',function(data){
+        upvote(data.id,hash(socket.handshake.address),function(){
+            io.to(currentChannel).emit('upvoted',data.id)
+        });
+    })
+    
+    socket.on('downvote',function(data){
+        downvote(data.id,hash(socket.handshake.address),function(){
+            io.to(currentChannel).emit('downvoted',data.id)
+        });
+    })
 });
 
 function ValidateString(name:any) : boolean{
     return typeof name === "string" && name.length > 0;
+}
+
+var salty = 'dc3fc5ccbb5819bbd037';
+function hash(data) {
+  var hash = crypto.createHash('sha512');
+  hash.update(data);
+  hash.update(salty);
+  return hash.digest();
+}
+
+function validHash(hash, data){
+    data = data || "";
+    hash = hash || "";
+    return hash(data) === hash;
+}
+
+function tryEmbed(text) {
+    var regExp = /https?:\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-]+)(&(amp;)?[\w\?=]*)?/;
+    var match = text.match(regExp);
+
+    if (match && match[1].length == 11) {
+        return text +'\n'+ CreateEmbed(match[1])
+    } else {
+        return text
+    }
+}
+
+function CreateEmbed(id){
+    return `
+        <iframe width="420" height="315" 
+            src="http://www.youtube.com/embed/${id}" 
+            frameborder="0" 
+            allowfullscreen>
+        </iframe>
+    `
 }

@@ -23,30 +23,34 @@ V 0.2
 +   -add server stats (current users, posts over channels)
 +   -[BUG] comments don't load sometimes - fix it
 +   -add markdown support
-    -implement upvoting/downvoting
 +   -implement image posting
 +   -fix comments
 +   -add extend/contract image on click
 +   -move posting under the last comment?
 +   -animation on expand
++   -embed youtube video if linked
+    -implement upvoting/downvoting
+    -embed vimeo video if linked?
     -properly validate input, strip tags, etc
-v 0.2.5
+    -move post to top if its newer than comment
+v 0.3
+    -poll
+    -timout posts, add timer
     -add google cloud/AWS for image hosting
+    -add NISAM ROBOT captacha for posting
+    -preview post on mouseover?
+    -read/unread pulse
     -create services for data?
-    -save comments with post in db?
     -refactor backend, write TS, not js, use typed mongo
     -move mongo to its own file?
-V 0.3
+    -save comments with post in db?
     -auto embed
-    -read/unread pulse
     -sort sublids by popularity (post number over last 1 hour?)
     -story mode post? 
-    -preview post on mouseover?
     -add root page? or keep it for trending but prevent posting?
     -optional login?
     -favorite sublids?
     -multiple backgrounds?
     -autodelete inactive sublids?
     -sublid search?
-    -add NISAM ROBOT captacha for posting
     -implement PI at the bottom :D
