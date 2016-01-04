@@ -80,16 +80,6 @@ var getPostsfor = function(ch,callback) {
     col.find({channel: ch}).toArray((err, posts) => callback(posts))
 }
 
-var getCommentsfor = function(ch,callback) {
-    var col = db.collection('comments');
-    col.find({channel: ch}).toArray((err, comments) => callback(comments))
-}
-
-var getUpvotesfor = function(ch,callback) {
-    var col = db.collection('posts');
-    
-}
-
 var deletePost = function(id,callback){
     var col = db.collection('posts');
     col.remove({postId:id},function(){
@@ -98,9 +88,10 @@ var deletePost = function(id,callback){
     })
 }
 
+//probably doesn't work
 var deleteComment = function(id,callback){
-    var col = db.collection('comments');
-    col.remove({commentId:id},function(){
+    var col = db.collection('posts');
+    col.update({},{$unset:{'comments.commentId':id}},function(){
         console.log('deleted comment with id '+id);
         callback()
     })
@@ -131,7 +122,6 @@ var downvote = function(id,hash,onsuccess){
     })
 }
 
-
 var getChannelCount = function(callback){
     var col = db.collection('channels');
     col.find({}).count(callback);
@@ -141,8 +131,19 @@ var getPostCount = function(callback){
     col.find({}).count(callback);
 }
 var getCommentCount = function(callback){
-    var col = db.collection('comments');
-    col.find({}).count(callback);
+    var col = db.collection('posts');
+    col.aggregate([
+        {
+            $project:{
+                count:{$size:"$comments"}
+            }
+        },
+        {
+            $group:{
+                _id:null,sum:{$sum:"$count"}
+            }
+        }
+    ],(err,result)=>{callback(err,result[0].sum)})
 }
 
 var checkChannel = function(ch,onFail){
@@ -188,10 +189,10 @@ var emitServerStats = function(){
                     comments: commentCount,
                     channels: channelCount,
                     users: io.sockets.sockets.length
-                });
-            });
-        });
-    });
+                })
+            })
+        })
+    })
 }
 
 io.on('connection',function(socket){
