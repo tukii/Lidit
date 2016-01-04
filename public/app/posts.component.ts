@@ -35,18 +35,14 @@ export class PostsComponent implements OnInit, OnDestroy {
         this.ch = this._routeParams.get('ch');
         
         this.socket.on('new-post', data => {
-            this.AddPost(new Post(data.postId, data.text, new Date(data.creationDate),data.image));
+            this.AddPost(data);
         });
         
         this.socket.on('new-comment', data => this.AddComment(data));
         
-        this.socket.on('comments', arr => {
-            arr.forEach(data=> this.AddComment(data));
-        });
-        
         this.socket.on('posts', arr => {
             this.posts = [];
-            arr.forEach(data => this.AddPost(new Post(data.postId, data.text,new Date(data.creationDate || null),data.image)))
+            arr.forEach(data => this.AddPost(data))
         });
         
         this.socket.on('post-deleted',data=>{
@@ -128,7 +124,6 @@ export class PostsComponent implements OnInit, OnDestroy {
         
         var myDz = $("#dzPost").dropzone();
         
-        
     }
     
     ngOnDestroy(){
@@ -140,21 +135,32 @@ export class PostsComponent implements OnInit, OnDestroy {
     public AddComment(data){
         for(var i = 0; i <this.posts.length;i++){
             if(this.posts[i].postId == data.postId){
-                //todo create comment instance
-                this.posts[i].AddComment(new Comment(data.commentId,data.text, new Date(data.creationDate || null),data.image));
-                this.posts.unshift(this.posts[i]);
-                this.posts.splice(i+1,1);
+                this.posts[i].AddComment(data);
+                this.posts.unshift(this.posts[i])
+                this.posts.splice(i+1,1)
                 return;
             }
         }
     }
     
-    public AddPost(post: Post) {
-        if (this.posts.length == 0) {
-            this.posts.push(post);
-            return;
+    public AddPost(data) {
+        var post:Post = new Post(data.postId, data.text, new Date(data.creationDate || null),data.image,data.comments || [])
+        for(var i=0; i<this.posts.length;i++){
+            if(this.posts[i].lastActivity < post.lastActivity){
+                this.posts.splice(i, 0, post)
+                return
+            }
         }
-        this.posts.splice(1, 0, post);
+        this.posts.push(post)
+    }
+    
+    public GetPostWithId(id:number): Post{
+        for(var i=0; i<this.posts.length; i++){
+            if(this.posts[i].postId === id){
+                return this.posts[i]; 
+            }
+        }
+        return null;
     }
     
     public ToggleComments(post: Post) {

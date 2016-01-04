@@ -32,8 +32,9 @@ V 0.2
     -implement upvoting/downvoting
 +   -embed vimeo video if linked?
     -properly validate input, strip tags, etc
-    -move post to top if its newer than comment
++   -move post to top if its newer than comment
 v 0.3
+    -add reply list at the end of the post with #links
     -poll
     -timout posts, add timer
     -add google cloud/AWS for image hosting

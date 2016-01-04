@@ -1,4 +1,7 @@
+import * as m from './../../node_modules/marked/lib/marked.js';
+var marked = m.parse;
 export class Post {
+    text: string;
     imagePath: string;
     imageName: string;
     comments: Array<Comment> = [];
@@ -8,22 +11,39 @@ export class Post {
     thumbDowns: number = 0;
     constructor(
         public postId:number, 
-        public text: string,
+        text: string,
         public creationDate:Date,
-        image:string) {
+        image:string,
+        rawComments:Array<any>) {
+                            
         if(typeof image !== "undefined" && image.trim()!==""){
             this.imagePath = "static/uploads/"+image;
             this.imageName = image.substring(image.lastIndexOf(']')+1);
-        }      
+        }
+        rawComments.forEach(com=>{
+            this.AddComment(com);
+        })
+        
+        this.text = tryEmbed(marked(text));
+        
         this.areCommentsVisible = false;
     }
-    public AddComment(com: Comment) {
+    public AddComment(data:any) {
+        var com = new Comment(data.commentId,data.text, new Date(data.creationDate || null),data.image)
         this.comments.push(com);
-        this.typedComment = "";
     }
     
     public get prettyId():string{
         return pretifyId(this.postId);
+    }
+    
+    public get lastActivity():Date{
+        var max = this.creationDate;
+        this.comments.forEach(com=>{
+            if(max < com.creationDate)
+                max=com.creationDate;
+        })
+        return max;
     }
 }
 export class CommentState{
@@ -46,7 +66,7 @@ export class Comment {
             this.imageName = image.substring(image.lastIndexOf(']')+1);
         }
         this.commentId = id;
-        this.text = txt;
+        this.text = tryEmbed(marked(txt));
         this.commentId =id;
     }
     
@@ -82,4 +102,40 @@ function pretifyId(id:number):string{
         while(str.length<8)
             str = '0' + str;
         return str;
+}
+
+function tryEmbed(text) {
+    var regExp = /https?:\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-]+)(&(amp;)?[\w\?=]*)?/;
+    var match = text.match(regExp);
+
+    if (match && match[1].length == 11) {
+        return text +'\n'+ CreateYTEmbed(match[1])
+    } else {
+        regExp = /https?:\/\/(?:www\.|player\.)?vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)(?:$|\/|)/;
+        match = text.match(regExp);
+
+        if (match) {
+            return text +'\n'+ CreateVimEmbed(match[1])
+        } else {
+            return text
+        }
+    }
+}
+
+function CreateVimEmbed(id){
+    return`
+    <iframe src="https://player.vimeo.com/video/${id}?byline=0" width="500" height="281" 
+        frameborder="0"
+        allowfullscreen>
+    </iframe>`
+}
+
+function CreateYTEmbed(id){
+    return `
+        <iframe width="420" height="315" 
+            src="http://www.youtube.com/embed/${id}" 
+            frameborder="0" 
+            allowfullscreen>
+        </iframe>
+    `
 }

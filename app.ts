@@ -12,7 +12,7 @@ var MongoClient = require('mongodb').MongoClient
 var marked = require('marked')
 var striptags = require('striptags')
 var multer = require('multer')
-var crypto =require('crypto')
+var crypto = require('crypto')
 var upload = multer({storage: multer.diskStorage({
     destination: function(req,file,cb){
         cb(null,'./public/uploads')
@@ -60,16 +60,11 @@ var insertNewPost = function(post) {
   });
 }
 
-var insertNewComment = function(comment) {
-  var collection = db.collection('comments');
+var insertNewComment = function(postid, comment) {
+  var collection = db.collection('posts');
   
-  collection.insert(comment, function(err, result) {
-      if(err){
-          console.log("error creating new comment");
-          return;
-      }
-    console.log("Added new comment");
-  });
+  collection.update({postId:postid},{$push:{comments:comment}})
+  console.log("Added new comment");
 }
 
 var findDocuments = function() {
@@ -82,32 +77,17 @@ var findDocuments = function() {
 
 var getPostsfor = function(ch,callback) {
     var col = db.collection('posts');
-    col.find({channel:ch}).toArray(function(err,posts){
-        posts.map( x => {
-            x.text = tryEmbed(marked(striptags(x.text)))
-        })
-        callback(posts);
-    })
+    col.find({channel: ch}).toArray((err, posts) => callback(posts))
 }
 
 var getCommentsfor = function(ch,callback) {
     var col = db.collection('comments');
-    col.find({channel:ch}).toArray(function(err,comments){
-        comments.map( x=> {
-            x.text = tryEmbed(marked(striptags(x.text)))
-        })
-        callback(comments)
-    })
+    col.find({channel: ch}).toArray((err, comments) => callback(comments))
 }
 
 var getUpvotesfor = function(ch,callback) {
     var col = db.collection('posts');
-    col.find({channel:ch}).toArray(function(err,comments){
-        comments.map( x=> {
-            x.text = marked(striptags(x.text))
-        })
-        callback(comments)
-    })
+    
 }
 
 var deletePost = function(id,callback){
@@ -227,9 +207,8 @@ io.on('connection',function(socket){
     socket.on("send-post",function(data){
        emitServerStats();
        postId = postId + 1;
-       var post = {postId:postId,creationDate:new Date(),channel:data.channel,text:data.text,image:data.image};
+       var post = {postId:postId,creationDate:new Date(),channel:data.channel,text:striptags(data.text),image:data.image,comments:[]};
        insertNewPost(post);
-       post.text = tryEmbed(marked(striptags(post.text)))
        io.to(data.channel).emit("new-post", post); 
     });
     
@@ -237,9 +216,8 @@ io.on('connection',function(socket){
     socket.on("send-comment",function(data){
         emitServerStats();
         commentId = commentId+1;
-        var comment = { commentId:commentId, creationDate:new Date(), channel:data.channel, postId:data.postId,text:data.text,image:data.image};
-        insertNewComment(comment);
-        comment.text = marked(striptags(comment.text))
+        var comment = { commentId:commentId, creationDate:new Date(), channel:data.channel, postId:data.postId,text:striptags(data.text),image:data.image};
+        insertNewComment(data.postId,comment);
         io.to(data.channel).emit("new-comment",comment);
     })
     
@@ -250,10 +228,8 @@ io.on('connection',function(socket){
            socket.leaveAll();
            socket.join(ch.abbr);
            currentChannel = ch.abbr;
-           //checkChannel(ch,() => {socket.emit('new-channel',{abbr:ch.abbr})});
            getPostsfor(ch.abbr, posts=> {
                socket.emit('posts', posts)
-               getCommentsfor(ch.abbr, comments => socket.emit('comments', comments))
                emitServerStats();    
             });
         }
@@ -312,40 +288,4 @@ function validHash(hash, data){
     data = data || "";
     hash = hash || "";
     return hash(data) === hash;
-}
-
-function tryEmbed(text) {
-    var regExp = /https?:\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-]+)(&(amp;)?[\w\?=]*)?/;
-    var match = text.match(regExp);
-
-    if (match && match[1].length == 11) {
-        return text +'\n'+ CreateYTEmbed(match[1])
-    } else {
-        regExp = /https?:\/\/(?:www\.|player\.)?vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)(?:$|\/|)/;
-        match = text.match(regExp);
-
-        if (match) {
-            return text +'\n'+ CreateVimEmbed(match[1])
-        } else {
-            return text
-        }
-    }
-}
-
-function CreateVimEmbed(id){
-    return`
-    <iframe src="https://player.vimeo.com/video/${id}?byline=0" width="500" height="281" 
-        frameborder="0"
-        allowfullscreen>
-    </iframe>`
-}
-
-function CreateYTEmbed(id){
-    return `
-        <iframe width="420" height="315" 
-            src="http://www.youtube.com/embed/${id}" 
-            frameborder="0" 
-            allowfullscreen>
-        </iframe>
-    `
 }
