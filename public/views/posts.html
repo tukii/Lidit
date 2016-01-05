@@ -29,13 +29,13 @@
             <div class="post-stats">{{post.prettyId}} - 
                 {{post.creationDate | date:"dd/MM/yyyy H:m"}} - 
                 {{ post.comments.length }} {{post.comments.length == 1?"comment":"comments"}} - 
-                {{post.thumbUps}} 
-                <span class="rotate">V</span>&nbsp;&nbsp; {{post.thumbDowns}} V
+                <span class="upvoteBtn" [ngClass]="{'green':post.isUpvoted}" (click)="post.ToggleUpvote($event)">{{post.upvotes}} 
+                <span class="rotate">V</span></span>&nbsp;&nbsp; <span class="downvoteBtn" [ngClass]="{'red':post.isDownvoted}" (click)="post.ToggleDownvote($event)">{{post.downvotes}} V</span>
             </div>
             
             <div class="post-container">
                 <!-- alt="" -->
-                <img *ngIf="post.imagePath" (click)="toggleExpand($event)" class="post-img" align="left" [src]="post.imagePath" onerror="this.src='http://www.unityhighschool.org/wp-content/uploads/2015/08/default_image_01.png'" />
+                <img *ngIf="post.imagePath" (click)="toggleExpand($event);" class="post-img" align="left" [src]="post.imagePath" onerror="this.src='http://www.unityhighschool.org/wp-content/uploads/2015/08/default_image_01.png'" />
                 <div class="post-text" [innerHtml]="post.text"></div>
                 <span class="post-open-handler img-open" id="comOpenClose" style="color:white" (click)="ToggleComments(post)"> <img src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-down-01-128.png" style="width:40px;height:40px;border:1px solid #AAA;"></span>
             </div>
@@ -49,8 +49,9 @@
                     <div class="post-stats">
                         {{comment.prettyId}} - 
                         {{comment.creationDate | date:"dd/MM/yyyy H:m"}} - 
-                        {{comment.thumbUps}} 
-                        <span class="rotate">V</span>&nbsp;&nbsp; {{comment.thumbDowns}} V 
+                        {{comment.upvotes}}
+                        <span class="upvoteBtn" [ngClass]="{'green':comment.isUpvoted}" (click)="comment.ToggleUpvote($event)">
+                        <span class="rotate">V</span></span><span (click)="comment.ToggleDownvote($event)" class="downvoteBtn" [ngClass]="{'red':comment.isDownvoted}">&nbsp;&nbsp; {{comment.downvotes}} V</span> 
                     </div>
                     <img *ngIf="comment.imagePath" (click)="toggleExpand($event)" class="post-img" align="left" [src]="comment.imagePath" onerror="this.src='http://www.unityhighschool.org/wp-content/uploads/2015/08/default_image_01.png'" />
                     <div class="text-content">

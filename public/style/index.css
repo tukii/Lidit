@@ -32,6 +32,7 @@ p {
     position: absolute;
     transform: rotate(-180deg);
     margin-top: 2px;
+    display: inline-block;
 }
 .left-container {
 	position: relative;
@@ -267,6 +268,12 @@ right-container {
 .dz-error-message{
     top:80px !important;
     left:5px !important;
+}
+.green {
+    color: lime !important;
+}
+.red{
+    color:red !important;
 }
 /*.new-post-text:focus + .post-preview {
 	width: 150px;

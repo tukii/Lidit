@@ -1,21 +1,62 @@
 import * as m from './../../node_modules/marked/lib/marked.js';
 var marked = m.parse;
-export class Post {
+
+abstract class Votable {
+    upvotes: number = 0;
+    downvotes: number = 0;
+    localState: number = CommentState.NONE;
+    
+    constructor(){
+        this.upvotes=0;
+        this.downvotes=0;
+        this.localState = CommentState.NONE;
+    }
+    
+    public get isUpvoted() : boolean {
+        return this.localState === CommentState.UPVOTED;
+    }
+    
+    public get isDownvoted() : boolean {
+        return this.localState === CommentState.DOWNVOTED;
+    }
+    
+    public ToggleUpvote(ev) : void{
+        if(ev)
+            ev.stopPropagation();
+        
+        //TODO send message to the server
+        this.upvotes++;
+        this.localState = CommentState.UPVOTED;
+    }
+    
+    public ToggleDownvote(ev) : void{
+        if(ev)
+            ev.stopPropagation();
+        //TODO send message to the server
+        this.downvotes++;
+        this.localState = CommentState.DOWNVOTED;
+    }
+    
+    public VoteValue(): number {
+        return this.upvotes - this.downvotes;
+    }
+}
+
+export class Post extends Votable {
     text: string;
     imagePath: string;
     imageName: string;
     comments: Array<Comment> = [];
     areCommentsVisible: boolean;
     typedComment: string = "";
-    thumbUps: number = 0;
-    thumbDowns: number = 0;
     constructor(
         public postId:number, 
         text: string,
         public creationDate:Date,
         image:string,
-        rawComments:Array<any>) {
-                            
+        rawComments:Array<any>) {    
+        super()
+        
         if(typeof image !== "undefined" && image.trim()!==""){
             this.imagePath = "static/uploads/"+image;
             this.imageName = image.substring(image.lastIndexOf(']')+1);
@@ -51,16 +92,14 @@ export class CommentState{
     static UPVOTED:number = 1;
     static DOWNVOTED:number = 2;
 }
-export class Comment {
+export class Comment extends Votable{
     imagePath: string;
     imageName: string;
     commentId: number;
-    thumbUps: number = 0;
-    thumbDowns: number = 0;
     text: string;
-    localState: number = CommentState.NONE;
     
     constructor(id:number,txt: string, public creationDate:Date,image:string) {
+        super()
         if(typeof image !== "undefined" && image.trim()!==""){
             this.imagePath = "static/uploads/"+image;
             this.imageName = image.substring(image.lastIndexOf(']')+1);
@@ -68,28 +107,6 @@ export class Comment {
         this.commentId = id;
         this.text = tryEmbed(marked(txt));
         this.commentId =id;
-    }
-    
-    public get isUpvoted() : boolean {
-        return this.localState === CommentState.UPVOTED;
-    }
-    
-    public get isDownvoted() : boolean {
-        return this.localState === CommentState.DOWNVOTED;
-    }
-    
-    public ToggleUpvote() : void{
-        //TODO send message to the server
-        this.localState = CommentState.UPVOTED;
-    }
-    
-    public ToggleDownvote() : void{
-        //TODO send message to the server
-        this.localState = CommentState.DOWNVOTED;
-    }
-        
-    public Value(): number {
-        return this.thumbUps - this.thumbDowns;
     }
     
     public get prettyId():string{
