@@ -25,7 +25,6 @@ var upload = multer({storage: multer.diskStorage({
 var db;
 
 var postId = 1;
-var commentId = 1;
 MongoClient.connect('mongodb://188.166.71.245:27017/data', function(err, mongodb) {
     if(err){
         console.log("Error connecting to mongo db.")
@@ -34,17 +33,11 @@ MongoClient.connect('mongodb://188.166.71.245:27017/data', function(err, mongodb
     }
     db = mongodb;
     
-    var options = { "sort": [['postId','desc']] };
-    db.collection('posts').findOne({}, options , function(err, doc) {
-        if(err || doc==null)return;
-        postId = doc.postId;
+    db.collection('postnumber').findOne({}, function(err, doc) {
+        postId = doc.post_number;
+        console.log(postId)
     });
     
-    var options = { "sort": [['commentId','desc']] };
-    db.collection('comments').findOne({}, options , function(err, doc) {
-        if(err || doc==null)return;
-        commentId = doc.commentId;
-    });
     console.log('connected to mongo');
 });
 
@@ -156,6 +149,12 @@ var checkChannel = function(ch,onFail){
     }
 }
 
+var incrementPostNumber = function(){
+    ++postId
+    db.collection('postnumber').update({},{$inc:{post_number:1}})
+}
+
+
 var port = process.env.port || 8000;
 
 console.log('Starting server...')
@@ -207,7 +206,7 @@ io.on('connection',function(socket){
     
     socket.on("send-post",function(data){
        emitServerStats();
-       postId = postId + 1;
+       incrementPostNumber()
        var post = {postId:postId,creationDate:new Date(),channel:data.channel,text:striptags(data.text),image:data.image,comments:[]};
        insertNewPost(post);
        io.to(data.channel).emit("new-post", post); 
@@ -216,8 +215,8 @@ io.on('connection',function(socket){
     //data {channel:"text",postId:5,text:"text"}
     socket.on("send-comment",function(data){
         emitServerStats();
-        commentId = commentId+1;
-        var comment = { commentId:commentId, creationDate:new Date(), channel:data.channel, postId:data.postId,text:striptags(data.text),image:data.image};
+        incrementPostNumber()
+        var comment = { postId:data.postId,commentId:postId, creationDate:new Date(), channel:data.channel,text:striptags(data.text),image:data.image};
         insertNewComment(data.postId,comment);
         io.to(data.channel).emit("new-comment",comment);
     })
@@ -251,8 +250,8 @@ io.on('connection',function(socket){
     //data {id:5}
     socket.on('delete-comment',function(data){
         emitServerStats();
-        deleteComment(data.commentId,()=>{
-            io.to(currentChannel).emit('comment-deleted',{postId:data.postId, commentId:data.commentId})
+        deleteComment(data.postId,()=>{
+            io.to(currentChannel).emit('comment-deleted',{postId:data.postId})
         })
     })
     
