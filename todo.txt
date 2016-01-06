@@ -35,6 +35,7 @@ V 0.2
 +   -save comments with post in db?
 v 0.3
     -add reply list at the end of the post with #links
+    -add reply preview on mouseover
     -poll
     -timout posts, add timer
     -add google cloud/AWS for image hosting

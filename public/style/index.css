@@ -142,6 +142,9 @@ right-container {
 	font-family: "BankGothic", sans-serif;
 	font-size: 12px;
 }
+.num-of-comments:hover{
+    text-decoration: underline;
+}
 .img-link {
     font-family: "BankGothic", sans-serif;
     font-size: 12px;

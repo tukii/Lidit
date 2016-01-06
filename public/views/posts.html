@@ -24,11 +24,11 @@
             <!--<div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deletePost(post.postId)">DELETE</div>-->
             
             <a *ngIf="post.imagePath" target="_blank" class="img-link" [href]="post.imagePath">
-                {{post.imageName}}
+                {{post.imageName.length > 27? post.imageName.substring(0,15)+'...'+post.imageName.substring(post.imageName.length-10):post.imageName}}
             </a> 
             <div class="post-stats">{{post.prettyId}} - 
                 {{post.creationDate | date:"dd/MM/yyyy H:m"}} - 
-                {{ post.comments.length }} {{post.comments.length == 1?"comment":"comments"}} - 
+                <span class="num-of-comments" (click)="ToggleComments(post)"> {{ post.comments.length }} {{post.comments.length == 1?"comment":"comments"}}</span> - 
                 <span class="upvoteBtn" [ngClass]="{'green':post.isUpvoted}" (click)="Upvote(post.postId)">{{post.upvotes}} 
                 <span class="rotate">V</span></span>&nbsp;<span class="downvoteBtn" [ngClass]="{'red':post.isDownvoted}" (click)="Downvote(post.postId)">{{post.downvotes}} V</span>
             </div>
@@ -38,14 +38,17 @@
                 <img *ngIf="post.imagePath" (click)="toggleExpand($event);" class="post-img" align="left" [src]="post.imagePath" onerror="this.src='http://www.unityhighschool.org/wp-content/uploads/2015/08/default_image_01.png'" />
                 <div class="post-text" [innerHtml]="post.text"></div>
                 <span class="post-open-handler img-open" id="comOpenClose" style="color:white" (click)="ToggleComments(post)"> <img src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-down-01-128.png" style="width:40px;height:40px;border:1px solid #AAA;"></span>
+                <div class="reply-list">
+                    <!-- REPLIES TODO -->
+                </div>
             </div>
             
             <div id="comment_section_{{post.postId}}" class="comment-container">
                 <div class="post comment" *ngFor="#comment of post.comments">
                     <!--<div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deleteComment(post.postId,comment.commentId)">DELETE</div> -->
                     <a *ngIf="comment.imagePath" target="_blank" class="img-link" [href]="comment.imagePath">
-                    {{comment.imageName}}
-                </a> 
+                        {{comment.imageName.length > 27?comment.imageName.substring(0,22)+'...'+comment.imageName.substring(comment.imageName.length-5):comment.imageName}}
+                    </a> 
                     <div class="post-stats">
                         {{comment.prettyId}} - 
                         {{comment.creationDate | date:"dd/MM/yyyy H:m"}} - 
