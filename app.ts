@@ -35,11 +35,18 @@ MongoClient.connect('mongodb://188.166.71.245:27017/data', function(err, mongodb
     
     db.collection('postnumber').findOne({}, function(err, doc) {
         postId = doc.post_number;
-        console.log(postId)
     });
     
     console.log('connected to mongo');
 });
+
+Array.prototype.indexOfAny = function (array) {
+    return this.findIndex(function(v) { return array.indexOf(v) != -1; });
+}
+
+Array.prototype.containsAny = function (array) {
+    return this.indexOfAny(array) != -1;
+}
 
 var insertNewPost = function(post) {
   var collection = db.collection('posts');
@@ -73,6 +80,12 @@ var getPostsfor = function(ch,callback) {
     col.find({channel: ch}).toArray((err, posts) => callback(posts))
 }
 
+var getVotesFor = function(ch,callback){
+    db.collection('votes').find({channel:ch}).toArray(function(err,votes){
+        callback(votes)
+    })
+}
+
 var deletePost = function(id,callback){
     var col = db.collection('posts');
     col.remove({postId:id},function(){
@@ -97,21 +110,27 @@ var getChannels = function(callback){
     })
 }
 
-var upvote = function(id,hash,onsuccess){
-    var col = db.collection('post_votes');
-    col.find({id:id,hash:hash,type:'-'}).count(function(num){
-        if(num!=0) return;
-        col.insert({id:id,hash:hash,type:'-'});
-        onsuccess();
+var upvote = function(id,channel,hash,callback){
+    var col = db.collection('votes');
+    col.find({id:id,channel:channel,hash:hash}).count(function(err,num){
+        if(num!=0) {
+            callback(true) //yes err
+            return
+        }
+        col.insert({id:id,channel:channel,hash:hash,type:'+'});
+        callback(false) // no err
     })
 }
 
-var downvote = function(id,hash,onsuccess){
-    var col = db.collection('post_votes');
-    col.find({id:id,hash:hash,type:'+'}).count(function(num){
-        if(num!=0) return;
-        col.insert({id:id,hash:hash,type:'+'});
-        onsuccess();
+var downvote = function(id,channel,hash,callback){
+    var col = db.collection('votes');
+    col.find({id:id,channel:channel,hash:hash}).count(function(err,num){
+        if(num!=0) {
+            callback(true)
+            return
+        }
+        col.insert({id:id,channel:channel,hash:hash, type:'-'});
+        callback(false)
     })
 }
 
@@ -196,6 +215,7 @@ var emitServerStats = function(){
 
 io.on('connection',function(socket){
     var currentChannel = '/'
+    var myHash = hash(socket.handshake.address)
     console.log('socketio user connected ' + socket.handshake.address);
     socket.leaveAll();
     //emit all channels
@@ -225,13 +245,48 @@ io.on('connection',function(socket){
     socket.on("join",function(ch){
        console.log('joined channel '+ch.abbr);
        if(ValidateString(ch.abbr)){
-           socket.leaveAll();
-           socket.join(ch.abbr);
-           currentChannel = ch.abbr;
-           getPostsfor(ch.abbr, posts=> {
-               socket.emit('posts', posts)
-               emitServerStats();    
-            });
+            socket.leaveAll();
+            socket.join(ch.abbr);
+            currentChannel = ch.abbr;
+            getVotesFor(ch.abbr,upvotes=> {
+              getPostsfor(ch.abbr, posts=> {
+                posts.forEach(p=>{
+                  p.upvotes = p.downvotes = 0;
+                  
+                    upvotes.forEach(uv => {
+                        if(uv.id == p.postId){
+                            if(uv.type === '+')
+                                p.upvotes++
+                            else
+                                p.downvotes++
+                            if(String(uv.hash) == myHash){
+                                p.myVote = uv.type
+                            }
+                            return
+                        }
+                        for (var i = 0; i < p.comments.length; i++){
+                            var com = p.comments[i];
+                            
+                            if(typeof com.upvotes === "undefined") com.upvotes = 0
+                            if(typeof com.downvotes === "undefined") com.downvotes = 0
+                            
+                            if(uv.id == com.commentId){
+                                if(uv.type === '+')
+                                    com.upvotes++
+                                else
+                                    com.downvotes++
+                                if(String(uv.hash) == myHash){
+                                    com.myVote = uv.type
+                                }
+                            }
+                        }
+                    })
+                })
+                socket.emit('posts', posts)
+                
+                emitServerStats();
+                });
+            })
         }
         else{
             socket.leaveAll();
@@ -259,14 +314,24 @@ io.on('connection',function(socket){
         console.log("user disconnected");
     })
     
-    socket.on('upvote',function(data){
-        upvote(data.id,hash(socket.handshake.address),function(){
+    socket.on('upvote',function(data,callback){
+        upvote(data.id,currentChannel,myHash,function(err){
+            if(err){
+                callback(err) // error!
+                return
+            }
+            callback(err) // no error
             io.to(currentChannel).emit('upvoted',data.id)
         });
     })
     
-    socket.on('downvote',function(data){
-        downvote(data.id,hash(socket.handshake.address),function(){
+    socket.on('downvote',function(data,callback){
+        downvote(data.id,currentChannel,myHash,function(err){
+            if(err){
+                callback(err) // error!
+                return
+            }
+            callback(err) // no error
             io.to(currentChannel).emit('downvoted',data.id)
         });
     })

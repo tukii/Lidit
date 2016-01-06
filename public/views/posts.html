@@ -29,8 +29,8 @@
             <div class="post-stats">{{post.prettyId}} - 
                 {{post.creationDate | date:"dd/MM/yyyy H:m"}} - 
                 {{ post.comments.length }} {{post.comments.length == 1?"comment":"comments"}} - 
-                <span class="upvoteBtn" [ngClass]="{'green':post.isUpvoted}" (click)="post.ToggleUpvote($event)">{{post.upvotes}} 
-                <span class="rotate">V</span></span>&nbsp;&nbsp; <span class="downvoteBtn" [ngClass]="{'red':post.isDownvoted}" (click)="post.ToggleDownvote($event)">{{post.downvotes}} V</span>
+                <span class="upvoteBtn" [ngClass]="{'green':post.isUpvoted}" (click)="Upvote(post.postId)">{{post.upvotes}} 
+                <span class="rotate">V</span></span>&nbsp;&nbsp; <span class="downvoteBtn" [ngClass]="{'red':post.isDownvoted}" (click)="Downvote(post.postId)">{{post.downvotes}} V</span>
             </div>
             
             <div class="post-container">
@@ -49,9 +49,9 @@
                     <div class="post-stats">
                         {{comment.prettyId}} - 
                         {{comment.creationDate | date:"dd/MM/yyyy H:m"}} - 
-                        {{comment.upvotes}}
-                        <span class="upvoteBtn" [ngClass]="{'green':comment.isUpvoted}" (click)="comment.ToggleUpvote($event)">
-                        <span class="rotate">V</span></span><span (click)="comment.ToggleDownvote($event)" class="downvoteBtn" [ngClass]="{'red':comment.isDownvoted}">&nbsp;&nbsp; {{comment.downvotes}} V</span> 
+                        <span class="upvoteBtn" [ngClass]="{'green':comment.isUpvoted}" (click)="Upvote(comment.commentId)">
+                            {{comment.upvotes}}
+                        <span class="rotate">V</span></span><span (click)="Downvote(comment.commentId)" class="downvoteBtn" [ngClass]="{'red':comment.isDownvoted}">&nbsp;&nbsp; {{comment.downvotes}} V</span> 
                     </div>
                     <img *ngIf="comment.imagePath" (click)="toggleExpand($event)" class="post-img" align="left" [src]="comment.imagePath" onerror="this.src='http://www.unityhighschool.org/wp-content/uploads/2015/08/default_image_01.png'" />
                     <div class="text-content">

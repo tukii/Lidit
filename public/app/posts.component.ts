@@ -143,8 +143,8 @@ export class PostsComponent implements OnInit, OnDestroy {
         }
     }
     
-    public AddPost(data) {
-        var post:Post = new Post(data.postId, data.text, new Date(data.creationDate || null),data.image,data.comments || [])
+    public AddPost(data:any) :void{
+        var post:Post = new Post(data.postId, data.text, new Date(data.creationDate || null),data.image,data.comments || [],data.upvotes,data.downvotes,data.myVote)
         for(var i=0; i<this.posts.length;i++){
             if(this.posts[i].lastActivity < post.lastActivity){
                 this.posts.splice(i, 0, post)
@@ -162,6 +162,21 @@ export class PostsComponent implements OnInit, OnDestroy {
         }
         return null;
     }
+    public GetPostOrCommentWithId(id:number): any{
+        for(var i=0; i<this.posts.length; i++){
+            if(this.posts[i].postId === id){
+                return this.posts[i]; 
+            }
+            for(var j=0; j<this.posts[i].comments.length; j++){
+                var com = this.posts[i].comments[j];
+                if(com.commentId == id){
+                    return com;
+                }
+            }
+        }
+        return null;
+    }
+    
     
     public ToggleComments(post: Post) {
         var newState = !post.areCommentsVisible;
@@ -255,5 +270,27 @@ export class PostsComponent implements OnInit, OnDestroy {
     }
     public ImageOnclick(ev:Event){
         ev.stopPropagation();
+    }
+    
+    public Upvote(id:number){
+        var p = this.GetPostOrCommentWithId(id)
+        if(p.CanVote){
+            p.Upvote()
+            this.socket.emit('upvote',{id:id, channel:this.ch}, function(error){
+                if(error)
+                    p.DisableVote()
+            })
+        }
+    }
+    
+    public Downvote(id:number){
+        var p = this.GetPostOrCommentWithId(id)
+        if(p.CanVote){
+            p.Downvote()
+            this.socket.emit('downvote',{id:id, channel: this.ch}, function(error){
+                if(error)
+                    p.DisableVote()
+            })
+        }
     }
 }

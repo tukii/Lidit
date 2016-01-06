@@ -6,10 +6,14 @@ abstract class Votable {
     downvotes: number = 0;
     localState: number = CommentState.NONE;
     
-    constructor(){
+    constructor(myVote:any){
         this.upvotes=0;
         this.downvotes=0;
-        this.localState = CommentState.NONE;
+        this.localState = typeof myVote === "undefined"?
+                            CommentState.NONE:
+                            myVote == '+'?
+                                CommentState.UPVOTED:
+                                CommentState.DOWNVOTED;
     }
     
     public get isUpvoted() : boolean {
@@ -20,19 +24,26 @@ abstract class Votable {
         return this.localState === CommentState.DOWNVOTED;
     }
     
-    public ToggleUpvote(ev) : void{
-        if(ev)
-            ev.stopPropagation();
-        
-        //TODO send message to the server
+    public get CanVote(): boolean {
+        return !(this.isUpvoted || this.isDownvoted) 
+    }
+    
+    public DisableVote(): void{
+        if(this.isUpvoted){
+            this.upvotes--
+        }
+        else if(this.isDownvoted){
+            this.downvotes--   
+        }
+        this.localState = CommentState.NONE;
+    }
+    
+    public Upvote() : void{
         this.upvotes++;
         this.localState = CommentState.UPVOTED;
     }
     
-    public ToggleDownvote(ev) : void{
-        if(ev)
-            ev.stopPropagation();
-        //TODO send message to the server
+    public Downvote() : void{
         this.downvotes++;
         this.localState = CommentState.DOWNVOTED;
     }
@@ -54,9 +65,13 @@ export class Post extends Votable {
         text: string,
         public creationDate:Date,
         image:string,
-        rawComments:Array<any>) {    
-        super()
-        
+        rawComments:Array<any>,
+        upvotes:number = 0,
+        downvotes:number = 0,
+        myVote:any) {
+        super(myVote)
+        this.downvotes = downvotes
+        this.upvotes = upvotes
         if(typeof image !== "undefined" && image.trim()!==""){
             this.imagePath = "static/uploads/"+image;
             this.imageName = image.substring(image.lastIndexOf(']')+1);
@@ -70,7 +85,7 @@ export class Post extends Votable {
         this.areCommentsVisible = false;
     }
     public AddComment(data:any) {
-        var com = new Comment(data.commentId,data.text, new Date(data.creationDate || null),data.image)
+        var com = new Comment(data.commentId,data.text, new Date(data.creationDate || null),data.image,data.upvotes,data.downvotes,data.myVote)
         this.comments.push(com);
     }
     
@@ -98,8 +113,10 @@ export class Comment extends Votable{
     commentId: number;
     text: string;
     
-    constructor(id:number,txt: string, public creationDate:Date,image:string) {
-        super()
+    constructor(id:number,txt: string, public creationDate:Date,image:string,upvotes:number=0,downvotes:number=0,myVote:any) {
+        super(myVote)
+        this.upvotes=upvotes;
+        this.downvotes = downvotes;
         if(typeof image !== "undefined" && image.trim()!==""){
             this.imagePath = "static/uploads/"+image;
             this.imageName = image.substring(image.lastIndexOf(']')+1);

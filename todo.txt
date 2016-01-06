@@ -29,10 +29,10 @@ V 0.2
 +   -move posting under the last comment?
 +   -animation on expand
 +   -embed youtube video if linked
-    -implement upvoting/downvoting
++   -implement upvoting/downvoting
 +   -embed vimeo video if linked?
-    -properly validate input, strip tags, etc
 +   -move post to top if its newer than comment
++   -save comments with post in db?
 v 0.3
     -add reply list at the end of the post with #links
     -poll
@@ -44,7 +44,7 @@ v 0.3
     -create services for data?
     -refactor backend, write TS, not js, use typed mongo
     -move mongo to its own file?
-    -save comments with post in db?
+    -properly validate input, strip tags, etc
     -auto embed
     -sort sublids by popularity (post number over last 1 hour?)
     -story mode post? 
