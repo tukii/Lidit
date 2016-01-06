@@ -29,9 +29,7 @@ p {
 	margin: 0;
 }
 .rotate {
-    position: absolute;
-    transform: rotate(-180deg);
-    margin-top: 2px;
+    transform: rotate(-180deg) translateY(-9%);
     display: inline-block;
 }
 .left-container {

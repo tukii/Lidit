@@ -30,7 +30,7 @@
                 {{post.creationDate | date:"dd/MM/yyyy H:m"}} - 
                 {{ post.comments.length }} {{post.comments.length == 1?"comment":"comments"}} - 
                 <span class="upvoteBtn" [ngClass]="{'green':post.isUpvoted}" (click)="Upvote(post.postId)">{{post.upvotes}} 
-                <span class="rotate">V</span></span>&nbsp;&nbsp; <span class="downvoteBtn" [ngClass]="{'red':post.isDownvoted}" (click)="Downvote(post.postId)">{{post.downvotes}} V</span>
+                <span class="rotate">V</span></span>&nbsp;<span class="downvoteBtn" [ngClass]="{'red':post.isDownvoted}" (click)="Downvote(post.postId)">{{post.downvotes}} V</span>
             </div>
             
             <div class="post-container">
@@ -51,7 +51,7 @@
                         {{comment.creationDate | date:"dd/MM/yyyy H:m"}} - 
                         <span class="upvoteBtn" [ngClass]="{'green':comment.isUpvoted}" (click)="Upvote(comment.commentId)">
                             {{comment.upvotes}}
-                        <span class="rotate">V</span></span><span (click)="Downvote(comment.commentId)" class="downvoteBtn" [ngClass]="{'red':comment.isDownvoted}">&nbsp;&nbsp; {{comment.downvotes}} V</span> 
+                        <span class="rotate">V</span></span>&nbsp;<span (click)="Downvote(comment.commentId)" class="downvoteBtn" [ngClass]="{'red':comment.isDownvoted}">{{comment.downvotes}} V</span> 
                     </div>
                     <img *ngIf="comment.imagePath" (click)="toggleExpand($event)" class="post-img" align="left" [src]="comment.imagePath" onerror="this.src='http://www.unityhighschool.org/wp-content/uploads/2015/08/default_image_01.png'" />
                     <div class="text-content">
@@ -64,7 +64,7 @@
                         00000000 - 
                         00/00/0000 00:00 - 
                         0 
-                        <span class="rotate">V</span>&nbsp;&nbsp; 0 V 
+                        <span class="rotate">V</span>0 V 
                     </div>
                     <div class="text-content">
                         <div class="comment comment-preview" [innerHtml]="commentText"></div>
