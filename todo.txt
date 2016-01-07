@@ -33,20 +33,21 @@ V 0.2
 +   -embed vimeo video if linked?
 +   -move post to top if its newer than comment
 +   -save comments with post in db?
++   -auto embed
 v 0.3
     -add reply list at the end of the post with #links
     -add reply preview on mouseover
++   -fix vote broadcast
     -poll
+    -refactor backend, write TS, not js, use typed mongo
     -timout posts, add timer
     -add google cloud/AWS for image hosting
     -add NISAM ROBOT captacha for posting
     -preview post on mouseover?
     -read/unread pulse
     -create services for data?
-    -refactor backend, write TS, not js, use typed mongo
     -move mongo to its own file?
     -properly validate input, strip tags, etc
-    -auto embed
     -sort sublids by popularity (post number over last 1 hour?)
     -story mode post? 
     -add root page? or keep it for trending but prevent posting?

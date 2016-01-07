@@ -70,6 +70,14 @@ export class PostsComponent implements OnInit, OnDestroy {
             }
         })
         
+        this.socket.on('upvoted',id=>{
+            this.GetPostOrCommentWithId(id).upvotes++
+        })
+        
+        this.socket.on('downvoted',id=>{
+            this.GetPostOrCommentWithId(id).downvotes++
+        })
+        
         this.socket.emit('join',{abbr:this.ch});
         
         Dropzone.options.dzPost = {

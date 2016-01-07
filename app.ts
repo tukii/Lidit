@@ -321,7 +321,7 @@ io.on('connection',function(socket){
                 return
             }
             callback(err) // no error
-            io.to(currentChannel).emit('upvoted',data.id)
+            socket.broadcast.to(currentChannel).emit('upvoted',data.id)
         });
     })
     
@@ -332,7 +332,7 @@ io.on('connection',function(socket){
                 return
             }
             callback(err) // no error
-            io.to(currentChannel).emit('downvoted',data.id)
+            socket.broadcast.to(currentChannel).emit('downvoted',data.id)
         });
     })
 });
