@@ -20,13 +20,14 @@
             </div>
         </section>
         
-        <div class="post" *ngFor="#post of posts" >
+        <div class="post" *ngFor="#post of posts" id="{{post.prettyId}}">
             <!--<div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deletePost(post.postId)">DELETE</div>-->
             
             <a *ngIf="post.imagePath" target="_blank" class="img-link" [href]="post.imagePath">
                 {{post.imageName.length > 27? post.imageName.substring(0,15)+'...'+post.imageName.substring(post.imageName.length-10):post.imageName}}
             </a> 
-            <div class="post-stats">{{post.prettyId}} - 
+            <div class="post-stats">
+                <span class="pretty-id" title="reply" (click)="AddReply(post,$event)">∞ {{post.prettyId}}</span> - 
                 {{post.creationDate | date:"dd/MM/yyyy H:m"}} - 
                 <span class="num-of-comments" (click)="ToggleComments(post)"> {{ post.comments.length }} {{post.comments.length == 1?"comment":"comments"}}</span> - 
                 <span class="upvoteBtn" [ngClass]="{'green':post.isUpvoted}" (click)="Upvote(post.postId)">{{post.upvotes}} 
@@ -44,13 +45,13 @@
             </div>
             
             <div id="comment_section_{{post.postId}}" class="comment-container">
-                <div class="post comment" *ngFor="#comment of post.comments">
+                <div class="post comment" *ngFor="#comment of post.comments" id="{{comment.prettyId}}">
                     <!--<div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deleteComment(post.postId,comment.commentId)">DELETE</div> -->
                     <a *ngIf="comment.imagePath" target="_blank" class="img-link" [href]="comment.imagePath">
                         {{comment.imageName.length > 27?comment.imageName.substring(0,22)+'...'+comment.imageName.substring(comment.imageName.length-5):comment.imageName}}
                     </a> 
                     <div class="post-stats">
-                        {{comment.prettyId}} - 
+                        <span class="pretty-id" title="reply" (click)="AddReply(comment.prettyId)">∞ {{comment.prettyId}}</span> - 
                         {{comment.creationDate | date:"dd/MM/yyyy H:m"}} - 
                         <span class="upvoteBtn" [ngClass]="{'green':comment.isUpvoted}" (click)="Upvote(comment.commentId)">
                             {{comment.upvotes}}
@@ -70,11 +71,11 @@
                         <span class="rotate">V</span>0 V 
                     </div>
                     <div class="text-content">
-                        <div class="comment comment-preview" [innerHtml]="commentText"></div>
+                        <div class="comment comment-preview" [innerHtml]="addCommentText"></div>
                     </div>
                 </div>
             <div class="new-post" *ngIf="post.areCommentsVisible" [ngClass]="{'add-post-open':isAddCommentOpen}">
-                <textarea (click)="OpenAddComment($event,post.postId)" [(ngModel)]="commentText" class="new-post-text preview-comment-text" id="np" placeholder="Write your comment..." spellcheck="false"></textarea>
+                <textarea (click)="OpenAddComment($event)" [(ngModel)]="addCommentText" class="new-post-text preview-comment-text" id="np" placeholder="Write your comment..." spellcheck="false"></textarea>
                 <form (click)="ImageOnclick($event)"
                     action="/file-upload"
                     class="dropzone new-post-img"

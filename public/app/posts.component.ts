@@ -13,7 +13,6 @@ import {Post, Comment} from './services/post.service.js';
 export class PostsComponent implements OnInit, OnDestroy {
     socket: SocketIOClient.Socket;
     ch:string;
-    commentText:string = "";
     posts:Array<Post> = [];
     
     isAddCommentOpen:boolean = false;
@@ -195,7 +194,7 @@ export class PostsComponent implements OnInit, OnDestroy {
             this.ClosePostComments(post);
         }
         
-        this.commentText = "";
+        this.addCommentText = "";
     }
     
     public OpenPostComments(post: Post){
@@ -219,9 +218,9 @@ export class PostsComponent implements OnInit, OnDestroy {
     }
     
     public SendComment(postId:number) {
-        if (this.commentText.trim() === "") return;
-        this.socket.emit("send-comment",{text:this.commentText,postId:postId,channel:this.ch,image:this.addCommentImage});
-        this.commentText="";
+        if (this.addCommentText.trim() === "") return;
+        this.socket.emit("send-comment",{text:this.addCommentText,postId:postId,channel:this.ch,image:this.addCommentImage});
+        this.addCommentText="";
     }
     
     public deletePost(id:number){
@@ -247,12 +246,11 @@ export class PostsComponent implements OnInit, OnDestroy {
     public CloseAddPost(){
         this.isAddPostOpen =false;
     }
-    public OpenAddComment(ev:Event,id:number){
+    public OpenAddComment(ev:Event){
         ev.stopPropagation();
         if(!this.isAddCommentOpen){
             this.CloseAddPost();
             this.isAddCommentOpen = true;
-            this.addCommentId;
             $("#dzComment").dropzone();
         }
     }
@@ -300,5 +298,21 @@ export class PostsComponent implements OnInit, OnDestroy {
                     p.DisableVote()
             })
         }
+    }
+    
+    public AddReply(post,ev){
+        ev.stopPropagation()
+        if(typeof post.areCommentsVisible !== "undefined" && !post.areCommentsVisible){
+            this.OpenPostComments(post)
+            setTimeout(()=>{
+                this.addCommentText += ">"+post.prettyId+'\n'
+                this.OpenAddComment(ev)
+            },500)
+        }
+        else {
+            this.addCommentText += ">"+post.prettyId+'\n'
+            this.OpenAddComment(ev)
+        }
+        
     }
 }

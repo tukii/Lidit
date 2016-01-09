@@ -142,6 +142,11 @@ right-container {
 	font-family: "BankGothic", sans-serif;
 	font-size: 12px;
 }
+.pretty-id:hover{
+    color: deepskyblue;
+    text-decoration: underline;
+    font-size: 12px;
+}
 .num-of-comments:hover{
     text-decoration: underline;
 }
@@ -154,7 +159,7 @@ right-container {
     transition: font-size 0.5s ease;
 }
 .img-link:hover {
-    font-size: 15px;
+    font-size: 13px;
     transition: font-size 0.5s ease;
 }
 .img-link:focus, img-link:active{

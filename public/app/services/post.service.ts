@@ -58,7 +58,7 @@ export class Post extends Votable {
     imagePath: string;
     imageName: string;
     comments: Array<Comment> = [];
-    areCommentsVisible: boolean;
+    areCommentsVisible: boolean = false;
     typedComment: string = "";
     constructor(
         public postId:number, 
