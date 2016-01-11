@@ -53,15 +53,24 @@ abstract class Votable {
     }
 }
 
-export class Post extends Votable {
+abstract class Postable extends Votable {
+    id: number;
     text: string;
     imagePath: string;
     imageName: string;
+    replies: Array<string>;
+    
+    constructor(myVote:any){
+        super(myVote)
+    }
+}
+
+export class Post extends Postable {
     comments: Array<Comment> = [];
     areCommentsVisible: boolean = false;
     typedComment: string = "";
     constructor(
-        public postId:number, 
+        postId:number, 
         text: string,
         public creationDate:Date,
         image:string,
@@ -70,6 +79,7 @@ export class Post extends Votable {
         downvotes:number = 0,
         myVote:any) {
         super(myVote)
+        this.postId = postId
         this.downvotes = downvotes
         this.upvotes = upvotes
         if(typeof image !== "undefined" && image.trim()!==""){
@@ -90,7 +100,11 @@ export class Post extends Votable {
     }
     
     public get prettyId():string{
-        return pretifyId(this.postId);
+        return pretifyId(this.id);
+    }
+    
+    public set postId(id:number) {
+        this.id = id;
     }
     
     public get lastActivity():Date{
@@ -107,12 +121,8 @@ export class CommentState{
     static UPVOTED:number = 1;
     static DOWNVOTED:number = 2;
 }
-export class Comment extends Votable{
-    imagePath: string;
-    imageName: string;
+export class Comment extends Postable {
     commentId: number;
-    text: string;
-    
     constructor(id:number,txt: string, public creationDate:Date,image:string,upvotes:number=0,downvotes:number=0,myVote:any) {
         super(myVote)
         this.upvotes=upvotes;
