@@ -305,12 +305,12 @@ export class PostsComponent implements OnInit, OnDestroy {
         if(typeof post.areCommentsVisible !== "undefined" && !post.areCommentsVisible){
             this.OpenPostComments(post)
             setTimeout(()=>{
-                this.addCommentText += ">"+post.prettyId+'\n'
+                this.addCommentText += "@"+post.prettyId+'\n'
                 this.OpenAddComment(ev)
             },500)
         }
         else {
-            this.addCommentText += ">"+post.prettyId+'\n'
+            this.addCommentText += "@"+post.prettyId+'\n'
             this.OpenAddComment(ev)
         }
         

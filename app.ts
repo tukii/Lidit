@@ -248,6 +248,7 @@ io.on('connection',function(socket){
             socket.leaveAll();
             socket.join(ch.abbr);
             currentChannel = ch.abbr;
+            if(db)
             getVotesFor(ch.abbr,upvotes=> {
               getPostsfor(ch.abbr, posts=> {
                 posts.forEach(p=>{

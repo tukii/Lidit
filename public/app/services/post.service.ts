@@ -80,7 +80,7 @@ export class Post extends Votable {
             this.AddComment(com);
         })
         
-        this.text = tryEmbed(marked(text));
+        this.text = tryEmbed(marked(addReplies(text)));
         
         this.areCommentsVisible = false;
     }
@@ -122,7 +122,7 @@ export class Comment extends Votable{
             this.imageName = image.substring(image.lastIndexOf(']')+1);
         }
         this.commentId = id;
-        this.text = tryEmbed(marked(txt));
+        this.text = tryEmbed(marked(addReplies(txt)));
         this.commentId =id;
     }
     
@@ -172,4 +172,9 @@ function CreateYTEmbed(id){
             allowfullscreen>
         </iframe>
     `
+}
+
+function addReplies(text){
+    text = text.replace(/(?:\s|^)(@\d{8,9})(?:\s|$)/g,'<a href="#$1">$1</a>');
+    return text;
 }
