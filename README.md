@@ -9,3 +9,8 @@ or you can transpile .ts files in / and public/app and just do `node app.js`
 
 ##Goal
 Simple. Have a fully reactive, modern, and easy-to use shitposting place (reddit/4chan -like) where people can see updates and changes in real time (or close to real time).
+
+
+##Setup
+
+Check out the [wiki](https://github.com/Kwoth/Lidit/wiki)
