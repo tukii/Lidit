@@ -21,7 +21,7 @@
         </section>
         
         <div class="post" *ngFor="#post of posts" id="{{post.prettyId}}">
-            <!--<div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deletePost(post.postId)">DELETE</div>-->
+            <!--<div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deletePost(post.id)">DELETE</div>-->
             
             <a *ngIf="post.imagePath" target="_blank" class="img-link" [href]="post.imagePath">
                 {{post.imageName.length > 27? post.imageName.substring(0,15)+'...'+post.imageName.substring(post.imageName.length-10):post.imageName}}
@@ -30,8 +30,8 @@
                 <span class="pretty-id" title="reply" (click)="AddReply(post,$event)">∞ {{post.prettyId}}</span> - 
                 {{post.creationDate | date:"dd/MM/yyyy H:m"}} - 
                 <span class="num-of-comments" (click)="ToggleComments(post)"> {{ post.comments.length }} {{post.comments.length == 1?"comment":"comments"}}</span> - 
-                <span class="upvoteBtn" [ngClass]="{'green':post.isUpvoted}" (click)="Upvote(post.postId)">{{post.upvotes}} 
-                <span class="rotate">V</span></span>&nbsp;<span class="downvoteBtn" [ngClass]="{'red':post.isDownvoted}" (click)="Downvote(post.postId)">{{post.downvotes}} V</span>
+                <span class="upvoteBtn" [ngClass]="{'green':post.isUpvoted}" (click)="Upvote(post.id)">{{post.upvotes}} 
+                <span class="rotate">V</span></span>&nbsp;<span class="downvoteBtn" [ngClass]="{'red':post.isDownvoted}" (click)="Downvote(post.id)">{{post.downvotes}} V</span>
             </div>
             
             <div class="post-container">
@@ -44,9 +44,9 @@
                 </div>
             </div>
             
-            <div id="comment_section_{{post.postId}}" class="comment-container">
+            <div id="comment_section_{{post.id}}" class="comment-container">
                 <div class="post comment" *ngFor="#comment of post.comments" id="{{comment.prettyId}}">
-                    <!--<div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deleteComment(post.postId,comment.commentId)">DELETE</div> -->
+                    <!--<div class="delete-button" style="position:absolute;top:0px;left:0px;color:red;border:1px solid red;" (click)="deleteComment(post.id,comment.commentId)">DELETE</div> -->
                     <a *ngIf="comment.imagePath" target="_blank" class="img-link" [href]="comment.imagePath">
                         {{comment.imageName.length > 27?comment.imageName.substring(0,22)+'...'+comment.imageName.substring(comment.imageName.length-5):comment.imageName}}
                     </a> 
@@ -87,7 +87,7 @@
                         <path d="M150,25 L150,0 L125,0" fill="none" stroke="white" stroke-width="3" />
                     </svg>
                 </form>
-                <button (click)="SendComment(post.postId)" class="post-button">Comment</button>
+                <button (click)="SendComment(post.id)" class="post-button">Comment</button>
             </div>
         </div>
     </div>

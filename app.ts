@@ -228,7 +228,7 @@ var emitServerStats = function(){
                     posts: postCnt,
                     comments: commentCount,
                     channels: channelCount,
-                    users: io.sockets.sockets.length
+                    users: io.engine.clientsCount
                 })
             })
         })

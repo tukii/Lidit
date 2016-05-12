@@ -70,7 +70,7 @@ export class Post extends Postable {
     areCommentsVisible: boolean = false;
     typedComment: string = "";
     constructor(
-        postId:number, 
+        id:number, 
         text: string,
         public creationDate:Date,
         image:string,
@@ -79,7 +79,7 @@ export class Post extends Postable {
         downvotes:number = 0,
         myVote:any) {
         super(myVote)
-        this.postId = postId
+        this.id = id
         this.downvotes = downvotes
         this.upvotes = upvotes
         if(typeof image !== "undefined" && image.trim()!==""){
@@ -101,10 +101,6 @@ export class Post extends Postable {
     
     public get prettyId():string{
         return pretifyId(this.id);
-    }
-    
-    public set postId(id:number) {
-        this.id = id;
     }
     
     public get lastActivity():Date{

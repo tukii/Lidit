@@ -192,7 +192,7 @@ right-container {
 	right: 0;
 }
 .comment-container{
-    display: none;
+    display:none;
     border-left: 5px solid #444;
     border-bottom-left-radius: 5px;
 }

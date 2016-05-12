@@ -46,7 +46,7 @@ export class PostsComponent implements OnInit, OnDestroy {
         
         this.socket.on('post-deleted',data=>{
             for (var i = 0; i < this.posts.length; i++) {
-                if(this.posts[i].postId == data.id){
+                if(this.posts[i].id == data.id){
                     this.posts.splice(i,1)
                     return;
                 }
@@ -56,7 +56,7 @@ export class PostsComponent implements OnInit, OnDestroy {
         this.socket.on('comment-deleted', data =>{
             for (var i = 0; i < this.posts.length; i++) {
                 var element = this.posts[i];
-                if(element.postId == data.postId){
+                if(element.id == data.postId){
                     for (var j = 0; j < element.comments.length; j++) {
                         var comm = element.comments[j];
                         if(comm.commentId==data.commentId){
@@ -141,7 +141,7 @@ export class PostsComponent implements OnInit, OnDestroy {
     
     public AddComment(data){
         for(var i = 0; i <this.posts.length;i++){
-            if(this.posts[i].postId == data.postId){
+            if(this.posts[i].id == data.postId){
                 this.posts[i].AddComment(data);
                 this.posts.unshift(this.posts[i])
                 this.posts.splice(i+1,1)
@@ -163,7 +163,7 @@ export class PostsComponent implements OnInit, OnDestroy {
     
     public GetPostWithId(id:number): Post{
         for(var i=0; i<this.posts.length; i++){
-            if(this.posts[i].postId === id){
+            if(this.posts[i].id === id){
                 return this.posts[i]; 
             }
         }
@@ -171,7 +171,7 @@ export class PostsComponent implements OnInit, OnDestroy {
     }
     public GetPostOrCommentWithId(id:number): any{
         for(var i=0; i<this.posts.length; i++){
-            if(this.posts[i].postId === id){
+            if(this.posts[i].id === id){
                 return this.posts[i]; 
             }
             for(var j=0; j<this.posts[i].comments.length; j++){
@@ -200,7 +200,7 @@ export class PostsComponent implements OnInit, OnDestroy {
     public OpenPostComments(post: Post){
         this.CloseAllComments();
         post.areCommentsVisible = true;
-        $('#comment_section_'+post.postId).slideDown();
+        $('#comment_section_'+post.id).slideDown();
     }
     
     public ClosePostComments(post: Post){
@@ -212,7 +212,7 @@ export class PostsComponent implements OnInit, OnDestroy {
         for (var i = 0; i < this.posts.length; i++) {
             if(this.posts[i].areCommentsVisible){
                 this.posts[i].areCommentsVisible = false;
-                $('#comment_section_'+this.posts[i].postId).slideUp();
+                $('#comment_section_'+this.posts[i].id).slideUp();
             }
         }
     }
