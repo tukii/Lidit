@@ -13,4 +13,4 @@ Simple. Have a fully reactive, modern, and easy-to use shitposting place (reddit
 
 ##Setup
 
-Check out the [wiki](https://github.com/Kwoth/Lidit/wiki)
+Check out the [wiki](https://github.com/Kwoth/Lidit/wiki/Setup)
