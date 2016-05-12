@@ -9,9 +9,3 @@ or you can transpile .ts files in / and public/app and just do `node app.js`
 
 ##Goal
 Simple. Have a fully reactive, modern, and easy-to use shitposting place (reddit/4chan -like) where people can see updates and changes in real time (or close to real time).
-
-##Ideas
-Not having pages, but rather loading new content as the user scrolls down.
-Prevent users from having personal "sublids" and just stick to default ones?
-Create sublid if it doesn't exist simply if user goes on that page?
-Have multiple sublids open at one time side by side? Or just give an option to show multiple combined by holding shift and selecting?
