@@ -13,6 +13,7 @@ var marked = require('marked')
 var striptags = require('striptags')
 var multer = require('multer')
 var crypto = require('crypto')
+
 var upload = multer({storage: multer.diskStorage({
     destination: function(req,file,cb){
         cb(null,'./public/uploads')
@@ -24,8 +25,14 @@ var upload = multer({storage: multer.diskStorage({
 
 var db;
 
-var postId = 1;
-MongoClient.connect('mongodb://188.166.71.245:27017/data', function(err, mongodb) {
+var defaultChannels = [
+    {abbr:"b", name:"random"},
+    {abbr:"a", name:"anime"},
+    {abbr:"m", name:"music"},
+    {abbr:"p", name:"programming"}
+];
+
+MongoClient.connect('mongodb://localhost:27017/liditdb', function(err, mongodb) {
     if(err){
         console.log("Error connecting to mongo db.")
         console.log(err);
@@ -33,9 +40,26 @@ MongoClient.connect('mongodb://188.166.71.245:27017/data', function(err, mongodb
     }
     db = mongodb;
     
-    db.collection('postnumber').findOne({}, function(err, doc) {
-        postId = doc.post_number;
+    //initialize db if empty
+    db.createCollection('posts',{strict:true},function(err,col){
+       if(err != null)
+        return;
+       console.log("Created posts collection.") 
     });
+    
+    db.createCollection('channels',{strict:true},function(err,col){
+       if(err != null)
+        return;
+       console.log("Created channels collection.")
+       col.insertMany(defaultChannels);
+    });
+    
+    db.createCollection('votes',{strict:true},function(err,col){
+       if(err != null)
+        return;
+       console.log("Created votes collection.") 
+    });
+        
     
     console.log('connected to mongo');
 });
@@ -155,7 +179,9 @@ var getCommentCount = function(callback){
                 _id:null,sum:{$sum:"$count"}
             }
         }
-    ],(err,result)=>{callback(err,result[0].sum)})
+    ],function(err,result){
+        callback(err,result.length == 0 ? 0 :result[0].sum)
+    });
 }
 
 var checkChannel = function(ch,onFail){
@@ -167,12 +193,6 @@ var checkChannel = function(ch,onFail){
         onFail();
     }
 }
-
-var incrementPostNumber = function(){
-    ++postId
-    db.collection('postnumber').update({},{$inc:{post_number:1}})
-}
-
 
 var port = process.env.port || 8000;
 
@@ -202,6 +222,8 @@ var emitServerStats = function(){
     getPostCount(function(err,postCnt){
         getChannelCount(function(err,channelCount){
             getCommentCount(function(err,commentCount){
+                if(err)
+                    console.log(err);
                 io.emit('server-stats',{
                     posts: postCnt,
                     comments: commentCount,
@@ -211,6 +233,10 @@ var emitServerStats = function(){
             })
         })
     })
+}
+
+function getTimestamp(){
+    return new Date().getTime();
 }
 
 io.on('connection',function(socket){
@@ -226,8 +252,7 @@ io.on('connection',function(socket){
     
     socket.on("send-post",function(data){
        emitServerStats();
-       incrementPostNumber()
-       var post = {postId:postId,creationDate:new Date(),channel:data.channel,text:striptags(data.text),image:data.image,comments:[]};
+       var post = {postId:getTimestamp(),creationDate:new Date(),channel:data.channel,text:striptags(data.text),image:data.image,comments:[]};
        insertNewPost(post);
        io.to(data.channel).emit("new-post", post); 
     });
@@ -235,8 +260,7 @@ io.on('connection',function(socket){
     //data {channel:"text",postId:5,text:"text"}
     socket.on("send-comment",function(data){
         emitServerStats();
-        incrementPostNumber()
-        var comment = { postId:data.postId,commentId:postId, creationDate:new Date(), channel:data.channel,text:striptags(data.text),image:data.image};
+        var comment = { postId:data.postId,commentId:getTimestamp(), creationDate:new Date(), channel:data.channel,text:striptags(data.text),image:data.image};
         insertNewComment(data.postId,comment);
         io.to(data.channel).emit("new-comment",comment);
     })
