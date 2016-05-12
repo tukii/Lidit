@@ -1,12 +1,13 @@
 {
-  "name": "angular2-quickstart",
+  "name": "Lidit",
   "version": "1.0.0",
   "scripts": {
-    "tsc": "tsc",
-    "tsc:w": "tsc app -w",
-    "lite": "lite-server",
     "gulp": "gulp",
-    "go": "concurrent \"npm run tsc:w\" \"npm run gulp\" "
+    "tsc": "tsc app",
+    "tsc:w": "tsc app -w",
+    "magic": "concurrent \"npm run tsc:w\" \"npm run gulp\" ",
+    "start": "node app",
+    "go": "npm run tsc || npm run start"
   },
   "license": "ISC",
   "dependencies": {
