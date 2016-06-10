@@ -184,19 +184,19 @@ var getCommentCount = function(callback){
     });
 }
 
-var checkChannel = function(ch,onFail){
+var checkChannel = function(ch,onCreated){
     var col = db.collection('channels');
     //todo fix col.find({abbr: ch.abbr}).count() == 0 
-    if(ch.abbr.length <6 && ch.abbr.length > 0){
-        col.find({abbr: ch.abbr}).count((err,res)=>{
-            if(err != null)
+    if ( ch.length < 6 && ch.length > 0) {
+        col.find({ abbr: ch }).count(function (err, res) {
+            if (err != null)
                 return;
-            console.log("exists : " +res); 
-            if(res == 0){
-                col.insert({abbr:ch.abbr, name:""});
-                onFail();
+            console.log("exists : " + res);
+            if (res == 0) {
+                col.insert({ abbr: ch, name: "" });
+                onCreated();
             }
-        });
+        })
     }
 }
 
