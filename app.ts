@@ -251,18 +251,18 @@ io.on('connection',function(socket){
     emitServerStats();
     
     socket.on("send-post",function(data){
-       emitServerStats();
        var post = {postId:getTimestamp(),creationDate:new Date(),channel:data.channel,text:striptags(data.text),image:data.image,comments:[]};
        insertNewPost(post);
        io.to(data.channel).emit("new-post", post); 
+       emitServerStats();
     });
     
     //data {channel:"text",postId:5,text:"text"}
     socket.on("send-comment",function(data){
-        emitServerStats();
         var comment = { postId:data.postId,commentId:getTimestamp(), creationDate:new Date(), channel:data.channel,text:striptags(data.text),image:data.image};
         insertNewComment(data.postId,comment);
         io.to(data.channel).emit("new-comment",comment);
+        emitServerStats();
     })
     
     //ch {abbr:"text"}
@@ -337,6 +337,7 @@ io.on('connection',function(socket){
     
     socket.on('disconnect',function(){
         console.log("user disconnected");
+        emitServerStats();
     })
     
     socket.on('upvote',function(data,callback){
