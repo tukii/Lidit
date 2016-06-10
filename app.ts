@@ -186,11 +186,17 @@ var getCommentCount = function(callback){
 
 var checkChannel = function(ch,onFail){
     var col = db.collection('channels');
-    
     //todo fix col.find({abbr: ch.abbr}).count() == 0 
-    if(typeof ch.abbr !== "undefined" && typeof ch.abbr === "string" && ch.abbr.length <6 && ch.abbr.length > 0){
-        col.insert({abbr:ch.abbr,name:""});
-        onFail();
+    if(ch.abbr.length <6 && ch.abbr.length > 0){
+        col.find({abbr: ch.abbr}).count((err,res)=>{
+            if(err != null)
+                return;
+            console.log("exists : " +res); 
+            if(res == 0){
+                col.insert({abbr:ch.abbr, name:""});
+                onFail();
+            }
+        });
     }
 }
 
@@ -272,6 +278,9 @@ io.on('connection',function(socket){
             socket.leaveAll();
             socket.join(ch.abbr);
             currentChannel = ch.abbr;
+            checkChannel(ch.abbr,()=>{
+                io.emit('new-channel',{abbr:ch.abbr});
+            });
             if(db)
             getVotesFor(ch.abbr,upvotes=> {
               getPostsfor(ch.abbr, posts=> {
